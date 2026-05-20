@@ -1,43 +1,37 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=440, initial-scale=1.0"/>
-<title>Luồng Mua Hàng</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Tình hình thực hiện</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ─── DESIGN SYSTEM TOKENS ─────────────────── */
   :root {
-    --primary:      #F34E4E;
-    --primaryHover: #F67F7F;
-    --secondary:    #FFF6EA;
-    --action:       #7BB9FA;
-    --grey:         #D0D0D0;
-    --greyDark:     #AFAFAF;
-    --black:        #282828;
-    --textMuted:    #767676;
-    --white:        #FFFFFF;
-
-    --sp-xs: 5px;
-    --sp-s:  10px;
-    --sp-m:  15px;
-    --sp-l:  25px;
-    --sp-xl: 40px;
-    --sp-xxl:65px;
-
-    --r-btn: 4px;
-    --r-input: 2px;
-    --h-btn: 40px;
-    --h-input: 40px;
+    --primary: #0066B3;
+    --primary-light: #E8F2FB;
+    --primary-dark: #004E8A;
+    --accent: #00A896;
+    --red: #E53935;
+    --orange: #F5A623;
+    --green: #2ECC71;
+    --green-dark: #27AE60;
+    --yellow: #F5A623;
+    --text: #1A2332;
+    --text-secondary: #5A6B82;
+    --text-muted: #94A3B8;
+    --border: #E2EAF4;
+    --bg: #F0F5FB;
+    --card-bg: #FFFFFF;
+    --white: #FFFFFF;
+    --shadow: 0 2px 12px rgba(0,102,179,0.08);
+    --shadow-hover: 0 6px 24px rgba(0,102,179,0.15);
   }
 
-  /* ─── RESET & BASE ─────────────────────────── */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
   body {
     font-family: 'Be Vietnam Pro', sans-serif;
-    font-size: 14px;
-    color: var(--black);
-    background: #F0F0F0;
+    background: var(--bg);
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -45,1298 +39,1396 @@
     padding: 20px 0;
   }
 
-  /* ─── PHONE SHELL ──────────────────────────── */
-  .phone-shell {
-    width: 440px;
-    min-height: 956px;
-    background: var(--white);
-    position: relative;
+  .phone-wrapper {
+    width: 390px;
+    min-height: 844px;
+    background: var(--bg);
+    border-radius: 44px;
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    border-radius: 16px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.08);
+    position: relative;
   }
 
-  /* ─── SCREENS ──────────────────────────────── */
+  /* ======= SCREEN SYSTEM ======= */
   .screen {
-    width: 440px;
-    min-height: 956px;
-    background: var(--white);
-    display: none;
-    flex-direction: column;
     position: absolute;
-    top: 0; left: 0;
-    animation: slideIn 0.28s cubic-bezier(.4,0,.2,1);
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(100%);
+    transition: all 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 44px;
+    overflow: hidden;
   }
-  .screen.active { display: flex; }
 
-  @keyframes slideIn {
-    from { transform: translateX(30px); opacity: 0; }
-    to   { transform: translateX(0);    opacity: 1; }
+  .screen.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(0);
   }
-  @keyframes slideBack {
-    from { transform: translateX(-30px); opacity: 0; }
-    to   { transform: translateX(0);     opacity: 1; }
-  }
-  .screen.back { animation: slideBack 0.28s cubic-bezier(.4,0,.2,1); }
 
-  /* ─── TOP BAR ──────────────────────────────── */
-  .topbar {
+  .screen.slide-out {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+
+  /* ======= STATUS BAR ======= */
+  .status-bar {
+    background: var(--primary);
+    height: 44px;
     display: flex;
     align-items: center;
-    gap: var(--sp-m);
-    padding: var(--sp-m) var(--sp-l);
-    border-bottom: 1px solid var(--grey);
-    background: var(--white);
-    position: sticky; top: 0; z-index: 10;
-    min-height: 56px;
-  }
-  .topbar-back {
-    width: 32px; height: 32px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; border-radius: 50%;
-    transition: background 0.2s;
+    justify-content: space-between;
+    padding: 0 24px;
     flex-shrink: 0;
   }
-  .topbar-back:hover { background: var(--secondary); }
-  .topbar-title {
-    font-size: 18px; font-weight: 700; line-height: 22px;
-    color: var(--black); flex: 1;
-  }
-  .topbar-actions { display: flex; gap: var(--sp-s); }
-  .icon-btn {
-    width: 36px; height: 36px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; position: relative;
-    border-radius: 50%; transition: background 0.2s;
-  }
-  .icon-btn:hover { background: var(--secondary); }
-  .badge {
-    position: absolute; top: 2px; right: 2px;
-    background: var(--primary); color: var(--white);
-    font-size: 10px; font-weight: 700;
-    width: 16px; height: 16px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+
+  .status-time {
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
   }
 
-  /* ─── SCROLLABLE BODY ─────────────────────── */
-  .screen-body {
+  .status-icons {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .status-icons svg {
+    fill: white;
+  }
+
+  /* ======= HEADER ======= */
+  .header {
+    background: var(--primary);
+    padding: 0 20px 20px;
+    flex-shrink: 0;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .back-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .back-btn:hover { background: rgba(255,255,255,0.25); }
+
+  .header-title {
+    color: white;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+
+  .header-action {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  /* ======= FILTER CARD ======= */
+  .filter-card {
+    background: rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .filter-date {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .filter-date-label {
+    color: rgba(255,255,255,0.7);
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .filter-date-value {
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+
+  .filter-scope {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+
+  .filter-scope-text {
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+
+  .filter-segment {
+    color: rgba(255,255,255,0.75);
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  /* ======= TABS ======= */
+  .tabs-wrapper {
+    padding: 16px 20px 0;
+    flex-shrink: 0;
+  }
+
+  .tabs {
+    display: flex;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 4px;
+    gap: 2px;
+    box-shadow: var(--shadow);
+  }
+
+  .tab-item {
+    flex: 1;
+    padding: 9px 4px;
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s;
+    white-space: nowrap;
+    border: none;
+    background: transparent;
+  }
+
+  .tab-item.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 3px 10px rgba(0,102,179,0.3);
+  }
+
+  /* ======= SCROLLABLE CONTENT ======= */
+  .scroll-content {
     flex: 1;
     overflow-y: auto;
-    padding-bottom: 100px;
+    padding: 14px 20px 90px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  .screen-body::-webkit-scrollbar { width: 0; }
 
-  /* ─── BOTTOM BAR ──────────────────────────── */
-  .bottom-bar {
-    position: sticky;
+  .scroll-content::-webkit-scrollbar { display: none; }
+
+  /* ======= METRIC CARD ======= */
+  .metric-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1.5px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--primary);
+    border-radius: 4px 0 0 4px;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-light);
+  }
+
+  .metric-card:hover::before { opacity: 1; }
+  .metric-card:active { transform: scale(0.98); }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .card-code {
+    font-size: 10.5px;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    background: var(--bg);
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+
+  .card-unit {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .card-more {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 0;
+    transition: background 0.2s;
+  }
+
+  .card-more:hover { background: var(--primary-light); color: var(--primary); }
+
+  .card-name {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--primary);
+    line-height: 1.4;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 12px;
+  }
+
+  .card-value-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .card-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+
+  .card-value span {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+
+  .card-arrow {
+    width: 28px;
+    height: 28px;
+    background: var(--primary-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    transition: all 0.2s;
+  }
+
+  .metric-card:hover .card-arrow {
+    background: var(--primary);
+    color: white;
+  }
+
+  .card-kpi {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .kpi-badge {
+    font-size: 10.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .kpi-label {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 10px;
+  }
+
+  .kpi-badge.neutral { background: #F1F5F9; color: var(--text-secondary); }
+  .kpi-badge.good { background: #E8F9F0; color: #27AE60; }
+  .kpi-badge.warning { background: #FFF8E8; color: #E67E22; }
+  .kpi-badge.danger { background: #FEF0F0; color: var(--red); }
+
+  .kpi-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* ======= BOTTOM NAV ======= */
+  .bottom-nav {
+    position: absolute;
     bottom: 0; left: 0; right: 0;
-    background: var(--white);
-    border-top: 1px solid var(--grey);
-    padding: var(--sp-m) var(--sp-l);
+    height: 80px;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 0 0;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
     z-index: 10;
   }
 
-  /* ─── BUTTONS ─────────────────────────────── */
-  .btn-primary {
-    height: var(--h-btn);
-    padding: 0 20px;
-    background: var(--primary);
-    color: var(--white);
-    font-weight: 700; font-size: 14px;
-    border: none; border-radius: var(--r-btn);
-    cursor: pointer; width: 100%;
-    transition: background 0.2s;
-    font-family: inherit;
-  }
-  .btn-primary:hover { background: var(--primaryHover); }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .btn-alt {
-    height: var(--h-btn);
-    padding: 0 20px;
-    background: var(--white);
-    color: var(--black);
-    font-weight: 700; font-size: 14px;
-    border: 1px solid var(--black); border-radius: var(--r-btn);
-    cursor: pointer; width: 100%;
-    transition: border 0.2s;
-    font-family: inherit;
-  }
-  .btn-alt:hover { border-width: 2px; }
-
-  /* ─── INPUT ───────────────────────────────── */
-  .input-group { display: flex; flex-direction: column; gap: var(--sp-xs); }
-  .input-label { font-size: 14px; font-weight: 500; color: var(--black); line-height: 24px; }
-  .input-field {
-    height: var(--h-input); padding: 0 12px;
-    border: 1px solid var(--grey); border-radius: var(--r-input);
-    font-size: 14px; color: var(--black);
-    outline: none; transition: border-color 0.2s;
-    font-family: inherit; width: 100%;
-  }
-  .input-field::placeholder { color: var(--greyDark); }
-  .input-field:focus { border-color: var(--action); }
-  .input-field.error { border-color: var(--primary); }
-
-  /* ─── STEP INDICATOR ──────────────────────── */
-  .step-bar {
-    padding: var(--sp-m) var(--sp-l);
-    display: flex; align-items: center; gap: 0;
-  }
-  .step-item {
-    display: flex; align-items: center; flex: 1;
-    font-size: 11px; font-weight: 600; color: var(--greyDark);
-  }
-  .step-item.active { color: var(--primary); }
-  .step-item.done { color: var(--action); }
-  .step-dot {
-    width: 22px; height: 22px; border-radius: 50%;
-    border: 2px solid var(--grey);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700; flex-shrink: 0;
-    background: var(--white); color: var(--greyDark);
-  }
-  .step-item.active .step-dot { border-color: var(--primary); background: var(--primary); color: var(--white); }
-  .step-item.done .step-dot { border-color: var(--action); background: var(--action); color: var(--white); }
-  .step-line { flex: 1; height: 2px; background: var(--grey); }
-  .step-line.done { background: var(--action); }
-
-  /* ─── DIVIDER ─────────────────────────────── */
-  .divider { height: 8px; background: #F5F5F5; }
-  .divider-line { height: 1px; background: var(--grey); margin: 0 var(--sp-l); }
-
-  /* ─── SECTION ─────────────────────────────── */
-  .section { padding: var(--sp-l); }
-  .section-title {
-    font-size: 18px; font-weight: 700; line-height: 22px;
-    color: var(--black); margin-bottom: var(--sp-m);
-  }
-
-  /* ─── TAGS / CHIPS ────────────────────────── */
-  .chip-row { display: flex; flex-wrap: wrap; gap: var(--sp-s); }
-  .chip {
-    padding: 5px 12px; border-radius: 20px;
-    border: 1px solid var(--grey); font-size: 13px; font-weight: 500;
-    cursor: pointer; transition: all 0.2s; color: var(--black);
-    background: var(--white);
-  }
-  .chip:hover { border-color: var(--primary); color: var(--primary); }
-  .chip.active { border-color: var(--primary); background: #FFF0F0; color: var(--primary); font-weight: 700; }
-
-  /* ─── PRODUCT CARD ────────────────────────── */
-  .product-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: var(--sp-m); padding: 0 var(--sp-l) var(--sp-l);
-  }
-  .product-card {
-    border: 1px solid var(--grey); border-radius: 8px;
-    overflow: hidden; cursor: pointer; transition: all 0.2s;
-    background: var(--white);
-  }
-  .product-card:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(243,78,78,0.12); transform: translateY(-2px); }
-  .product-img {
-    width: 100%; aspect-ratio: 1;
-    background: var(--secondary);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 40px; position: relative;
-  }
-  .product-badge {
-    position: absolute; top: var(--sp-xs); left: var(--sp-xs);
-    background: var(--primary); color: var(--white);
-    font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 3px;
-  }
-  .product-info { padding: var(--sp-s); }
-  .product-name { font-size: 13px; font-weight: 600; color: var(--black); line-height: 18px; margin-bottom: 4px; }
-  .product-price { font-size: 15px; font-weight: 700; color: var(--primary); }
-  .product-old-price { font-size: 12px; color: var(--greyDark); text-decoration: line-through; margin-left: 5px; }
-  .product-rating { font-size: 12px; color: var(--greyDark); margin-top: 3px; }
-
-  /* ─── SEARCH BAR ──────────────────────────── */
-  .search-bar {
-    margin: var(--sp-m) var(--sp-l);
-    display: flex; align-items: center;
-    border: 1px solid var(--grey); border-radius: 20px;
-    padding: 0 var(--sp-m); gap: var(--sp-s);
-    background: #F8F8F8;
-  }
-  .search-bar input {
-    flex: 1; height: 40px; border: none; background: transparent;
-    font-size: 14px; color: var(--black); outline: none;
-    font-family: inherit;
-  }
-  .search-bar input::placeholder { color: var(--greyDark); }
-
-  /* ─── RADIO SELECT ────────────────────────── */
-  .radio-option {
-    display: flex; align-items: center; gap: var(--sp-m);
-    padding: var(--sp-m) var(--sp-l);
-    border-bottom: 1px solid #F5F5F5; cursor: pointer;
-    transition: background 0.15s;
-  }
-  .radio-option:hover { background: var(--secondary); }
-  .radio-option.selected { background: #FFF0F0; }
-  .radio-outer {
-    width: 20px; height: 20px; border-radius: 50%;
-    border: 2px solid var(--grey); flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    transition: border-color 0.2s;
-  }
-  .radio-option.selected .radio-outer { border-color: var(--action); }
-  .radio-inner {
-    width: 10px; height: 10px; border-radius: 50%;
-    background: var(--action); display: none;
-  }
-  .radio-option.selected .radio-inner { display: block; }
-  .radio-label { flex: 1; }
-  .radio-main { font-size: 14px; font-weight: 600; color: var(--black); }
-  .radio-sub { font-size: 12px; color: var(--textMuted); margin-top: 2px; }
-  .radio-price { font-size: 14px; font-weight: 700; color: var(--primary); }
-
-  /* ─── SUMMARY ROW ─────────────────────────── */
-  .summary-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: var(--sp-s) 0;
-  }
-  .summary-label { font-size: 14px; color: var(--textMuted); }
-  .summary-value { font-size: 14px; font-weight: 500; color: var(--black); }
-  .summary-value.primary { color: var(--primary); font-weight: 700; font-size: 16px; }
-
-  /* ─── COUPON ──────────────────────────────── */
-  .coupon-row {
-    display: flex; gap: var(--sp-s); align-items: center;
-    padding: var(--sp-m) var(--sp-l);
-  }
-  .coupon-input {
-    flex: 1; height: var(--h-input); padding: 0 12px;
-    border: 1px dashed var(--action); border-radius: var(--r-input);
-    font-size: 14px; color: var(--black); outline: none;
-    font-family: inherit; background: #F0F8FF;
-  }
-  .coupon-btn {
-    height: var(--h-btn); padding: 0 16px;
-    background: var(--action); color: var(--white);
-    font-weight: 700; font-size: 13px; border: none;
-    border-radius: var(--r-btn); cursor: pointer;
-    font-family: inherit; white-space: nowrap;
-    transition: opacity 0.2s;
-  }
-  .coupon-btn:hover { opacity: 0.85; }
-
-  /* ─── CART ITEM ───────────────────────────── */
-  .cart-item {
-    display: flex; gap: var(--sp-m);
-    padding: var(--sp-m) var(--sp-l);
-    border-bottom: 1px solid #F5F5F5;
-  }
-  .cart-item-img {
-    width: 80px; height: 80px; border-radius: 6px;
-    background: var(--secondary);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 30px; flex-shrink: 0;
-  }
-  .cart-item-info { flex: 1; }
-  .cart-item-name { font-size: 14px; font-weight: 600; color: var(--black); line-height: 20px; }
-  .cart-item-variant { font-size: 12px; color: var(--textMuted); margin: 3px 0; }
-  .cart-item-price { font-size: 15px; font-weight: 700; color: var(--primary); }
-  .qty-control {
-    display: flex; align-items: center; gap: var(--sp-s);
-    margin-top: var(--sp-s);
-  }
-  .qty-btn {
-    width: 28px; height: 28px; border-radius: 50%;
-    border: 1px solid var(--grey); background: var(--white);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 16px; color: var(--black);
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 4px 0;
     transition: all 0.2s;
   }
-  .qty-btn:hover { border-color: var(--primary); color: var(--primary); }
-  .qty-val { font-size: 14px; font-weight: 700; min-width: 20px; text-align: center; }
 
-  /* ─── ADDRESS CARD ────────────────────────── */
-  .address-card {
-    margin: var(--sp-s) var(--sp-l);
-    border: 1px solid var(--grey); border-radius: 6px;
-    padding: var(--sp-m); cursor: pointer; transition: all 0.2s;
-  }
-  .address-card:hover { border-color: var(--action); }
-  .address-card.selected { border-color: var(--action); background: #F0F8FF; }
-  .address-name { font-size: 14px; font-weight: 700; color: var(--black); }
-  .address-phone { font-size: 13px; color: var(--textMuted); margin: 3px 0; }
-  .address-text { font-size: 13px; color: var(--black); line-height: 20px; }
-  .address-tag {
-    display: inline-block; margin-top: 5px;
-    font-size: 11px; font-weight: 700; padding: 2px 8px;
-    border-radius: 3px; background: var(--secondary); color: var(--primary);
+  .nav-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.2s;
   }
 
-  /* ─── PRODUCT DETAIL ─────────────────────── */
-  .product-detail-img {
-    width: 100%; height: 320px;
-    background: var(--secondary);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 100px; position: relative;
-  }
-  .img-dots { position: absolute; bottom: 12px; display: flex; gap: 6px; }
-  .img-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--grey); }
-  .img-dot.active { background: var(--primary); width: 20px; border-radius: 4px; }
-
-  /* ─── SUCCESS SCREEN ─────────────────────── */
-  .success-icon {
-    width: 100px; height: 100px; border-radius: 50%;
-    background: linear-gradient(135deg, #4CAF50, #8BC34A);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 50px; margin: 0 auto var(--sp-l);
-    box-shadow: 0 8px 24px rgba(76,175,80,0.3);
-    animation: popIn 0.5s cubic-bezier(.36,.07,.19,.97) both;
-  }
-  @keyframes popIn {
-    0%   { transform: scale(0); opacity: 0; }
-    60%  { transform: scale(1.15); }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  .order-code {
-    background: var(--secondary); border-radius: 6px;
-    padding: var(--sp-m); text-align: center;
-    margin: var(--sp-m) var(--sp-l);
-    border: 1px dashed var(--primary);
-  }
-  .order-code-label { font-size: 12px; color: var(--textMuted); }
-  .order-code-value { font-size: 20px; font-weight: 800; color: var(--primary); letter-spacing: 2px; }
-
-  /* ─── NOTIFICATION TOAST ─────────────────── */
-  .toast {
-    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-    background: var(--black); color: var(--white);
-    padding: 10px 20px; border-radius: 20px;
-    font-size: 13px; font-weight: 500;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.3s; z-index: 9999;
-    white-space: nowrap;
-  }
-  .toast.show { opacity: 1; }
-
-  /* ─── MISC ───────────────────────────────── */
-  .text-muted { color: var(--textMuted); font-size: 12px; }
-  .text-primary { color: var(--primary); font-weight: 700; }
-  .flex-between { display: flex; justify-content: space-between; align-items: center; }
-  .mt-s { margin-top: var(--sp-s); }
-  .mt-m { margin-top: var(--sp-m); }
-  .gap-m { gap: var(--sp-m); }
-
-  .nav-bottom {
-    display: flex; border-top: 1px solid var(--grey);
-    background: var(--white); position: sticky; bottom: 0; z-index: 5;
-  }
-  .nav-item {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: var(--sp-s) 0; cursor: pointer;
-    font-size: 10px; color: var(--greyDark); gap: 3px;
-    transition: color 0.2s;
-  }
-  .nav-item.active { color: var(--primary); }
-  .nav-item svg { width: 22px; height: 22px; }
-
-  .tag-new {
-    display: inline-block; font-size: 11px; font-weight: 700;
-    padding: 2px 6px; border-radius: 3px;
-    background: var(--action); color: var(--white); margin-left: 5px;
+  .nav-label {
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.2px;
+    transition: all 0.2s;
   }
 
-  .info-block {
-    background: #F8F8F8; border-radius: 6px;
-    padding: var(--sp-m); margin: 0 var(--sp-l) var(--sp-m);
-  }
-  .info-row { display: flex; gap: var(--sp-s); margin-bottom: 6px; }
-  .info-row:last-child { margin-bottom: 0; }
-  .info-key { font-size: 13px; color: var(--textMuted); min-width: 90px; }
-  .info-val { font-size: 13px; color: var(--black); font-weight: 600; }
+  .nav-item.active .nav-icon { color: var(--primary); }
+  .nav-item.active .nav-label { color: var(--primary); }
 
-  /* Confirmation order item */
-  .confirm-item {
-    display: flex; gap: var(--sp-m); align-items: center;
-    padding: var(--sp-s) var(--sp-l);
+  .nav-item.active .nav-icon-bg {
+    background: var(--primary-light);
+    border-radius: 10px;
+    padding: 4px 12px;
   }
-  .confirm-img {
-    width: 52px; height: 52px; border-radius: 6px;
-    background: var(--secondary); display: flex;
-    align-items: center; justify-content: center; font-size: 24px;
+
+  /* ======= DETAIL SCREEN ======= */
+  .detail-header {
+    background: var(--primary);
+    padding: 0 20px 24px;
     flex-shrink: 0;
   }
-  .confirm-name { font-size: 13px; font-weight: 600; color: var(--black); }
-  .confirm-qty { font-size: 12px; color: var(--textMuted); }
-  .confirm-price { font-size: 14px; font-weight: 700; color: var(--primary); margin-left: auto; }
 
-  /* Progress bar */
-  .progress-wrap { padding: var(--sp-m) var(--sp-l); }
-  .progress-bar { height: 4px; background: var(--grey); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; background: var(--primary); border-radius: 2px; transition: width 0.6s ease; }
-
-  /* Skeleton loader */
-  .skeleton {
-    background: linear-gradient(90deg, #F0F0F0 25%, #E0E0E0 50%, #F0F0F0 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: 4px;
+  .detail-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
   }
+
+  .detail-chip {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.15);
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.3px;
+  }
+
+  .detail-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    transition: background 0.2s;
+  }
+
+  .detail-close:hover { background: rgba(255,255,255,0.25); }
+
+  .detail-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.35;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 16px;
+  }
+
+  .detail-value-card {
+    background: rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .detail-value-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.7);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .detail-value-main {
+    font-size: 26px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+  }
+
+  .detail-value-unit {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  /* ======= HISTORY ROW ======= */
+  .history-section {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+
+  .history-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .history-scroll::-webkit-scrollbar { display: none; }
+
+  .history-month {
+    flex-shrink: 0;
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 12px 14px;
+    min-width: 110px;
+    border: 1.5px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .history-month.current {
+    background: var(--primary-light);
+    border-color: var(--primary);
+  }
+
+  .history-month-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+
+  .history-month.current .history-month-label { color: var(--primary); }
+
+  .history-month-value {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+
+  .history-month.current .history-month-value { color: var(--primary); }
+
+  /* ======= COMPARISON ROWS ======= */
+  .comparison-section {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+
+  .comparison-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .comparison-row:last-child { border-bottom: none; }
+
+  .comparison-label {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .comparison-value {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .trend-up {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green-dark);
+    background: #E8F9F0;
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+
+  .trend-down {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--red);
+    background: #FEF0F0;
+    padding: 3px 8px;
+    border-radius: 20px;
+  }
+
+  /* ======= PLAN BARS ======= */
+  .plan-section {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+
+  .plan-block {
+    margin-bottom: 20px;
+  }
+
+  .plan-block:last-child { margin-bottom: 0; }
+
+  .plan-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .plan-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .plan-value {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .plan-bar-wrapper {
+    height: 28px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    position: relative;
+    margin-bottom: 8px;
+    background: var(--bg);
+  }
+
+  .bar-segment {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: white;
+    transition: all 0.5s ease;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .bar-red { background: #E53935; }
+  .bar-orange { background: #F5A623; }
+  .bar-green { background: #27AE60; }
+
+  .plan-result {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .plan-badge {
+    font-size: 12px;
+    font-weight: 800;
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: 0.2px;
+  }
+
+  .badge-green { background: #27AE60; color: white; }
+  .badge-orange { background: #F5A623; color: white; }
+  .badge-red { background: #E53935; color: white; }
+  .badge-neutral { background: var(--bg); color: var(--text-secondary); }
+
+  /* ======= SEARCH FAB ======= */
+  .fab {
+    position: absolute;
+    bottom: 90px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 6px 20px rgba(0,102,179,0.4);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 5;
+    transition: all 0.25s;
+  }
+
+  .fab:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 28px rgba(0,102,179,0.5);
+  }
+
+  /* ======= RIPPLE ANIMATION ======= */
+  @keyframes ripple {
+    0% { transform: scale(0); opacity: 0.4; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+
+  .ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(0,102,179,0.2);
+    width: 100px;
+    height: 100px;
+    pointer-events: none;
+    animation: ripple 0.6s linear;
+    transform: scale(0);
+  }
+
+  /* ======= LOADING SKELETON ======= */
   @keyframes shimmer {
-    0%   { background-position: -200% 0; }
-    100% { background-position:  200% 0; }
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
+
+  /* Page enter animation */
+  @keyframes slideInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .metric-card {
+    animation: slideInUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+  }
+
+  .metric-card:nth-child(1) { animation-delay: 0.05s; }
+  .metric-card:nth-child(2) { animation-delay: 0.1s; }
+  .metric-card:nth-child(3) { animation-delay: 0.15s; }
+  .metric-card:nth-child(4) { animation-delay: 0.2s; }
+  .metric-card:nth-child(5) { animation-delay: 0.25s; }
+  .metric-card:nth-child(6) { animation-delay: 0.3s; }
 </style>
 </head>
 <body>
 
-<div class="phone-shell" id="app">
+<div class="phone-wrapper">
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 1 — TÌM KIẾM & DANH SÁCH SẢN PHẨM
-════════════════════════════════════════════════ -->
-<div class="screen active" id="s1">
-  <!-- Topbar -->
-  <div class="topbar">
-    <div class="topbar-title">ShopNow 🛍️</div>
-    <div class="topbar-actions">
-      <div class="icon-btn" onclick="go('s3')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#282828" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        </svg>
-        <div class="badge">2</div>
+  <!-- ===== SCREEN 1: LIST ===== -->
+  <div class="screen active" id="screen-list">
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0" width="3" height="12" rx="1"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" opacity="0.3"/></svg>
+        <svg width="16" height="12" viewBox="0 0 20 14"><path d="M10 2.5C13.5 2.5 16.5 3.9 18.6 6.1L20 4.7C17.5 2.1 14 0.5 10 0.5C6 0.5 2.5 2.1 0 4.7L1.4 6.1C3.5 3.9 6.5 2.5 10 2.5Z"/><path d="M10 6.5C12.2 6.5 14.2 7.4 15.7 8.8L17.1 7.4C15.2 5.6 12.7 4.5 10 4.5C7.3 4.5 4.8 5.6 2.9 7.4L4.3 8.8C5.8 7.4 7.8 6.5 10 6.5Z"/><circle cx="10" cy="13" r="1.5"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg>
       </div>
     </div>
-  </div>
 
-  <!-- Search -->
-  <div class="search-bar">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#AFAFAF" stroke-width="2" stroke-linecap="round">
-      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-    </svg>
-    <input placeholder="Tìm kiếm sản phẩm..." />
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#AFAFAF" stroke-width="2" stroke-linecap="round">
-      <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/>
-      <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
-    </svg>
-  </div>
-
-  <!-- Banner -->
-  <div style="margin: 0 var(--sp-l) var(--sp-m); background: linear-gradient(135deg, #F34E4E, #F67F7F); border-radius: 10px; padding: var(--sp-l); color: white; position: relative; overflow: hidden;">
-    <div style="font-size: 11px; font-weight: 600; opacity: 0.85; letter-spacing: 1px;">FLASH SALE 🔥</div>
-    <div style="font-size: 22px; font-weight: 800; line-height: 1.2; margin: 4px 0 8px;">Giảm đến<br>50% hôm nay</div>
-    <button class="btn-primary" style="width: auto; background: white; color: var(--primary); font-size: 12px; height: 32px; padding: 0 14px;" onclick="go('s2')">Mua ngay →</button>
-    <div style="position: absolute; right: -10px; bottom: -10px; font-size: 80px; opacity: 0.15;">🛒</div>
-  </div>
-
-  <!-- Categories -->
-  <div style="padding: 0 var(--sp-l) var(--sp-m);">
-    <div class="flex-between" style="margin-bottom: var(--sp-s);">
-      <div class="section-title" style="margin:0;">Danh mục</div>
-    </div>
-    <div class="chip-row">
-      <div class="chip active">Tất cả</div>
-      <div class="chip">Thời trang</div>
-      <div class="chip">Điện tử</div>
-      <div class="chip">Làm đẹp</div>
-      <div class="chip">Gia dụng</div>
-    </div>
-  </div>
-
-  <div class="divider-line"></div>
-  <div style="padding: var(--sp-m) var(--sp-l) var(--sp-s);">
-    <div class="flex-between">
-      <div class="section-title" style="margin:0;">Sản phẩm nổi bật</div>
-      <span style="font-size: 13px; color: var(--action); font-weight: 600; cursor: pointer;">Xem thêm</span>
-    </div>
-  </div>
-
-  <!-- Product Grid -->
-  <div class="product-grid">
-    <div class="product-card" onclick="go('s2')">
-      <div class="product-img">
-        👟
-        <div class="product-badge">-30%</div>
+    <!-- Header -->
+    <div class="header">
+      <div class="header-top">
+        <div style="width:36px"></div>
+        <span class="header-title">Tình hình thực hiện</span>
+        <button class="header-action">
+          <svg width="18" height="18" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
       </div>
-      <div class="product-info">
-        <div class="product-name">Giày Sneaker Urban Classic</div>
-        <div>
-          <span class="product-price">490.000₫</span>
-          <span class="product-old-price">700.000₫</span>
+
+      <div class="filter-card">
+        <div class="filter-date">
+          <span class="filter-date-label">Ngày báo cáo:</span>
+          <span class="filter-date-value">18/05/2026</span>
         </div>
-        <div class="product-rating">⭐ 4.8 (2.1k)</div>
-      </div>
-    </div>
-    <div class="product-card" onclick="go('s2')">
-      <div class="product-img">
-        👗
-        <div class="product-badge">HOT</div>
-      </div>
-      <div class="product-info">
-        <div class="product-name">Váy Maxi Floral Summer</div>
-        <div>
-          <span class="product-price">285.000₫</span>
-          <span class="product-old-price">380.000₫</span>
+        <div class="filter-scope">
+          <svg width="14" height="14" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <span class="filter-scope-text">TOÀN KHU VỰC - 0. TOÀN HỆ THỐNG</span>
         </div>
-        <div class="product-rating">⭐ 4.6 (890)</div>
+        <div class="filter-segment">Phân khúc: <strong style="color:white">TẤT CẢ PHÂN KHÚC</strong></div>
       </div>
     </div>
-    <div class="product-card" onclick="go('s2')">
-      <div class="product-img">
-        🎧
+
+    <!-- Tabs -->
+    <div class="tabs-wrapper">
+      <div class="tabs">
+        <button class="tab-item active">Chỉ tiêu quy mô</button>
+        <button class="tab-item">Chỉ tiêu hiệu quả</button>
+        <button class="tab-item">Chỉ tiêu KH</button>
       </div>
-      <div class="product-info">
-        <div class="product-name">Tai nghe Wireless Pro</div>
-        <div>
-          <span class="product-price">1.250.000₫</span>
+    </div>
+
+    <!-- Cards -->
+    <div class="scroll-content">
+
+      <div class="metric-card" onclick="openDetail('card1')">
+        <div class="card-meta">
+          <span class="card-code">Chỉ tiêu: 150000 · Tỷ đồng</span>
+          <button class="card-more">···</button>
         </div>
-        <div class="product-rating">⭐ 4.9 (3.4k)</div>
-      </div>
-    </div>
-    <div class="product-card" onclick="go('s2')">
-      <div class="product-img">
-        💄
-        <div class="product-badge">-50%</div>
-      </div>
-      <div class="product-info">
-        <div class="product-name">Son lì Matte Velvet</div>
-        <div>
-          <span class="product-price">145.000₫</span>
-          <span class="product-old-price">290.000₫</span>
+        <div class="card-name">DƯ NỢ TÍN DỤNG BQ LK</div>
+        <div class="card-value-row">
+          <div class="card-value">2,004,573<span>.62</span></div>
+          <div class="card-arrow">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
         </div>
-        <div class="product-rating">⭐ 4.7 (5.2k)</div>
+        <div class="card-kpi">
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
+          <div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 97.15%</div>
+          <div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 91.28%</div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Bottom Nav -->
-  <div class="nav-bottom">
-    <div class="nav-item active">
-      <svg viewBox="0 0 24 24" fill="#F34E4E" stroke="#F34E4E" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Trang chủ
-    </div>
-    <div class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#AFAFAF" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      Khám phá
-    </div>
-    <div class="nav-item" onclick="go('s3')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#AFAFAF" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-      Giỏ hàng
-    </div>
-    <div class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#AFAFAF" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Tài khoản
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 2 — CHI TIẾT SẢN PHẨM
-════════════════════════════════════════════════ -->
-<div class="screen" id="s2">
-  <!-- Topbar -->
-  <div class="topbar">
-    <div class="topbar-back" onclick="go('s1')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#282828" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5m0 0l7 7m-7-7 7-7"/></svg>
-    </div>
-    <div class="topbar-title">Chi tiết sản phẩm</div>
-    <div class="icon-btn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#282828" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-    </div>
-    <div class="icon-btn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#282828" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    </div>
-  </div>
-
-  <div class="screen-body">
-    <!-- Product Image -->
-    <div class="product-detail-img">
-      👟
-      <div class="img-dots">
-        <div class="img-dot active"></div>
-        <div class="img-dot"></div>
-        <div class="img-dot"></div>
-        <div class="img-dot"></div>
+      <div class="metric-card" onclick="openDetail('card2')">
+        <div class="card-meta">
+          <span class="card-code">Chỉ tiêu: 150410 · Tỷ đồng</span>
+          <button class="card-more">···</button>
+        </div>
+        <div class="card-name">DƯ NỢ TÍN DỤNG KHDN LỚN BQ LK</div>
+        <div class="card-value-row">
+          <div class="card-value">618,980<span>.66</span></div>
+          <div class="card-arrow">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+        <div class="card-kpi">
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div>
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div>
+        </div>
       </div>
-    </div>
 
-    <!-- Info -->
-    <div class="section" style="padding-bottom: var(--sp-s);">
-      <div style="font-size: 12px; color: var(--action); font-weight: 600; margin-bottom: 4px;">URBAN CLASSIC BRAND</div>
-      <div style="font-size: 18px; font-weight: 700; color: var(--black); line-height: 26px;">Giày Sneaker Urban Classic 2024 - Phiên bản đặc biệt</div>
-      <div style="display: flex; align-items: center; gap: var(--sp-s); margin-top: var(--sp-s);">
-        <span style="font-size: 24px; font-weight: 800; color: var(--primary);">490.000₫</span>
-        <span style="font-size: 15px; color: var(--greyDark); text-decoration: line-through;">700.000₫</span>
-        <span style="background: #FFF0F0; color: var(--primary); font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 3px;">-30%</span>
+      <div class="metric-card" onclick="openDetail('card3')">
+        <div class="card-meta">
+          <span class="card-code">Chỉ tiêu: 150420 · Tỷ đồng</span>
+          <button class="card-more">···</button>
+        </div>
+        <div class="card-name">DƯ NỢ TÍN DỤNG KHDN VVN BQ LK (GỒM SVM)</div>
+        <div class="card-value-row">
+          <div class="card-value">450,061<span>.95</span></div>
+          <div class="card-arrow">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+        <div class="card-kpi">
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div>
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div>
+        </div>
       </div>
-      <div style="font-size: 13px; color: var(--textMuted); margin-top: 5px;">⭐ 4.8 &nbsp;|&nbsp; 2.130 đánh giá &nbsp;|&nbsp; Đã bán 8.5k</div>
-    </div>
 
-    <div class="divider-line"></div>
-
-    <!-- Color -->
-    <div class="section" style="padding-top: var(--sp-m); padding-bottom: var(--sp-m);">
-      <div style="font-size: 14px; font-weight: 700; margin-bottom: var(--sp-s);">Màu sắc: <span style="color: var(--primary);">Trắng</span></div>
-      <div style="display: flex; gap: var(--sp-s);">
-        <div style="width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 2px solid var(--primary); cursor: pointer; box-shadow: 0 0 0 2px white inset;"></div>
-        <div style="width: 36px; height: 36px; border-radius: 50%; background: #222; border: 2px solid var(--grey); cursor: pointer;"></div>
-        <div style="width: 36px; height: 36px; border-radius: 50%; background: #F34E4E; border: 2px solid var(--grey); cursor: pointer;"></div>
-        <div style="width: 36px; height: 36px; border-radius: 50%; background: #7BB9FA; border: 2px solid var(--grey); cursor: pointer;"></div>
+      <div class="metric-card" onclick="openDetail('card4')">
+        <div class="card-meta">
+          <span class="card-code">Chỉ tiêu: 150430 · Tỷ đồng</span>
+          <button class="card-more">···</button>
+        </div>
+        <div class="card-name">DƯ NỢ TÍN DỤNG KHDN FDI BQ LK</div>
+        <div class="card-value-row">
+          <div class="card-value">119,455<span>.06</span></div>
+          <div class="card-arrow">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+        <div class="card-kpi">
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div>
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div>
+        </div>
       </div>
-    </div>
 
-    <!-- Size -->
-    <div class="section" style="padding-top: 0; padding-bottom: var(--sp-m);">
-      <div style="font-size: 14px; font-weight: 700; margin-bottom: var(--sp-s);">Size: <span style="color: var(--primary);">42</span></div>
-      <div class="chip-row">
-        <div class="chip">39</div>
-        <div class="chip">40</div>
-        <div class="chip">41</div>
-        <div class="chip active">42</div>
-        <div class="chip">43</div>
-        <div class="chip" style="opacity:0.4; cursor:not-allowed; text-decoration: line-through;">44</div>
+      <div class="metric-card" onclick="openDetail('card5')">
+        <div class="card-meta">
+          <span class="card-code">Chỉ tiêu: 150500 · Tỷ đồng</span>
+          <button class="card-more">···</button>
+        </div>
+        <div class="card-name">DƯ NỢ TÍN DỤNG KHCN BQ LK</div>
+        <div class="card-value-row">
+          <div class="card-value">790,863<span>.35</span></div>
+          <div class="card-arrow">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+        <div class="card-kpi">
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div>
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div>
+        </div>
       </div>
-    </div>
 
-    <div class="divider-line"></div>
-
-    <!-- Description -->
-    <div class="section" style="padding-top: var(--sp-m);">
-      <div class="section-title">Mô tả sản phẩm</div>
-      <div style="font-size: 14px; color: var(--textMuted); line-height: 24px;">
-        Giày sneaker cao cấp với thiết kế hiện đại, phù hợp cho mọi hoạt động từ đi dạo đến thể thao nhẹ. Đế EVA êm ái, upper làm từ vải lưới thoáng khí. Phù hợp cả nam và nữ.
+      <div class="metric-card" onclick="openDetail('card6')">
+        <div class="card-meta">
+          <span class="card-code">Chỉ tiêu: 150450 · Tỷ đồng</span>
+          <button class="card-more">···</button>
+        </div>
+        <div class="card-name">DƯ NỢ TÍN DỤNG KH ĐCTC BQ LK</div>
+        <div class="card-value-row">
+          <div class="card-value">25,096<span>.32</span></div>
+          <div class="card-arrow">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+        <div class="card-kpi">
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div>
+          <div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div>
+        </div>
       </div>
-      <div style="color: var(--action); font-size: 13px; font-weight: 600; margin-top: var(--sp-s); cursor: pointer;">Xem thêm ▾</div>
+
     </div>
 
-    <!-- Policies -->
-    <div style="background: #F8F8F8; margin: 0 var(--sp-l); padding: var(--sp-m); border-radius: 8px;">
-      <div style="display: flex; gap: var(--sp-l); flex-wrap: wrap;">
-        <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--textMuted);">🚚 Miễn ship đơn &gt;200k</div>
-        <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--textMuted);">🔄 Đổi trả 30 ngày</div>
-        <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--textMuted);">🛡️ Hàng chính hãng</div>
-      </div>
-    </div>
-
-    <div style="height: 20px;"></div>
-  </div>
-
-  <!-- Bottom CTA -->
-  <div class="bottom-bar" style="display: flex; gap: var(--sp-m);">
-    <button class="btn-alt" style="width: auto; flex: 1;" onclick="go('s3')">
-      🛒 Giỏ hàng
+    <!-- FAB -->
+    <button class="fab">
+      <svg width="20" height="20" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </button>
-    <button class="btn-primary" style="flex: 2;" onclick="addToCart()">
-      ➕ Thêm vào giỏ
-    </button>
-  </div>
-</div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 3 — GIỎ HÀNG
-════════════════════════════════════════════════ -->
-<div class="screen" id="s3">
-  <div class="topbar">
-    <div class="topbar-back" onclick="go('s1')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#282828" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5m0 0l7 7m-7-7 7-7"/></svg>
-    </div>
-    <div class="topbar-title">Giỏ hàng (3)</div>
-    <div style="font-size: 13px; color: var(--primary); font-weight: 600; cursor: pointer;">Chọn tất</div>
-  </div>
-
-  <div class="screen-body">
-    <!-- Free ship banner -->
-    <div style="background: var(--secondary); padding: var(--sp-s) var(--sp-l); font-size: 13px; color: var(--primary); font-weight: 600; text-align: center;">
-      🚚 Thêm 110.000₫ để được freeship toàn quốc!
-    </div>
-
-    <!-- Progress bar for freeship -->
-    <div class="progress-wrap" style="padding-top: var(--sp-s);">
-      <div class="progress-bar">
-        <div class="progress-fill" style="width: 78%;"></div>
-      </div>
-    </div>
-
-    <!-- Cart Items -->
-    <div class="cart-item">
-      <div style="padding-top: 4px;">
-        <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--action); cursor: pointer;">
-      </div>
-      <div class="cart-item-img">👟</div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">Giày Sneaker Urban Classic</div>
-        <div class="cart-item-variant">Màu: Trắng | Size: 42</div>
-        <div class="cart-item-price">490.000₫</div>
-        <div class="qty-control">
-          <div class="qty-btn" onclick="changeQty(this,-1)">−</div>
-          <div class="qty-val">1</div>
-          <div class="qty-btn" onclick="changeQty(this,1)">+</div>
-          <div style="margin-left: auto; font-size: 12px; color: var(--primary); cursor: pointer;">🗑</div>
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+      <div class="nav-item active">
+        <div class="nav-icon nav-icon-bg">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
         </div>
+        <span class="nav-label">TH thực hiện</span>
       </div>
-    </div>
-
-    <div class="cart-item">
-      <div style="padding-top: 4px;">
-        <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--action); cursor: pointer;">
-      </div>
-      <div class="cart-item-img">👗</div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">Váy Maxi Floral Summer</div>
-        <div class="cart-item-variant">Màu: Xanh hoa | Size: M</div>
-        <div class="cart-item-price">285.000₫</div>
-        <div class="qty-control">
-          <div class="qty-btn" onclick="changeQty(this,-1)">−</div>
-          <div class="qty-val">2</div>
-          <div class="qty-btn" onclick="changeQty(this,1)">+</div>
-          <div style="margin-left: auto; font-size: 12px; color: var(--primary); cursor: pointer;">🗑</div>
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
         </div>
+        <span class="nav-label">Bản đồ nhiệt</span>
       </div>
-    </div>
-
-    <div class="cart-item">
-      <div style="padding-top: 4px;">
-        <input type="checkbox" style="width: 18px; height: 18px; accent-color: var(--action); cursor: pointer;">
-      </div>
-      <div class="cart-item-img" style="opacity:0.5;">🎧</div>
-      <div class="cart-item-info" style="opacity:0.6;">
-        <div class="cart-item-name">Tai nghe Wireless Pro</div>
-        <div class="cart-item-variant" style="color: var(--primary);">⚠ Hết hàng tạm thời</div>
-        <div class="cart-item-price">1.250.000₫</div>
-        <div class="qty-control">
-          <div class="qty-btn" style="opacity:0.4; cursor:not-allowed;">−</div>
-          <div class="qty-val">1</div>
-          <div class="qty-btn" style="opacity:0.4; cursor:not-allowed;">+</div>
-          <div style="margin-left: auto; font-size: 12px; color: var(--primary); cursor: pointer;">🗑</div>
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         </div>
+        <span class="nav-label">NIM</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+        </div>
+        <span class="nav-label">Hiệu quả</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <span class="nav-label">LINHDCN</span>
       </div>
     </div>
 
-    <div class="divider"></div>
-
-    <!-- Coupon -->
-    <div style="padding: var(--sp-m) var(--sp-l) 0; font-size: 14px; font-weight: 700;">🏷️ Mã giảm giá</div>
-    <div class="coupon-row">
-      <input class="coupon-input" placeholder="Nhập mã giảm giá..."/>
-      <button class="coupon-btn">Áp dụng</button>
-    </div>
-    <div style="padding: 0 var(--sp-l) var(--sp-s); display: flex; gap: var(--sp-s); flex-wrap: wrap;">
-      <div style="border: 1px dashed var(--action); border-radius: 4px; padding: 4px 10px; font-size: 12px; color: var(--action); font-weight: 600; cursor: pointer; background: #F0F8FF;">SALE20</div>
-      <div style="border: 1px dashed var(--action); border-radius: 4px; padding: 4px 10px; font-size: 12px; color: var(--action); font-weight: 600; cursor: pointer; background: #F0F8FF;">FREESHIP</div>
-      <div style="border: 1px dashed var(--action); border-radius: 4px; padding: 4px 10px; font-size: 12px; color: var(--action); font-weight: 600; cursor: pointer; background: #F0F8FF;">NEWUSER</div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Summary -->
-    <div class="section">
-      <div class="section-title">Tổng đơn hàng</div>
-      <div class="summary-row">
-        <span class="summary-label">Tạm tính (3 sản phẩm)</span>
-        <span class="summary-value">1.060.000₫</span>
-      </div>
-      <div class="summary-row">
-        <span class="summary-label">Giảm giá</span>
-        <span class="summary-value" style="color: #4CAF50;">- 210.000₫</span>
-      </div>
-      <div class="summary-row">
-        <span class="summary-label">Phí vận chuyển</span>
-        <span class="summary-value" style="color: var(--greyDark);">Tính ở bước sau</span>
-      </div>
-      <div class="divider-line" style="margin: var(--sp-s) 0;"></div>
-      <div class="summary-row">
-        <span style="font-size: 15px; font-weight: 700; color: var(--black);">Tổng thanh toán</span>
-        <span class="summary-value primary">850.000₫</span>
-      </div>
-    </div>
   </div>
 
-  <!-- Bottom -->
-  <div class="bottom-bar">
-    <div class="flex-between" style="margin-bottom: var(--sp-s);">
-      <div>
-        <div style="font-size: 12px; color: var(--textMuted);">Tổng thanh toán</div>
-        <div style="font-size: 20px; font-weight: 800; color: var(--primary);">850.000₫</div>
-      </div>
-      <button class="btn-primary" style="width: auto; padding: 0 28px;" onclick="go('s4')">
-        Thanh toán →
-      </button>
-    </div>
-  </div>
-</div>
 
-<!-- ═══════════════════════════════════════════
-     SCREEN 4 — THANH TOÁN (CHECKOUT)
-════════════════════════════════════════════════ -->
-<div class="screen" id="s4">
-  <div class="topbar">
-    <div class="topbar-back" onclick="go('s3')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#282828" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5m0 0l7 7m-7-7 7-7"/></svg>
-    </div>
-    <div class="topbar-title">Thanh toán</div>
-  </div>
+  <!-- ===== SCREEN 2: DETAIL ===== -->
+  <div class="screen" id="screen-detail">
 
-  <!-- Step bar -->
-  <div class="step-bar">
-    <div class="step-item done">
-      <div class="step-dot">✓</div>
-    </div>
-    <div class="step-line done"></div>
-    <div class="step-item active">
-      <div class="step-dot">2</div>
-    </div>
-    <div class="step-line"></div>
-    <div class="step-item">
-      <div class="step-dot">3</div>
-    </div>
-    <div class="step-line"></div>
-    <div class="step-item">
-      <div class="step-dot">4</div>
-    </div>
-  </div>
-  <div style="display: flex; padding: 0 var(--sp-l) var(--sp-m); gap: 0;">
-    <div style="flex:1; font-size: 10px; color: var(--action); font-weight: 700; text-align: center;">Giỏ hàng</div>
-    <div style="flex:1; font-size: 10px; color: var(--primary); font-weight: 700; text-align: center;">Địa chỉ</div>
-    <div style="flex:1; font-size: 10px; color: var(--greyDark); font-weight: 600; text-align: center;">Vận chuyển</div>
-    <div style="flex:1; font-size: 10px; color: var(--greyDark); font-weight: 600; text-align: center;">Thanh toán</div>
-  </div>
-
-  <div class="screen-body">
-    <!-- Address -->
-    <div class="section" style="padding-bottom: var(--sp-s);">
-      <div class="flex-between" style="margin-bottom: var(--sp-m);">
-        <div class="section-title" style="margin:0;">📍 Địa chỉ giao hàng</div>
-        <span style="font-size: 13px; color: var(--action); font-weight: 600; cursor: pointer;">+ Thêm mới</span>
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span class="status-time">9:41</span>
+      <div class="status-icons">
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0" width="3" height="12" rx="1"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" opacity="0.3"/></svg>
+        <svg width="16" height="12" viewBox="0 0 20 14" fill="white"><path d="M10 2.5C13.5 2.5 16.5 3.9 18.6 6.1L20 4.7C17.5 2.1 14 0.5 10 0.5C6 0.5 2.5 2.1 0 4.7L1.4 6.1C3.5 3.9 6.5 2.5 10 2.5Z"/><path d="M10 6.5C12.2 6.5 14.2 7.4 15.7 8.8L17.1 7.4C15.2 5.6 12.7 4.5 10 4.5C7.3 4.5 4.8 5.6 2.9 7.4L4.3 8.8C5.8 7.4 7.8 6.5 10 6.5Z"/><circle cx="10" cy="13" r="1.5"/></svg>
+        <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg>
       </div>
     </div>
 
-    <div class="address-card selected">
-      <div class="flex-between">
-        <div class="address-name">Nguyễn Thị Lan</div>
-        <div style="font-size: 11px; color: var(--action); font-weight: 600; cursor: pointer;">Chỉnh sửa</div>
+    <!-- Detail Header -->
+    <div class="detail-header">
+      <div class="detail-header-top">
+        <button class="back-btn" onclick="closeDetail()">
+          <svg width="18" height="18" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <span class="detail-chip" id="detail-chip">Chỉ tiêu: 150800</span>
+        <button class="detail-close" onclick="closeDetail()">✕</button>
       </div>
-      <div class="address-phone">📞 0912 345 678</div>
-      <div class="address-text">123 Đường Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</div>
-      <div class="address-tag">🏠 Nhà riêng</div>
-    </div>
 
-    <div class="address-card">
-      <div class="flex-between">
-        <div class="address-name">Nguyễn Thị Lan</div>
-        <div style="font-size: 11px; color: var(--action); font-weight: 600; cursor: pointer;">Chỉnh sửa</div>
+      <div class="detail-title" id="detail-title">
+        TỔNG DƯ NỢ TÍN DỤNG BÌNH QUÂN TĂNG TRƯỞNG TRONG NĂM
       </div>
-      <div class="address-phone">📞 0912 345 678</div>
-      <div class="address-text">45/7 Lê Lợi, Phường 3, Quận Gò Vấp, TP. Hồ Chí Minh</div>
-      <div class="address-tag">🏢 Văn phòng</div>
-    </div>
 
-    <div class="divider"></div>
-
-    <!-- Shipping Method -->
-    <div class="section" style="padding-bottom: var(--sp-s);">
-      <div class="section-title">🚚 Phương thức vận chuyển</div>
-    </div>
-
-    <div class="radio-option selected">
-      <div class="radio-outer"><div class="radio-inner"></div></div>
-      <div class="radio-label">
-        <div class="radio-main">Giao hàng tiêu chuẩn</div>
-        <div class="radio-sub">Nhận hàng trong 2-3 ngày</div>
-      </div>
-      <div class="radio-price">30.000₫</div>
-    </div>
-
-    <div class="radio-option">
-      <div class="radio-outer"><div class="radio-inner"></div></div>
-      <div class="radio-label">
-        <div class="radio-main">Giao hàng nhanh <span class="tag-new">HOT</span></div>
-        <div class="radio-sub">Nhận hàng trong 4-6 giờ</div>
-      </div>
-      <div class="radio-price">50.000₫</div>
-    </div>
-
-    <div class="radio-option">
-      <div class="radio-outer"><div class="radio-inner"></div></div>
-      <div class="radio-label">
-        <div class="radio-main">Giao hàng hỏa tốc</div>
-        <div class="radio-sub">Nhận hàng trong 1-2 giờ</div>
-      </div>
-      <div class="radio-price">80.000₫</div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Payment Method -->
-    <div class="section" style="padding-bottom: var(--sp-s);">
-      <div class="section-title">💳 Phương thức thanh toán</div>
-    </div>
-
-    <div class="radio-option selected">
-      <div class="radio-outer"><div class="radio-inner"></div></div>
-      <div class="radio-label">
-        <div class="radio-main">💵 Thanh toán khi nhận hàng (COD)</div>
-        <div class="radio-sub">Trả tiền mặt khi nhận</div>
-      </div>
-    </div>
-
-    <div class="radio-option">
-      <div class="radio-outer"><div class="radio-inner"></div></div>
-      <div class="radio-label">
-        <div class="radio-main">🏦 Chuyển khoản ngân hàng</div>
-        <div class="radio-sub">VCB, TCB, MB, VPB...</div>
-      </div>
-    </div>
-
-    <div class="radio-option">
-      <div class="radio-outer"><div class="radio-inner"></div></div>
-      <div class="radio-label">
-        <div class="radio-main">📱 Ví điện tử</div>
-        <div class="radio-sub">MoMo, ZaloPay, VNPay</div>
-      </div>
-    </div>
-
-    <div class="radio-option">
-      <div class="radio-outer"><div class="radio-inner"></div></div>
-      <div class="radio-label">
-        <div class="radio-main">💳 Thẻ tín dụng / ghi nợ</div>
-        <div class="radio-sub">Visa, Mastercard, JCB</div>
-      </div>
-    </div>
-
-    <!-- Note -->
-    <div class="section">
-      <div class="input-group">
-        <div class="input-label">📝 Ghi chú cho đơn hàng</div>
-        <textarea class="input-field" style="height: 80px; resize: none; padding: 10px 12px; line-height: 22px;" placeholder="Ví dụ: Giao trước 6pm, gọi trước khi giao..."></textarea>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bottom -->
-  <div class="bottom-bar">
-    <button class="btn-primary" onclick="go('s5')">Xem lại đơn hàng →</button>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 5 — XÁC NHẬN ĐƠN HÀNG
-════════════════════════════════════════════════ -->
-<div class="screen" id="s5">
-  <div class="topbar">
-    <div class="topbar-back" onclick="go('s4')">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#282828" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5m0 0l7 7m-7-7 7-7"/></svg>
-    </div>
-    <div class="topbar-title">Xác nhận đơn hàng</div>
-  </div>
-
-  <div class="screen-body">
-    <!-- Products -->
-    <div class="section" style="padding-bottom: var(--sp-s);">
-      <div class="section-title">🛍️ Sản phẩm đặt mua (2)</div>
-    </div>
-
-    <div class="confirm-item">
-      <div class="confirm-img">👟</div>
-      <div>
-        <div class="confirm-name">Giày Sneaker Urban Classic</div>
-        <div class="confirm-qty">Trắng | Size 42 · SL: 1</div>
-      </div>
-      <div class="confirm-price">490.000₫</div>
-    </div>
-
-    <div class="confirm-item">
-      <div class="confirm-img">👗</div>
-      <div>
-        <div class="confirm-name">Váy Maxi Floral Summer</div>
-        <div class="confirm-qty">Xanh hoa | Size M · SL: 2</div>
-      </div>
-      <div class="confirm-price">570.000₫</div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Delivery info -->
-    <div class="section" style="padding-bottom: var(--sp-s);">
-      <div class="section-title">📍 Địa chỉ giao hàng</div>
-    </div>
-    <div class="info-block">
-      <div class="info-row">
-        <div class="info-key">Người nhận</div>
-        <div class="info-val">Nguyễn Thị Lan</div>
-      </div>
-      <div class="info-row">
-        <div class="info-key">Số điện thoại</div>
-        <div class="info-val">0912 345 678</div>
-      </div>
-      <div class="info-row">
-        <div class="info-key">Địa chỉ</div>
-        <div class="info-val">123 Nguyễn Huệ, Q.1, TP.HCM</div>
-      </div>
-    </div>
-
-    <!-- Shipping -->
-    <div class="section" style="padding-bottom: var(--sp-s); padding-top: 0;">
-      <div class="section-title">🚚 Vận chuyển & Thanh toán</div>
-    </div>
-    <div class="info-block">
-      <div class="info-row">
-        <div class="info-key">Vận chuyển</div>
-        <div class="info-val">Tiêu chuẩn (2-3 ngày)</div>
-      </div>
-      <div class="info-row">
-        <div class="info-key">Phí ship</div>
-        <div class="info-val">30.000₫</div>
-      </div>
-      <div class="info-row">
-        <div class="info-key">Thanh toán</div>
-        <div class="info-val">COD (Tiền mặt)</div>
-      </div>
-    </div>
-
-    <!-- Order Summary -->
-    <div class="section" style="padding-top: 0;">
-      <div class="section-title">💰 Chi tiết thanh toán</div>
-      <div class="summary-row">
-        <span class="summary-label">Tạm tính</span>
-        <span class="summary-value">1.060.000₫</span>
-      </div>
-      <div class="summary-row">
-        <span class="summary-label">Giảm giá sản phẩm</span>
-        <span class="summary-value" style="color: #4CAF50;">-210.000₫</span>
-      </div>
-      <div class="summary-row">
-        <span class="summary-label">Phí vận chuyển</span>
-        <span class="summary-value">30.000₫</span>
-      </div>
-      <div class="summary-row">
-        <span class="summary-label">Mã giảm giá (SALE20)</span>
-        <span class="summary-value" style="color: #4CAF50;">-30.000₫</span>
-      </div>
-      <div class="divider-line" style="margin: var(--sp-s) 0;"></div>
-      <div class="summary-row">
-        <span style="font-size: 16px; font-weight: 700; color: var(--black);">Tổng thanh toán</span>
-        <span style="font-size: 22px; font-weight: 800; color: var(--primary);">850.000₫</span>
-      </div>
-    </div>
-
-    <!-- Terms -->
-    <div style="padding: 0 var(--sp-l) var(--sp-m); display: flex; gap: var(--sp-s); align-items: flex-start;">
-      <input type="checkbox" checked style="width: 18px; height: 18px; accent-color: var(--action); flex-shrink: 0; margin-top: 3px; cursor: pointer;">
-      <span style="font-size: 13px; color: var(--textMuted); line-height: 20px;">Tôi đồng ý với <span style="color: var(--action); cursor: pointer;">Điều khoản dịch vụ</span> và <span style="color: var(--action); cursor: pointer;">Chính sách bảo mật</span> của ShopNow</span>
-    </div>
-  </div>
-
-  <!-- Bottom -->
-  <div class="bottom-bar">
-    <div style="font-size: 12px; color: var(--textMuted); text-align: center; margin-bottom: var(--sp-s);">
-      🔒 Thông tin được bảo mật tuyệt đối
-    </div>
-    <button class="btn-primary" style="font-size: 16px;" onclick="placeOrder()">
-      🛒 Đặt hàng ngay
-    </button>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════
-     SCREEN 6 — ĐẶT HÀNG THÀNH CÔNG
-════════════════════════════════════════════════ -->
-<div class="screen" id="s6">
-  <div class="topbar" style="justify-content: center; border-bottom: none;">
-    <div class="topbar-title" style="text-align: center; color: var(--primary);">ShopNow 🛍️</div>
-  </div>
-
-  <div class="screen-body" style="padding-bottom: 0;">
-    <!-- Confetti area -->
-    <div style="text-align: center; padding: var(--sp-xl) var(--sp-l) var(--sp-l); position: relative; overflow: hidden;">
-      <div id="confetti" style="position: absolute; top: 0; left: 0; right: 0; height: 100%; pointer-events: none;"></div>
-
-      <div class="success-icon">✓</div>
-
-      <div style="font-size: 22px; font-weight: 800; color: var(--black); margin-bottom: var(--sp-s);">Đặt hàng thành công! 🎉</div>
-      <div style="font-size: 14px; color: var(--textMuted); line-height: 22px;">
-        Cảm ơn bạn đã mua hàng tại ShopNow!<br>
-        Đơn hàng của bạn đã được tiếp nhận.
-      </div>
-    </div>
-
-    <!-- Order code -->
-    <div class="order-code">
-      <div class="order-code-label">Mã đơn hàng</div>
-      <div class="order-code-value">#SN-20240518</div>
-      <div style="font-size: 12px; color: var(--textMuted); margin-top: 4px;">Đặt lúc 10:32 ngày 18/05/2024</div>
-    </div>
-
-    <!-- Timeline -->
-    <div class="section">
-      <div class="section-title">📦 Trạng thái đơn hàng</div>
-      <div style="position: relative;">
-        <div style="position: absolute; left: 11px; top: 12px; bottom: 0; width: 2px; background: var(--grey);"></div>
-
-        <div style="display: flex; gap: var(--sp-m); align-items: flex-start; margin-bottom: var(--sp-m); position: relative; z-index: 1;">
-          <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--primary); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: white;">✓</div>
+      <div class="detail-value-card">
+        <div>
+          <div class="detail-value-label">Thực hiện 18/05/2026</div>
           <div>
-            <div style="font-size: 14px; font-weight: 700; color: var(--primary);">Đặt hàng thành công</div>
-            <div style="font-size: 12px; color: var(--textMuted);">10:32, 18/05/2024</div>
+            <span class="detail-value-main" id="detail-value">139,790.65</span>
+            <span class="detail-value-unit">Tỷ đồng</span>
           </div>
         </div>
-
-        <div style="display: flex; gap: var(--sp-m); align-items: flex-start; margin-bottom: var(--sp-m); position: relative; z-index: 1; opacity: 0.5;">
-          <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--grey); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: white;">2</div>
-          <div>
-            <div style="font-size: 14px; font-weight: 600; color: var(--greyDark);">Đang xử lý đơn hàng</div>
-            <div style="font-size: 12px; color: var(--greyDark);">Dự kiến: 18/05/2024</div>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: var(--sp-m); align-items: flex-start; margin-bottom: var(--sp-m); position: relative; z-index: 1; opacity: 0.5;">
-          <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--grey); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: white;">3</div>
-          <div>
-            <div style="font-size: 14px; font-weight: 600; color: var(--greyDark);">Đang vận chuyển</div>
-            <div style="font-size: 12px; color: var(--greyDark);">Dự kiến: 19/05/2024</div>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: var(--sp-m); align-items: flex-start; position: relative; z-index: 1; opacity: 0.5;">
-          <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--grey); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: white;">4</div>
-          <div>
-            <div style="font-size: 14px; font-weight: 600; color: var(--greyDark);">Giao hàng thành công</div>
-            <div style="font-size: 12px; color: var(--greyDark);">Dự kiến: 20-21/05/2024</div>
+        <div style="text-align:right">
+          <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-bottom:4px">So với tháng trước</div>
+          <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end">
+            <span style="font-size:20px">↑</span>
+            <div>
+              <div style="font-size:14px;font-weight:800;color:#4AE888">1,515.03</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.7)">+1.10%</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Notification info -->
-    <div style="background: var(--secondary); margin: 0 var(--sp-l) var(--sp-m); border-radius: 8px; padding: var(--sp-m); border-left: 3px solid var(--primary);">
-      <div style="font-size: 13px; font-weight: 700; color: var(--black); margin-bottom: 5px;">📬 Thông báo đã gửi</div>
-      <div style="font-size: 12px; color: var(--textMuted); line-height: 20px;">
-        ✉️ Email xác nhận → <strong>lan.nguyen@gmail.com</strong><br>
-        📱 SMS xác nhận → <strong>0912 345 678</strong>
+    <!-- Scrollable Detail Content -->
+    <div class="scroll-content">
+
+      <!-- History -->
+      <div class="history-section">
+        <div class="section-title">Số thực hiện các tháng trước</div>
+        <div class="history-scroll">
+          <div class="history-month">
+            <div class="history-month-label">Tháng 01/2026</div>
+            <div class="history-month-value">121,635.06</div>
+          </div>
+          <div class="history-month">
+            <div class="history-month-label">Tháng 02/2026</div>
+            <div class="history-month-value">136,234.53</div>
+          </div>
+          <div class="history-month">
+            <div class="history-month-label">Tháng 03/2026</div>
+            <div class="history-month-value">137,580</div>
+          </div>
+          <div class="history-month current">
+            <div class="history-month-label">Tháng 05/2026</div>
+            <div class="history-month-value">139,790.65</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comparisons -->
+      <div class="comparison-section">
+        <div class="section-title">So sánh</div>
+
+        <div class="comparison-row">
+          <span class="comparison-label">So với đầu năm</span>
+          <div class="comparison-value">
+            <div class="trend-down">
+              ↓ -177,342.04 <span style="opacity:0.7;font-weight:400">(−55.92%)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="comparison-row">
+          <span class="comparison-label">So với tháng trước</span>
+          <div class="comparison-value">
+            <div class="trend-up">
+              ↑ 1,515.03 <span style="opacity:0.7;font-weight:400">(+1.10%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plans -->
+      <div class="plan-section">
+        <div class="section-title">Kế hoạch & thực hiện</div>
+
+        <!-- Plan Month -->
+        <div class="plan-block">
+          <div class="plan-header">
+            <span class="plan-label">Kế hoạch tháng</span>
+            <span class="plan-value">0.00</span>
+          </div>
+          <div class="plan-bar-wrapper">
+            <div class="bar-segment bar-red" style="width:33.3%">&lt;80%</div>
+            <div class="bar-segment bar-orange" style="width:33.4%">≥80%&lt;100%</div>
+            <div class="bar-segment bar-green" style="width:33.3%">≥100%</div>
+          </div>
+          <div class="plan-result">
+            <span class="plan-badge badge-neutral">0.00%</span>
+          </div>
+        </div>
+
+        <!-- Plan Quarter -->
+        <div class="plan-block">
+          <div class="plan-header">
+            <span class="plan-label">Kế hoạch quý</span>
+            <span class="plan-value">198,586.79</span>
+          </div>
+          <div class="plan-bar-wrapper">
+            <div class="bar-segment bar-red" style="width:30%">&lt;66.74%</div>
+            <div class="bar-segment bar-orange" style="width:30%">≥66.74%&lt;83.43%</div>
+            <div class="bar-segment bar-green" style="width:40%">≥83.43%</div>
+          </div>
+          <div class="plan-result">
+            <span class="plan-badge badge-orange">70.39%</span>
+          </div>
+        </div>
+
+        <!-- Plan Year -->
+        <div class="plan-block">
+          <div class="plan-header">
+            <span class="plan-label">Kế hoạch năm</span>
+            <span class="plan-value">331,311.86</span>
+          </div>
+          <div class="plan-bar-wrapper">
+            <div class="bar-segment bar-red" style="width:30%">&lt;33.10%</div>
+            <div class="bar-segment bar-orange" style="width:30%">≥33.10%&lt;41.37%</div>
+            <div class="bar-segment bar-green" style="width:40%">≥41.37%</div>
+          </div>
+          <div class="plan-result">
+            <span class="plan-badge badge-green">42.19%</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="bottom-nav">
+      <div class="nav-item active">
+        <div class="nav-icon nav-icon-bg">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </div>
+        <span class="nav-label">TH thực hiện</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <span class="nav-label">Bản đồ nhiệt</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <span class="nav-label">NIM</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+        </div>
+        <span class="nav-label">Hiệu quả</span>
+      </div>
+      <div class="nav-item">
+        <div class="nav-icon">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <span class="nav-label">LINHDCN</span>
       </div>
     </div>
 
-    <!-- Order summary small -->
-    <div class="info-block" style="margin-bottom: var(--sp-l);">
-      <div class="info-row">
-        <div class="info-key">Sản phẩm</div>
-        <div class="info-val">2 sản phẩm</div>
-      </div>
-      <div class="info-row">
-        <div class="info-key">Tổng tiền</div>
-        <div class="info-val" style="color: var(--primary); font-size: 15px;">850.000₫</div>
-      </div>
-      <div class="info-row">
-        <div class="info-key">Thanh toán</div>
-        <div class="info-val">COD</div>
-      </div>
-      <div class="info-row">
-        <div class="info-key">Dự kiến nhận</div>
-        <div class="info-val">20 - 21/05/2024</div>
-      </div>
-    </div>
-
-    <!-- Actions -->
-    <div style="padding: 0 var(--sp-l) var(--sp-xxl); display: flex; flex-direction: column; gap: var(--sp-m);">
-      <button class="btn-primary" onclick="go('s1')">🏠 Tiếp tục mua sắm</button>
-      <button class="btn-alt">📋 Xem chi tiết đơn hàng</button>
-    </div>
   </div>
+
 </div>
-
-<!-- Toast -->
-<div class="toast" id="toast"></div>
-
-</div><!-- /phone-shell -->
 
 <script>
-  let currentScreen = 's1';
-
-  function go(id, isBack = false) {
-    const cur = document.getElementById(currentScreen);
-    const next = document.getElementById(id);
-    if (!next) return;
-    cur.classList.remove('active', 'back');
-    next.classList.remove('active', 'back');
-    if (isBack) next.classList.add('back');
-    next.classList.add('active');
-    currentScreen = id;
-    next.scrollTop = 0;
-    const body = next.querySelector('.screen-body');
-    if (body) body.scrollTop = 0;
+const cardData = {
+  card1: {
+    chip: 'Chỉ tiêu: 150000 · Tỷ đồng',
+    title: 'TỔNG DƯ NỢ TÍN DỤNG BÌNH QUÂN LIÊN KỲ',
+    value: '2,004,573.62',
+    trend: '+91,248.23',
+    trendPct: '+1.10%',
+    trendUp: true,
+    history: [
+      { label: 'Tháng 01/2026', value: '1,850,000.00' },
+      { label: 'Tháng 02/2026', value: '1,920,340.11' },
+      { label: 'Tháng 03/2026', value: '1,960,120.50' },
+      { label: 'Tháng 05/2026', value: '2,004,573.62', current: true }
+    ],
+    svDauNam: { val: '-177,342.04', pct: '-8.13%', up: false },
+    svThangTruoc: { val: '+44,453.12', pct: '+1.10%', up: true },
+    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planQuarter: { val: '2,065,000.00', result: '97.08%', badge: 'green' },
+    planYear: { val: '2,200,000.00', result: '91.12%', badge: 'green' },
+  },
+  card2: {
+    chip: 'Chỉ tiêu: 150410 · Tỷ đồng',
+    title: 'DƯ NỢ TÍN DỤNG KHDN LỚN BÌNH QUÂN LIÊN KỲ',
+    value: '618,980.66',
+    trend: '+5,230.80',
+    trendPct: '+0.85%',
+    trendUp: true,
+    history: [
+      { label: 'Tháng 01/2026', value: '598,200.00' },
+      { label: 'Tháng 02/2026', value: '605,400.10' },
+      { label: 'Tháng 03/2026', value: '613,749.86' },
+      { label: 'Tháng 05/2026', value: '618,980.66', current: true }
+    ],
+    svDauNam: { val: '+20,780.66', pct: '+3.47%', up: true },
+    svThangTruoc: { val: '+5,230.80', pct: '+0.85%', up: true },
+    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planQuarter: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planYear: { val: '0.00', result: '0.00%', badge: 'neutral' },
+  },
+  card3: {
+    chip: 'Chỉ tiêu: 150420 · Tỷ đồng',
+    title: 'DƯ NỢ TÍN DỤNG KHDN VVN BQ LK (GỒM SVM)',
+    value: '450,061.95',
+    trend: '+3,112.45',
+    trendPct: '+0.70%',
+    trendUp: true,
+    history: [
+      { label: 'Tháng 01/2026', value: '430,200.00' },
+      { label: 'Tháng 02/2026', value: '438,500.00' },
+      { label: 'Tháng 03/2026', value: '446,949.50' },
+      { label: 'Tháng 05/2026', value: '450,061.95', current: true }
+    ],
+    svDauNam: { val: '+19,861.95', pct: '+4.62%', up: true },
+    svThangTruoc: { val: '+3,112.45', pct: '+0.70%', up: true },
+    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planQuarter: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planYear: { val: '0.00', result: '0.00%', badge: 'neutral' },
+  },
+  card4: {
+    chip: 'Chỉ tiêu: 150430 · Tỷ đồng',
+    title: 'DƯ NỢ TÍN DỤNG KHDN FDI BÌNH QUÂN LIÊN KỲ',
+    value: '119,455.06',
+    trend: '+1,200.20',
+    trendPct: '+1.02%',
+    trendUp: true,
+    history: [
+      { label: 'Tháng 01/2026', value: '112,000.00' },
+      { label: 'Tháng 02/2026', value: '115,200.00' },
+      { label: 'Tháng 03/2026', value: '118,254.86' },
+      { label: 'Tháng 05/2026', value: '119,455.06', current: true }
+    ],
+    svDauNam: { val: '+7,455.06', pct: '+6.66%', up: true },
+    svThangTruoc: { val: '+1,200.20', pct: '+1.02%', up: true },
+    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planQuarter: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planYear: { val: '0.00', result: '0.00%', badge: 'neutral' },
+  },
+  card5: {
+    chip: 'Chỉ tiêu: 150500 · Tỷ đồng',
+    title: 'DƯ NỢ TÍN DỤNG KHCN BÌNH QUÂN LIÊN KỲ',
+    value: '790,863.35',
+    trend: '-12,340.10',
+    trendPct: '-1.54%',
+    trendUp: false,
+    history: [
+      { label: 'Tháng 01/2026', value: '810,000.00' },
+      { label: 'Tháng 02/2026', value: '803,200.45' },
+      { label: 'Tháng 03/2026', value: '803,203.45' },
+      { label: 'Tháng 05/2026', value: '790,863.35', current: true }
+    ],
+    svDauNam: { val: '-19,136.65', pct: '-2.36%', up: false },
+    svThangTruoc: { val: '-12,340.10', pct: '-1.54%', up: false },
+    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planQuarter: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planYear: { val: '0.00', result: '0.00%', badge: 'neutral' },
+  },
+  card6: {
+    chip: 'Chỉ tiêu: 150450 · Tỷ đồng',
+    title: 'DƯ NỢ TÍN DỤNG KH ĐCTC BÌNH QUÂN LIÊN KỲ',
+    value: '25,096.32',
+    trend: '+230.50',
+    trendPct: '+0.93%',
+    trendUp: true,
+    history: [
+      { label: 'Tháng 01/2026', value: '23,400.00' },
+      { label: 'Tháng 02/2026', value: '24,100.20' },
+      { label: 'Tháng 03/2026', value: '24,865.82' },
+      { label: 'Tháng 05/2026', value: '25,096.32', current: true }
+    ],
+    svDauNam: { val: '+1,696.32', pct: '+7.25%', up: true },
+    svThangTruoc: { val: '+230.50', pct: '+0.93%', up: true },
+    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planQuarter: { val: '0.00', result: '0.00%', badge: 'neutral' },
+    planYear: { val: '0.00', result: '0.00%', badge: 'neutral' },
   }
+};
 
-  function addToCart() {
-    showToast('✅ Đã thêm vào giỏ hàng!');
-    setTimeout(() => go('s3'), 1000);
-  }
+function openDetail(cardId) {
+  const d = cardData[cardId];
+  if (!d) return;
 
-  function placeOrder() {
-    const btn = event.target;
-    btn.disabled = true;
-    btn.textContent = '⏳ Đang xử lý...';
-    setTimeout(() => {
-      go('s6');
-      btn.disabled = false;
-      btn.textContent = '🛒 Đặt hàng ngay';
-      launchConfetti();
-    }, 1500);
-  }
+  document.getElementById('detail-chip').textContent = d.chip;
+  document.getElementById('detail-title').textContent = d.title;
+  document.getElementById('detail-value').textContent = d.value;
 
-  function changeQty(btn, delta) {
-    const val = btn.parentElement.querySelector('.qty-val');
-    let n = parseInt(val.textContent) + delta;
-    if (n < 1) n = 1;
-    if (n > 99) n = 99;
-    val.textContent = n;
-  }
+  // Rebuild dynamic detail content
+  rebuildDetailContent(d);
 
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-  }
+  const listScreen = document.getElementById('screen-list');
+  const detailScreen = document.getElementById('screen-detail');
 
-  // Radio select behavior
-  document.querySelectorAll('.radio-option').forEach(opt => {
-    opt.addEventListener('click', function() {
-      const parent = this.closest('.screen-body') || this.parentElement;
-      const siblings = parent.querySelectorAll('.radio-option');
-      // Only affect same group (by proximity - deselect adjacent same-type radios)
-      const allInSection = this.parentElement.querySelectorAll('.radio-option');
-      allInSection.forEach(s => s.classList.remove('selected'));
-      this.classList.add('selected');
-    });
-  });
+  listScreen.classList.add('slide-out');
+  setTimeout(() => {
+    listScreen.classList.remove('active', 'slide-out');
+    detailScreen.classList.add('active');
+  }, 50);
+}
 
-  // Confetti
-  function launchConfetti() {
-    const container = document.getElementById('confetti');
-    if (!container) return;
-    container.innerHTML = '';
-    const colors = ['#F34E4E','#F67F7F','#7BB9FA','#FFF6EA','#4CAF50','#FFD700'];
-    for (let i = 0; i < 60; i++) {
-      const p = document.createElement('div');
-      const size = Math.random() * 8 + 4;
-      p.style.cssText = `
-        position: absolute;
-        left: ${Math.random() * 100}%;
-        top: -10px;
-        width: ${size}px; height: ${size}px;
-        background: ${colors[Math.floor(Math.random() * colors.length)]};
-        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
-        animation: fall ${Math.random() * 1.5 + 1}s ${Math.random() * 0.5}s ease-in forwards;
-        opacity: ${Math.random() * 0.7 + 0.3};
-      `;
-      container.appendChild(p);
-    }
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes fall {
-        0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-        100% { transform: translateY(300px) rotate(${Math.random()>0.5?'':'-'}${Math.floor(Math.random()*360)}deg); opacity: 0; }
-      }
+function closeDetail() {
+  const listScreen = document.getElementById('screen-list');
+  const detailScreen = document.getElementById('screen-detail');
+
+  detailScreen.classList.remove('active');
+  setTimeout(() => {
+    listScreen.classList.add('active');
+  }, 50);
+}
+
+function rebuildDetailContent(d) {
+  // Update value card
+  const valueCard = document.querySelector('#screen-detail .detail-value-card');
+  const trendColor = d.trendUp ? '#4AE888' : '#FF6B6B';
+  const trendArrow = d.trendUp ? '↑' : '↓';
+  valueCard.innerHTML = `
+    <div>
+      <div class="detail-value-label">Thực hiện 18/05/2026</div>
+      <div>
+        <span class="detail-value-main">${d.value}</span>
+        <span class="detail-value-unit">Tỷ đồng</span>
+      </div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-bottom:4px">So với tháng trước</div>
+      <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end">
+        <span style="font-size:20px;color:${trendColor}">${trendArrow}</span>
+        <div>
+          <div style="font-size:14px;font-weight:800;color:${trendColor}">${d.trend}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.7)">${d.trendPct}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Update history
+  const historyScroll = document.querySelector('#screen-detail .history-scroll');
+  historyScroll.innerHTML = d.history.map(h => `
+    <div class="history-month ${h.current ? 'current' : ''}">
+      <div class="history-month-label">${h.label}</div>
+      <div class="history-month-value">${h.value}</div>
+    </div>
+  `).join('');
+
+  // Update comparison
+  const compRows = document.querySelectorAll('#screen-detail .comparison-row');
+  if (compRows.length >= 2) {
+    compRows[0].innerHTML = `
+      <span class="comparison-label">So với đầu năm</span>
+      <div class="${d.svDauNam.up ? 'trend-up' : 'trend-down'}">${d.svDauNam.up ? '↑' : '↓'} ${d.svDauNam.val} <span style="opacity:0.7;font-weight:400">(${d.svDauNam.pct})</span></div>
     `;
-    document.head.appendChild(style);
+    compRows[1].innerHTML = `
+      <span class="comparison-label">So với tháng trước</span>
+      <div class="${d.svThangTruoc.up ? 'trend-up' : 'trend-down'}">${d.svThangTruoc.up ? '↑' : '↓'} ${d.svThangTruoc.val} <span style="opacity:0.7;font-weight:400">(${d.svThangTruoc.pct})</span></div>
+    `;
   }
+
+  // Update plan badges
+  const badges = document.querySelectorAll('#screen-detail .plan-badge');
+  const planValues = document.querySelectorAll('#screen-detail .plan-value');
+  const plans = [d.planMonth, d.planQuarter, d.planYear];
+  plans.forEach((p, i) => {
+    if (badges[i]) {
+      badges[i].textContent = p.result;
+      badges[i].className = `plan-badge badge-${p.badge}`;
+    }
+    if (planValues[i]) planValues[i].textContent = p.val;
+  });
+}
+
+// Tab switching
+document.querySelectorAll('.tab-item').forEach(tab => {
+  tab.addEventListener('click', function() {
+    this.closest('.tabs').querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
 </script>
+
 </body>
 </html>
