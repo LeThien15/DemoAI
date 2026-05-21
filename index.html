@@ -9,20 +9,14 @@
   :root {
     --primary: #0066B3;
     --primary-light: #E8F2FB;
-    --primary-dark: #004E8A;
-    --accent: #00A896;
     --red: #E53935;
-    --orange: #F5A623;
-    --green: #2ECC71;
     --green-dark: #27AE60;
-    --yellow: #F5A623;
     --text: #1A2332;
     --text-secondary: #5A6B82;
     --text-muted: #94A3B8;
     --border: #E2EAF4;
     --bg: #F0F5FB;
     --card-bg: #FFFFFF;
-    --white: #FFFFFF;
     --shadow: 0 2px 12px rgba(0,102,179,0.08);
     --shadow-hover: 0 6px 24px rgba(0,102,179,0.15);
   }
@@ -31,12 +25,12 @@
 
   body {
     font-family: 'Be Vietnam Pro', sans-serif;
-    background: var(--bg);
+    background: #D8E4F0;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
-    padding: 20px 0;
+    padding: 24px 0 40px;
   }
 
   .phone-wrapper {
@@ -45,11 +39,11 @@
     background: var(--bg);
     border-radius: 44px;
     overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.08);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.28), 0 0 0 1px rgba(0,0,0,0.08);
     position: relative;
   }
 
-  /* ======= SCREEN SYSTEM ======= */
+  /* ── SCREEN SYSTEM ── */
   .screen {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -63,817 +57,546 @@
     border-radius: 44px;
     overflow: hidden;
   }
+  .screen.active { opacity: 1; pointer-events: all; transform: translateX(0); }
+  .screen.slide-out { transform: translateX(-30px); opacity: 0; }
 
-  .screen.active {
-    opacity: 1;
-    pointer-events: all;
-    transform: translateX(0);
-  }
-
-  .screen.slide-out {
-    transform: translateX(-30px);
-    opacity: 0;
-  }
-
-  /* ======= STATUS BAR ======= */
+  /* ── STATUS BAR ── */
   .status-bar {
     background: var(--primary);
     height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
     padding: 0 24px;
     flex-shrink: 0;
   }
+  .status-time { color: white; font-size: 15px; font-weight: 600; }
+  .status-icons { display: flex; gap: 6px; align-items: center; }
 
-  .status-time {
-    color: white;
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-  }
-
-  .status-icons {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-
-  .status-icons svg {
-    fill: white;
-  }
-
-  /* ======= HEADER ======= */
-  .header {
-    background: var(--primary);
-    padding: 0 20px 20px;
-    flex-shrink: 0;
-  }
-
-  .header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-
+  /* ── HEADER ── */
+  .header { background: var(--primary); padding: 0 20px 0; flex-shrink: 0; }
+  .header-top { display: flex; align-items: center; justify-content: space-between; padding: 0 0 14px; }
   .back-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: background 0.2s;
   }
-
   .back-btn:hover { background: rgba(255,255,255,0.25); }
-
-  .header-title {
-    color: white;
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-  }
-
+  .header-title { color: white; font-size: 17px; font-weight: 700; }
   .header-action {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.15); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; color: white;
   }
 
-  /* ======= FILTER CARD ======= */
+  /* ── PER-TAB FILTER PANELS ── */
+  .filter-panels { position: relative; overflow: hidden; margin-bottom: 0; }
+  .filter-panel {
+    display: none;
+    animation: filterFadeIn 0.25s ease;
+  }
+  .filter-panel.active { display: block; }
+  @keyframes filterFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Filter card base */
   .filter-card {
-    background: rgba(255,255,255,0.12);
-    border-radius: 14px;
-    padding: 12px 14px;
-    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.12); border-radius: 14px;
+    padding: 11px 13px; border: 1px solid rgba(255,255,255,0.2);
+    margin-bottom: 12px;
+  }
+  .filter-date { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .filter-date-label { color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 500; }
+  .filter-date-value { color: white; font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 20px; cursor: pointer; }
+  .filter-scope { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  .filter-scope-text { color: white; font-size: 12px; font-weight: 700; }
+  .filter-segment { color: rgba(255,255,255,0.75); font-size: 11px; }
+
+  /* Filter chip row — dạng chips ngang */
+  .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
+  .fchip {
+    display: flex; align-items: center; gap: 4px;
+    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px; padding: 3px 9px;
+    font-size: 10.5px; font-weight: 600; color: white;
+    cursor: pointer; transition: background 0.2s; white-space: nowrap;
+  }
+  .fchip:hover { background: rgba(255,255,255,0.22); }
+  .fchip.active-chip { background: white; color: var(--primary); }
+  .fchip-label { color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 400; margin-right: 2px; }
+  .fchip.active-chip .fchip-label { color: var(--primary); opacity: 0.6; }
+  .fchip-icon { opacity: 0.7; font-size: 10px; }
+
+  /* ── TOP CONTENT TABS ── */
+  .tabs-wrapper { padding: 14px 20px 0; flex-shrink: 0; }
+  .tabs { display: flex; background: var(--card-bg); border-radius: 12px; padding: 4px; gap: 2px; box-shadow: var(--shadow); }
+  .tab-item {
+    flex: 1; padding: 9px 4px; text-align: center; font-size: 11px; font-weight: 600;
+    color: var(--text-secondary); border-radius: 10px; cursor: pointer;
+    transition: all 0.25s; white-space: nowrap; border: none; background: transparent;
+  }
+  .tab-item.active { background: var(--primary); color: white; box-shadow: 0 3px 10px rgba(0,102,179,0.3); }
+
+  /* ── SCROLL CONTENT ── */
+  .scroll-content {
+    flex: 1; overflow-y: auto;
+    /* bottom padding: pill(48) + gradient(20) + bottom-safe(20) = ~90 */
+    padding: 14px 20px 100px;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .scroll-content::-webkit-scrollbar { display: none; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── METRIC CARDS ── */
+  .metric-card {
+    background: var(--card-bg); border-radius: 16px; padding: 16px;
+    margin-bottom: 12px; box-shadow: var(--shadow); cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    border: 1.5px solid transparent; position: relative; overflow: hidden;
+    animation: slideInUp 0.35s cubic-bezier(0.4,0,0.2,1) backwards;
+  }
+  .metric-card::before {
+    content:''; position: absolute; left:0; top:0; bottom:0; width:4px;
+    background: var(--primary); border-radius: 4px 0 0 4px; opacity:0; transition: opacity 0.25s;
+  }
+  .metric-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: var(--primary-light); }
+  .metric-card:hover::before { opacity:1; }
+  .metric-card:active { transform: scale(0.98); }
+  .metric-card:nth-child(1){animation-delay:.05s} .metric-card:nth-child(2){animation-delay:.1s}
+  .metric-card:nth-child(3){animation-delay:.15s} .metric-card:nth-child(4){animation-delay:.2s}
+  .metric-card:nth-child(5){animation-delay:.25s} .metric-card:nth-child(6){animation-delay:.3s}
+
+  .card-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .card-code { font-size:10.5px; color:var(--text-muted); font-weight:500; background:var(--bg); padding:3px 8px; border-radius:20px; }
+  .card-more { width:26px; height:26px; border-radius:50%; background:var(--bg); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text-secondary); font-size:14px; font-weight:700; letter-spacing:1px; transition: background 0.2s; }
+  .card-more:hover { background:var(--primary-light); color:var(--primary); }
+  .card-name { font-size:13.5px; font-weight:700; color:var(--primary); line-height:1.4; text-transform:uppercase; letter-spacing:0.3px; margin-bottom:12px; }
+  .card-value-row { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:12px; }
+  .card-value { font-size:22px; font-weight:800; color:var(--text); letter-spacing:-0.5px; line-height:1; }
+  .card-value span { font-size:11px; font-weight:500; color:var(--text-muted); margin-left:3px; vertical-align:middle; }
+  .card-arrow { width:28px; height:28px; background:var(--primary-light); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--primary); transition: all 0.2s; }
+  .metric-card:hover .card-arrow { background:var(--primary); color:white; }
+  .card-kpi { display:flex; gap:6px; flex-wrap:wrap; }
+  .kpi-badge { font-size:10.5px; font-weight:600; padding:4px 10px; border-radius:20px; display:flex; align-items:center; gap:4px; }
+  .kpi-label { color:var(--text-muted); font-weight:400; font-size:10px; }
+  .kpi-badge.neutral { background:#F1F5F9; color:var(--text-secondary); }
+  .kpi-badge.good { background:#E8F9F0; color:#27AE60; }
+  .kpi-dot { width:5px; height:5px; border-radius:50%; background:currentColor; }
+
+  /* ── PLACEHOLDER ── */
+  .placeholder-panel { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; gap:12px; }
+  .placeholder-icon { width:64px; height:64px; border-radius:20px; background:var(--primary-light); display:flex; align-items:center; justify-content:center; color:var(--primary); }
+  .placeholder-title { font-size:15px; font-weight:700; color:var(--text); }
+  .placeholder-sub { font-size:12px; color:var(--text-muted); text-align:center; }
+
+  /* ══════════════════════════════════════════
+     BOTTOM AREA — 2 tầng tách biệt rõ ràng
+     Tầng 1 (trên): Tab bar NỘI BỘ — trong app
+     Tầng 2 (dưới): Global nav — ra super app
+  ══════════════════════════════════════════ */
+  .bottom-area {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    z-index: 20;
+    padding-bottom: 20px;
+    background: linear-gradient(to top, rgba(240,245,251,1) 55%, rgba(240,245,251,0));
+    padding-top: 20px;
   }
 
-  .filter-date {
+  /* ── SEPARATOR LABEL giữa 2 tầng ── */
+  .nav-separator {
+    width: calc(100% - 32px);
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 8px;
+    margin: 8px 0 7px;
   }
-
-  .filter-date-label {
-    color: rgba(255,255,255,0.7);
-    font-size: 11px;
-    font-weight: 500;
+  .nav-separator-line {
+    flex: 1; height: 1px;
+    background: var(--border);
   }
-
-  .filter-date-value {
-    color: white;
-    font-size: 12px;
-    font-weight: 700;
-    background: rgba(255,255,255,0.2);
-    padding: 2px 8px;
-    border-radius: 20px;
-  }
-
-  .filter-scope {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 5px;
-  }
-
-  .filter-scope-text {
-    color: white;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-  }
-
-  .filter-segment {
-    color: rgba(255,255,255,0.75);
-    font-size: 11px;
-    font-weight: 400;
-  }
-
-  /* ======= TABS ======= */
-  .tabs-wrapper {
-    padding: 16px 20px 0;
-    flex-shrink: 0;
-  }
-
-  .tabs {
-    display: flex;
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 4px;
-    gap: 2px;
-    box-shadow: var(--shadow);
-  }
-
-  .tab-item {
-    flex: 1;
-    padding: 9px 4px;
-    text-align: center;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.25s;
-    white-space: nowrap;
-    border: none;
-    background: transparent;
-  }
-
-  .tab-item.active {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 3px 10px rgba(0,102,179,0.3);
-  }
-
-  /* ======= SCROLLABLE CONTENT ======= */
-  .scroll-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 14px 20px 90px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .scroll-content::-webkit-scrollbar { display: none; }
-
-  /* ======= METRIC CARD ======= */
-  .metric-card {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1.5px solid transparent;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .metric-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 4px;
-    background: var(--primary);
-    border-radius: 4px 0 0 4px;
-    opacity: 0;
-    transition: opacity 0.25s;
-  }
-
-  .metric-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-    border-color: var(--primary-light);
-  }
-
-  .metric-card:hover::before { opacity: 1; }
-  .metric-card:active { transform: scale(0.98); }
-
-  .card-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-
-  .card-code {
-    font-size: 10.5px;
+  .nav-separator-label {
+    font-size: 9px; font-weight: 700;
     color: var(--text-muted);
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    background: var(--bg);
-    padding: 3px 8px;
-    border-radius: 20px;
-  }
-
-  .card-unit {
-    font-size: 10px;
-    color: var(--text-muted);
-    font-weight: 400;
-  }
-
-  .card-more {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 700;
     letter-spacing: 1px;
-    line-height: 0;
-    transition: background 0.2s;
-  }
-
-  .card-more:hover { background: var(--primary-light); color: var(--primary); }
-
-  .card-name {
-    font-size: 13.5px;
-    font-weight: 700;
-    color: var(--primary);
-    line-height: 1.4;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
-    margin-bottom: 12px;
+    white-space: nowrap;
+    opacity: 0.7;
   }
 
-  .card-value-row {
+  /* ── TẦNG 1: Tab bar NỘI BỘ — gắn dưới header ── */
+  /* Kiểu underline tab — gọn, không chiếm không gian, gắn liền với nội dung */
+  .internal-tab-bar {
+    background: var(--primary);  /* cùng màu header — liền mạch */
+    padding: 0 20px;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 12px;
+    gap: 0;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
 
-  .card-value {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.5px;
-    line-height: 1;
-  }
-
-  .card-value span {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-left: 3px;
-    vertical-align: middle;
-  }
-
-  .card-arrow {
-    width: 28px;
-    height: 28px;
-    background: var(--primary-light);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary);
-    transition: all 0.2s;
-  }
-
-  .metric-card:hover .card-arrow {
-    background: var(--primary);
-    color: white;
-  }
-
-  .card-kpi {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .kpi-badge {
-    font-size: 10.5px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .kpi-label {
-    color: var(--text-muted);
-    font-weight: 400;
-    font-size: 10px;
-  }
-
-  .kpi-badge.neutral { background: #F1F5F9; color: var(--text-secondary); }
-  .kpi-badge.good { background: #E8F9F0; color: #27AE60; }
-  .kpi-badge.warning { background: #FFF8E8; color: #E67E22; }
-  .kpi-badge.danger { background: #FEF0F0; color: var(--red); }
-
-  .kpi-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: currentColor;
-  }
-
-  /* ======= BOTTOM NAV ======= */
-  .bottom-nav {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 80px;
-    background: var(--card-bg);
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: flex-start;
-    padding: 10px 0 0;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
-    z-index: 10;
-  }
-
-  .nav-item {
+  .itab {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    cursor: pointer;
-    padding: 4px 0;
-    transition: all 0.2s;
-  }
-
-  .nav-icon {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-muted);
-    transition: all 0.2s;
-  }
-
-  .nav-label {
-    font-size: 9.5px;
-    font-weight: 600;
-    color: var(--text-muted);
-    letter-spacing: 0.2px;
-    transition: all 0.2s;
-  }
-
-  .nav-item.active .nav-icon { color: var(--primary); }
-  .nav-item.active .nav-label { color: var(--primary); }
-
-  .nav-item.active .nav-icon-bg {
-    background: var(--primary-light);
-    border-radius: 10px;
-    padding: 4px 12px;
-  }
-
-  /* ======= DETAIL SCREEN ======= */
-  .detail-header {
-    background: var(--primary);
-    padding: 0 20px 24px;
-    flex-shrink: 0;
-  }
-
-  .detail-header-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-  }
-
-  .detail-chip {
-    font-size: 10.5px;
-    font-weight: 600;
-    color: rgba(255,255,255,0.8);
-    background: rgba(255,255,255,0.15);
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: 0.3px;
-  }
-
-  .detail-close {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.15);
+    gap: 3px;
+    padding: 10px 4px 9px;
+    border-radius: 0;
     border: none;
+    background: transparent;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 18px;
-    transition: background 0.2s;
-  }
-
-  .detail-close:hover { background: rgba(255,255,255,0.25); }
-
-  .detail-title {
-    font-size: 16px;
-    font-weight: 800;
-    color: white;
-    line-height: 1.35;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-    margin-bottom: 16px;
-  }
-
-  .detail-value-card {
-    background: rgba(255,255,255,0.12);
-    border-radius: 14px;
-    padding: 14px 16px;
-    border: 1px solid rgba(255,255,255,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .detail-value-label {
-    font-size: 11px;
-    color: rgba(255,255,255,0.7);
-    font-weight: 500;
-    margin-bottom: 4px;
-  }
-
-  .detail-value-main {
-    font-size: 26px;
-    font-weight: 800;
-    color: white;
-    letter-spacing: -0.5px;
-  }
-
-  .detail-value-unit {
-    font-size: 11px;
-    color: rgba(255,255,255,0.6);
-    font-weight: 400;
-    margin-left: 4px;
-  }
-
-  /* ======= HISTORY ROW ======= */
-  .history-section {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow);
-  }
-
-  .section-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 14px;
-  }
-
-  .history-scroll {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    scrollbar-width: none;
-  }
-
-  .history-scroll::-webkit-scrollbar { display: none; }
-
-  .history-month {
-    flex-shrink: 0;
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 12px 14px;
-    min-width: 110px;
-    border: 1.5px solid var(--border);
-    transition: all 0.2s;
-  }
-
-  .history-month.current {
-    background: var(--primary-light);
-    border-color: var(--primary);
-  }
-
-  .history-month-label {
-    font-size: 10px;
-    color: var(--text-muted);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
-  }
-
-  .history-month.current .history-month-label { color: var(--primary); }
-
-  .history-month-value {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.3px;
-  }
-
-  .history-month.current .history-month-value { color: var(--primary); }
-
-  /* ======= COMPARISON ROWS ======= */
-  .comparison-section {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow);
-  }
-
-  .comparison-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 11px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .comparison-row:last-child { border-bottom: none; }
-
-  .comparison-label {
-    font-size: 12.5px;
-    color: var(--text-secondary);
-    font-weight: 500;
-  }
-
-  .comparison-value {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .trend-up {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--green-dark);
-    background: #E8F9F0;
-    padding: 3px 8px;
-    border-radius: 20px;
-  }
-
-  .trend-down {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--red);
-    background: #FEF0F0;
-    padding: 3px 8px;
-    border-radius: 20px;
-  }
-
-  /* ======= PLAN BARS ======= */
-  .plan-section {
-    background: var(--card-bg);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow);
-  }
-
-  .plan-block {
-    margin-bottom: 20px;
-  }
-
-  .plan-block:last-child { margin-bottom: 0; }
-
-  .plan-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-
-  .plan-label {
-    font-size: 12px;
-    color: var(--text-secondary);
-    font-weight: 600;
-  }
-
-  .plan-value {
-    font-size: 13px;
-    font-weight: 800;
-    color: var(--text);
-  }
-
-  .plan-bar-wrapper {
-    height: 28px;
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
+    transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
     position: relative;
-    margin-bottom: 8px;
-    background: var(--bg);
   }
-
-  .bar-segment {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 9.5px;
-    font-weight: 700;
-    color: white;
-    transition: all 0.5s ease;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .bar-red { background: #E53935; }
-  .bar-orange { background: #F5A623; }
-  .bar-green { background: #27AE60; }
-
-  .plan-result {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
-  .plan-badge {
-    font-size: 12px;
-    font-weight: 800;
-    padding: 5px 14px;
-    border-radius: 20px;
-    letter-spacing: 0.2px;
-  }
-
-  .badge-green { background: #27AE60; color: white; }
-  .badge-orange { background: #F5A623; color: white; }
-  .badge-red { background: #E53935; color: white; }
-  .badge-neutral { background: var(--bg); color: var(--text-secondary); }
-
-  /* ======= SEARCH FAB ======= */
-  .fab {
+  /* Underline indicator cho active tab */
+  .itab::after {
+    content: '';
     position: absolute;
-    bottom: 90px;
-    right: 20px;
-    width: 48px;
-    height: 48px;
+    bottom: 0; left: 20%; right: 20%;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: white;
+    opacity: 0;
+    transform: scaleX(0.5);
+    transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
+  }
+  .itab.active::after { opacity: 1; transform: scaleX(1); }
+  .itab-icon {
+    width: 20px; height: 20px;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.5);
+    transition: color 0.2s;
+    position: relative;
+  }
+  .itab.active .itab-icon { color: white; }
+  .itab:hover:not(.active) .itab-icon { color: rgba(255,255,255,0.75); }
+  .itab-label {
+    font-size: 9px; font-weight: 700;
+    color: rgba(255,255,255,0.5); letter-spacing: 0.2px;
+    line-height: 1; white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .itab.active .itab-label { color: white; }
+  .itab:hover:not(.active) .itab-label { color: rgba(255,255,255,0.75); }
+
+  /* notif badge */
+  .itab-badge {
+    position: absolute;
+    top: -5px; right: -7px;
+    background: #FF3B30; color: white;
+    font-size: 7.5px; font-weight: 800;
+    min-width: 14px; height: 14px;
+    border-radius: 20px; padding: 0 3px;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid white; line-height: 1;
+  }
+
+  /* ── TẦNG 2: Global nav pill — ra ngoài super app ── */
+  /* Pill nhỏ hơn, nổi hơn, có label context "Super App" */
+  .global-nav-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: calc(100% - 32px);
+  }
+
+  /* Pill nhỏ hơn, bo tròn hoàn toàn — khác hẳn tab bar vuông vức */
+  .global-pill {
+    flex: 1;
+    background: #1A2C4E;  /* dark navy — khác biệt hoàn toàn với tab trắng */
+    border-radius: 100px;
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 6px 20px rgba(26,44,78,0.28), 0 2px 6px rgba(0,0,0,0.12);
+  }
+
+  .gpill-btn {
+    width: 38px; height: 38px;
     border-radius: 50%;
-    background: var(--primary);
-    box-shadow: 0 6px 20px rgba(0,102,179,0.4);
     border: none;
+    background: transparent;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: rgba(255,255,255,0.75);
+    transition: all 0.2s;
+    position: relative;
+  }
+  /* Home — highlight trắng */
+  .gpill-btn.home-btn {
+    background: rgba(255,255,255,0.15);
     color: white;
-    z-index: 5;
-    transition: all 0.25s;
+  }
+  .gpill-btn:hover:not(.home-btn) { background: rgba(255,255,255,0.1); color: white; }
+  .gpill-btn.home-btn:hover { background: rgba(255,255,255,0.22); }
+
+  .gpill-divider {
+    width: 1px; height: 20px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
   }
 
-  .fab:hover {
-    transform: scale(1.08);
-    box-shadow: 0 8px 28px rgba(0,102,179,0.5);
-  }
-
-  /* ======= RIPPLE ANIMATION ======= */
-  @keyframes ripple {
-    0% { transform: scale(0); opacity: 0.4; }
-    100% { transform: scale(4); opacity: 0; }
-  }
-
-  .ripple-effect {
+  /* Badge thông báo trên bell icon */
+  .gpill-badge {
     position: absolute;
+    top: 4px; right: 3px;
+    background: linear-gradient(135deg, #FF3B30, #C0002E);
+    color: white; font-size: 8px; font-weight: 900;
+    min-width: 15px; height: 15px;
+    border-radius: 20px; padding: 0 3px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1.5px solid #1A2C4E; line-height: 1;
+  }
+
+  /* Home indicator line */
+  .home-indicator {
+    width: 120px; height: 4px;
+    background: #1A2332;
+    border-radius: 100px;
+    margin-top: 8px;
+    opacity: 0.15;
+  }
+
+  /* AI Floating Button */
+  .ai-btn {
+    width: 50px; height: 50px;
     border-radius: 50%;
-    background: rgba(0,102,179,0.2);
-    width: 100px;
-    height: 100px;
-    pointer-events: none;
-    animation: ripple 0.6s linear;
-    transform: scale(0);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: conic-gradient(from 180deg at 50% 50%, #a78bfa 0deg, #60a5fa 90deg, #34d399 180deg, #f472b6 270deg, #a78bfa 360deg);
+    box-shadow: 0 6px 22px rgba(120,100,250,0.42), 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.25s;
+    flex-shrink: 0;
   }
-
-  /* ======= LOADING SKELETON ======= */
-  @keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+  .ai-btn::before {
+    content:''; position:absolute; inset:3px;
+    border-radius:50%; background:#12103A;
   }
+  .ai-btn:hover { transform:scale(1.08); box-shadow:0 10px 30px rgba(120,100,250,0.55); }
+  .ai-btn:active { transform:scale(0.94); }
+  .ai-btn svg { position:relative; z-index:1; }
 
-  /* Page enter animation */
+  /* ── DETAIL SCREEN ── */
+  .detail-header { background:var(--primary); padding:0 20px 24px; flex-shrink:0; }
+  .detail-header-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+  .detail-chip { font-size:10.5px; font-weight:600; color:rgba(255,255,255,0.8); background:rgba(255,255,255,0.15); padding:4px 10px; border-radius:20px; }
+  .detail-close { width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.15); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:white; font-size:18px; transition:background 0.2s; }
+  .detail-close:hover { background:rgba(255,255,255,0.25); }
+  .detail-title { font-size:16px; font-weight:800; color:white; line-height:1.35; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:16px; }
+  .detail-value-card { background:rgba(255,255,255,0.12); border-radius:14px; padding:14px 16px; border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:space-between; }
+  .detail-value-label { font-size:11px; color:rgba(255,255,255,0.7); font-weight:500; margin-bottom:4px; }
+  .detail-value-main { font-size:26px; font-weight:800; color:white; letter-spacing:-0.5px; }
+  .detail-value-unit { font-size:11px; color:rgba(255,255,255,0.6); font-weight:400; margin-left:4px; }
+
+  /* History */
+  .history-section { background:var(--card-bg); border-radius:16px; padding:16px; margin-bottom:12px; box-shadow:var(--shadow); }
+  .section-title { font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; }
+  .history-scroll { display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
+  .history-scroll::-webkit-scrollbar { display:none; }
+  .history-month { flex-shrink:0; background:var(--bg); border-radius:12px; padding:12px 14px; min-width:110px; border:1.5px solid var(--border); }
+  .history-month.current { background:var(--primary-light); border-color:var(--primary); }
+  .history-month-label { font-size:10px; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+  .history-month.current .history-month-label { color:var(--primary); }
+  .history-month-value { font-size:14px; font-weight:800; color:var(--text); letter-spacing:-0.3px; }
+  .history-month.current .history-month-value { color:var(--primary); }
+
+  /* Comparison */
+  .comparison-section { background:var(--card-bg); border-radius:16px; padding:16px; margin-bottom:12px; box-shadow:var(--shadow); }
+  .comparison-row { display:flex; align-items:center; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--border); }
+  .comparison-row:last-child { border-bottom:none; }
+  .comparison-label { font-size:12.5px; color:var(--text-secondary); font-weight:500; }
+  .trend-up { display:flex; align-items:center; gap:3px; font-size:11px; font-weight:700; color:var(--green-dark); background:#E8F9F0; padding:3px 8px; border-radius:20px; }
+  .trend-down { display:flex; align-items:center; gap:3px; font-size:11px; font-weight:700; color:var(--red); background:#FEF0F0; padding:3px 8px; border-radius:20px; }
+
+  /* Plan bars */
+  .plan-section { background:var(--card-bg); border-radius:16px; padding:16px; margin-bottom:12px; box-shadow:var(--shadow); }
+  .plan-block { margin-bottom:20px; }
+  .plan-block:last-child { margin-bottom:0; }
+  .plan-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .plan-label { font-size:12px; color:var(--text-secondary); font-weight:600; }
+  .plan-value { font-size:13px; font-weight:800; color:var(--text); }
+  .plan-bar-wrapper { height:28px; border-radius:8px; overflow:hidden; display:flex; margin-bottom:8px; background:var(--bg); }
+  .bar-segment { height:100%; display:flex; align-items:center; justify-content:center; font-size:9.5px; font-weight:700; color:white; white-space:nowrap; overflow:hidden; }
+  .bar-red{background:#E53935;} .bar-orange{background:#F5A623;} .bar-green{background:#27AE60;}
+  .plan-result { display:flex; align-items:center; justify-content:flex-end; }
+  .plan-badge { font-size:12px; font-weight:800; padding:5px 14px; border-radius:20px; }
+  .badge-green{background:#27AE60;color:white;} .badge-orange{background:#F5A623;color:white;}
+  .badge-red{background:#E53935;color:white;} .badge-neutral{background:var(--bg);color:var(--text-secondary);}
+
   @keyframes slideInUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity:0; transform:translateY(16px); }
+    to   { opacity:1; transform:translateY(0); }
   }
-
-  .metric-card {
-    animation: slideInUp 0.35s cubic-bezier(0.4, 0, 0.2, 1) backwards;
-  }
-
-  .metric-card:nth-child(1) { animation-delay: 0.05s; }
-  .metric-card:nth-child(2) { animation-delay: 0.1s; }
-  .metric-card:nth-child(3) { animation-delay: 0.15s; }
-  .metric-card:nth-child(4) { animation-delay: 0.2s; }
-  .metric-card:nth-child(5) { animation-delay: 0.25s; }
-  .metric-card:nth-child(6) { animation-delay: 0.3s; }
 </style>
 </head>
 <body>
-
 <div class="phone-wrapper">
 
-  <!-- ===== SCREEN 1: LIST ===== -->
-  <div class="screen active" id="screen-list">
+<!-- ═══════════════════════════════════
+     SCREEN 1 — DANH SÁCH
+═══════════════════════════════════ -->
+<div class="screen active" id="screen-list">
 
-    <!-- Status Bar -->
-    <div class="status-bar">
-      <span class="status-time">9:41</span>
-      <div class="status-icons">
-        <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0" width="3" height="12" rx="1"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" opacity="0.3"/></svg>
-        <svg width="16" height="12" viewBox="0 0 20 14"><path d="M10 2.5C13.5 2.5 16.5 3.9 18.6 6.1L20 4.7C17.5 2.1 14 0.5 10 0.5C6 0.5 2.5 2.1 0 4.7L1.4 6.1C3.5 3.9 6.5 2.5 10 2.5Z"/><path d="M10 6.5C12.2 6.5 14.2 7.4 15.7 8.8L17.1 7.4C15.2 5.6 12.7 4.5 10 4.5C7.3 4.5 4.8 5.6 2.9 7.4L4.3 8.8C5.8 7.4 7.8 6.5 10 6.5Z"/><circle cx="10" cy="13" r="1.5"/></svg>
-        <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg>
-      </div>
+  <!-- Status bar -->
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0" width="3" height="12" rx="1"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" opacity="0.3"/></svg>
+      <svg width="16" height="12" viewBox="0 0 20 14" fill="white"><path d="M10 2.5C13.5 2.5 16.5 3.9 18.6 6.1L20 4.7C17.5 2.1 14 .5 10 .5 6 .5 2.5 2.1 0 4.7l1.4 1.4C3.5 3.9 6.5 2.5 10 2.5z"/><path d="M10 6.5c2.2 0 4.2.9 5.7 2.3l1.4-1.4C15.2 5.6 12.7 4.5 10 4.5S4.8 5.6 2.9 7.4l1.4 1.4C5.8 7.4 7.8 6.5 10 6.5z"/><circle cx="10" cy="13" r="1.5"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <div style="width:36px"></div>
+      <span class="header-title">Tình hình thực hiện</span>
+      <button class="header-action">
+        <svg width="18" height="18" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
     </div>
 
-    <!-- Header -->
-    <div class="header">
-      <div class="header-top">
-        <div style="width:36px"></div>
-        <span class="header-title">Tình hình thực hiện</span>
-        <button class="header-action">
-          <svg width="18" height="18" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        </button>
-      </div>
+    <!-- Filter panels — mỗi tab 1 bộ riêng -->
+    <div class="filter-panels">
 
-      <div class="filter-card">
-        <div class="filter-date">
-          <span class="filter-date-label">Ngày báo cáo:</span>
-          <span class="filter-date-value">18/05/2026</span>
+      <!-- Filter: TH Thực hiện -->
+      <div class="filter-panel active" id="filter-th">
+        <div class="filter-card">
+          <div class="filter-date">
+            <span class="filter-date-label">Ngày báo cáo:</span>
+            <span class="filter-date-value">18/05/2026 ▾</span>
+          </div>
+          <div class="filter-scope">
+            <svg width="12" height="12" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span class="filter-scope-text">TOÀN KHU VỰC - 0. TOÀN HỆ THỐNG</span>
+          </div>
+          <div class="filter-chips">
+            <span class="fchip active-chip"><span class="fchip-label">Phân khúc:</span> Tất cả ▾</span>
+            <span class="fchip"><span class="fchip-label">Đơn vị:</span> Tỷ đồng ▾</span>
+          </div>
         </div>
-        <div class="filter-scope">
-          <svg width="14" height="14" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <span class="filter-scope-text">TOÀN KHU VỰC - 0. TOÀN HỆ THỐNG</span>
+      </div>
+
+      <!-- Filter: Bản đồ nhiệt -->
+      <div class="filter-panel" id="filter-bdnhiet">
+        <div class="filter-card">
+          <div class="filter-date">
+            <span class="filter-date-label">Kỳ báo cáo:</span>
+            <span class="filter-date-value">T05/2026 ▾</span>
+          </div>
+          <div class="filter-chips">
+            <span class="fchip active-chip"><span class="fchip-label">Chỉ tiêu:</span> Dư nợ TD ▾</span>
+            <span class="fchip"><span class="fchip-label">Cấp:</span> Chi nhánh ▾</span>
+            <span class="fchip"><span class="fchip-label">Màu sắc:</span> Xanh-Đỏ ▾</span>
+          </div>
         </div>
-        <div class="filter-segment">Phân khúc: <strong style="color:white">TẤT CẢ PHÂN KHÚC</strong></div>
       </div>
-    </div>
 
-    <!-- Tabs -->
-    <div class="tabs-wrapper">
-      <div class="tabs">
-        <button class="tab-item active">Chỉ tiêu quy mô</button>
-        <button class="tab-item">Chỉ tiêu hiệu quả</button>
-        <button class="tab-item">Chỉ tiêu KH</button>
+      <!-- Filter: KPI -->
+      <div class="filter-panel" id="filter-kpi">
+        <div class="filter-card">
+          <div class="filter-date">
+            <span class="filter-date-label">Kỳ đánh giá:</span>
+            <span class="filter-date-value">Q2/2026 ▾</span>
+          </div>
+          <div class="filter-chips">
+            <span class="fchip active-chip"><span class="fchip-label">Loại KPI:</span> Tất cả ▾</span>
+            <span class="fchip"><span class="fchip-label">Nhóm:</span> Kinh doanh ▾</span>
+            <span class="fchip"><span class="fchip-label">Trạng thái:</span> Chưa đạt ▾</span>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <!-- Cards -->
-    <div class="scroll-content">
+      <!-- Filter: LINHDCN -->
+      <div class="filter-panel" id="filter-linh">
+        <div class="filter-card">
+          <div class="filter-date">
+            <span class="filter-date-label">Ngày cập nhật:</span>
+            <span class="filter-date-value">18/05/2026 ▾</span>
+          </div>
+          <div class="filter-scope">
+            <svg width="12" height="12" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <span class="filter-scope-text">TẤT CẢ NHÂN VIÊN</span>
+          </div>
+          <div class="filter-chips">
+            <span class="fchip active-chip"><span class="fchip-label">Phòng ban:</span> Tất cả ▾</span>
+            <span class="fchip"><span class="fchip-label">Xếp loại:</span> Tất cả ▾</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /filter-panels -->
+  </div>
+
+  <!-- Tab bar nội bộ — nằm ngay dưới filter, vẫn trong vùng header xanh -->
+  <div class="internal-tab-bar">
+    <button class="itab active" id="itab-th" onclick="switchItab('th',this)">
+      <div class="itab-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+          <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+        </svg>
+      </div>
+      <span class="itab-label">TH thực hiện</span>
+    </button>
+    <button class="itab" id="itab-bdnhiet" onclick="switchItab('bdnhiet',this)">
+      <div class="itab-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+        </svg>
+      </div>
+      <span class="itab-label">Bản đồ nhiệt</span>
+    </button>
+    <button class="itab" id="itab-kpi" onclick="switchItab('kpi',this)">
+      <div class="itab-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+        </svg>
+      </div>
+      <span class="itab-label">KPI</span>
+    </button>
+    <button class="itab" id="itab-linh" onclick="switchItab('linh',this)">
+      <div class="itab-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <span class="itab-label">LINHDCN</span>
+    </button>
+  </div>
+
+  <!-- Top content tabs -->
+  <div class="tabs-wrapper">
+    <div class="tabs">
+      <button class="tab-item active" data-tab="quymo">Chỉ tiêu quy mô</button>
+      <button class="tab-item" data-tab="hieuqua">Chỉ tiêu hiệu quả</button>
+      <button class="tab-item" data-tab="khac">Chỉ tiêu KH</button>
+    </div>
+  </div>
+
+  <!-- Scrollable content -->
+  <div class="scroll-content">
+    <div class="tab-panel active" id="panel-quymo">
 
       <div class="metric-card" onclick="openDetail('card1')">
-        <div class="card-meta">
-          <span class="card-code">Chỉ tiêu: 150000 · Tỷ đồng</span>
-          <button class="card-more">···</button>
-        </div>
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150000 · Tỷ đồng</span><button class="card-more">···</button></div>
         <div class="card-name">DƯ NỢ TÍN DỤNG BQ LK</div>
         <div class="card-value-row">
           <div class="card-value">2,004,573<span>.62</span></div>
-          <div class="card-arrow">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-          </div>
+          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
         </div>
         <div class="card-kpi">
           <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
@@ -883,16 +606,11 @@
       </div>
 
       <div class="metric-card" onclick="openDetail('card2')">
-        <div class="card-meta">
-          <span class="card-code">Chỉ tiêu: 150410 · Tỷ đồng</span>
-          <button class="card-more">···</button>
-        </div>
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150410 · Tỷ đồng</span><button class="card-more">···</button></div>
         <div class="card-name">DƯ NỢ TÍN DỤNG KHDN LỚN BQ LK</div>
         <div class="card-value-row">
           <div class="card-value">618,980<span>.66</span></div>
-          <div class="card-arrow">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-          </div>
+          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
         </div>
         <div class="card-kpi">
           <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
@@ -902,16 +620,11 @@
       </div>
 
       <div class="metric-card" onclick="openDetail('card3')">
-        <div class="card-meta">
-          <span class="card-code">Chỉ tiêu: 150420 · Tỷ đồng</span>
-          <button class="card-more">···</button>
-        </div>
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150420 · Tỷ đồng</span><button class="card-more">···</button></div>
         <div class="card-name">DƯ NỢ TÍN DỤNG KHDN VVN BQ LK (GỒM SVM)</div>
         <div class="card-value-row">
           <div class="card-value">450,061<span>.95</span></div>
-          <div class="card-arrow">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-          </div>
+          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
         </div>
         <div class="card-kpi">
           <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
@@ -921,16 +634,11 @@
       </div>
 
       <div class="metric-card" onclick="openDetail('card4')">
-        <div class="card-meta">
-          <span class="card-code">Chỉ tiêu: 150430 · Tỷ đồng</span>
-          <button class="card-more">···</button>
-        </div>
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150430 · Tỷ đồng</span><button class="card-more">···</button></div>
         <div class="card-name">DƯ NỢ TÍN DỤNG KHDN FDI BQ LK</div>
         <div class="card-value-row">
           <div class="card-value">119,455<span>.06</span></div>
-          <div class="card-arrow">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-          </div>
+          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
         </div>
         <div class="card-kpi">
           <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
@@ -940,16 +648,11 @@
       </div>
 
       <div class="metric-card" onclick="openDetail('card5')">
-        <div class="card-meta">
-          <span class="card-code">Chỉ tiêu: 150500 · Tỷ đồng</span>
-          <button class="card-more">···</button>
-        </div>
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150500 · Tỷ đồng</span><button class="card-more">···</button></div>
         <div class="card-name">DƯ NỢ TÍN DỤNG KHCN BQ LK</div>
         <div class="card-value-row">
           <div class="card-value">790,863<span>.35</span></div>
-          <div class="card-arrow">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-          </div>
+          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
         </div>
         <div class="card-kpi">
           <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
@@ -959,16 +662,11 @@
       </div>
 
       <div class="metric-card" onclick="openDetail('card6')">
-        <div class="card-meta">
-          <span class="card-code">Chỉ tiêu: 150450 · Tỷ đồng</span>
-          <button class="card-more">···</button>
-        </div>
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150450 · Tỷ đồng</span><button class="card-more">···</button></div>
         <div class="card-name">DƯ NỢ TÍN DỤNG KH ĐCTC BQ LK</div>
         <div class="card-value-row">
           <div class="card-value">25,096<span>.32</span></div>
-          <div class="card-arrow">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
-          </div>
+          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
         </div>
         <div class="card-kpi">
           <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
@@ -977,458 +675,257 @@
         </div>
       </div>
 
-    </div>
+    </div><!-- #panel-quymo -->
 
-    <!-- FAB -->
-    <button class="fab">
-      <svg width="20" height="20" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    </button>
-
-    <!-- Bottom Nav -->
-    <div class="bottom-nav">
-      <div class="nav-item active">
-        <div class="nav-icon nav-icon-bg">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        </div>
-        <span class="nav-label">TH thực hiện</span>
-      </div>
-      <div class="nav-item">
-        <div class="nav-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        </div>
-        <span class="nav-label">Bản đồ nhiệt</span>
-      </div>
-      <div class="nav-item">
-        <div class="nav-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        </div>
-        <span class="nav-label">NIM</span>
-      </div>
-      <div class="nav-item">
-        <div class="nav-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
-        </div>
-        <span class="nav-label">Hiệu quả</span>
-      </div>
-      <div class="nav-item">
-        <div class="nav-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <span class="nav-label">LINHDCN</span>
+    <div class="tab-panel" id="panel-hieuqua">
+      <div class="placeholder-panel">
+        <div class="placeholder-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg></div>
+        <div class="placeholder-title">Chỉ tiêu hiệu quả</div>
+        <div class="placeholder-sub">Dữ liệu hiệu quả sẽ hiển thị tại đây</div>
       </div>
     </div>
 
-  </div>
-
-
-  <!-- ===== SCREEN 2: DETAIL ===== -->
-  <div class="screen" id="screen-detail">
-
-    <!-- Status Bar -->
-    <div class="status-bar">
-      <span class="status-time">9:41</span>
-      <div class="status-icons">
-        <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0" width="3" height="12" rx="1"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" opacity="0.3"/></svg>
-        <svg width="16" height="12" viewBox="0 0 20 14" fill="white"><path d="M10 2.5C13.5 2.5 16.5 3.9 18.6 6.1L20 4.7C17.5 2.1 14 0.5 10 0.5C6 0.5 2.5 2.1 0 4.7L1.4 6.1C3.5 3.9 6.5 2.5 10 2.5Z"/><path d="M10 6.5C12.2 6.5 14.2 7.4 15.7 8.8L17.1 7.4C15.2 5.6 12.7 4.5 10 4.5C7.3 4.5 4.8 5.6 2.9 7.4L4.3 8.8C5.8 7.4 7.8 6.5 10 6.5Z"/><circle cx="10" cy="13" r="1.5"/></svg>
-        <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg>
+    <div class="tab-panel" id="panel-khac">
+      <div class="placeholder-panel">
+        <div class="placeholder-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <div class="placeholder-title">Chỉ tiêu KH</div>
+        <div class="placeholder-sub">Dữ liệu kế hoạch sẽ hiển thị tại đây</div>
       </div>
     </div>
+  </div><!-- scroll-content -->
 
-    <!-- Detail Header -->
-    <div class="detail-header">
-      <div class="detail-header-top">
-        <button class="back-btn" onclick="closeDetail()">
-          <svg width="18" height="18" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+  <!-- ══ BOTTOM AREA — chỉ còn Global nav ══ -->
+  <div class="bottom-area">
+
+    <!-- Global pill (icon-only, nav toàn cục ra super app) + AI button -->
+    <div class="global-nav-row">
+
+      <div class="global-pill">
+
+        <!-- Home — đang ở màn hình này nên highlight -->
+        <button class="gpill-btn home-btn" title="Trang chủ">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+          </svg>
         </button>
-        <span class="detail-chip" id="detail-chip">Chỉ tiêu: 150800</span>
-        <button class="detail-close" onclick="closeDetail()">✕</button>
-      </div>
 
-      <div class="detail-title" id="detail-title">
-        TỔNG DƯ NỢ TÍN DỤNG BÌNH QUÂN TĂNG TRƯỞNG TRONG NĂM
-      </div>
+        <div class="gpill-divider"></div>
 
-      <div class="detail-value-card">
-        <div>
-          <div class="detail-value-label">Thực hiện 18/05/2026</div>
-          <div>
-            <span class="detail-value-main" id="detail-value">139,790.65</span>
-            <span class="detail-value-unit">Tỷ đồng</span>
-          </div>
-        </div>
-        <div style="text-align:right">
-          <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-bottom:4px">So với tháng trước</div>
-          <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end">
-            <span style="font-size:20px">↑</span>
-            <div>
-              <div style="font-size:14px;font-weight:800;color:#4AE888">1,515.03</div>
-              <div style="font-size:10px;color:rgba(255,255,255,0.7)">+1.10%</div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <!-- Bell -->
+        <button class="gpill-btn" title="Thông báo" style="position:relative">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="gpill-badge">99</span>
+        </button>
+
+        <div class="gpill-divider"></div>
+
+        <!-- Search -->
+        <button class="gpill-btn" title="Tìm kiếm">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+
+      </div><!-- global-pill -->
+
+      <!-- AI button -->
+      <button class="ai-btn" title="Trợ lý AI">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L13.6 8.8L20.5 10L13.6 11.2L12 18L10.4 11.2L3.5 10L10.4 8.8L12 2Z" fill="white"/>
+          <path d="M19.5 16L20.2 18.3L22.5 19L20.2 19.7L19.5 22L18.8 19.7L16.5 19L18.8 18.3L19.5 16Z" fill="white" opacity="0.75"/>
+        </svg>
+      </button>
+
+    </div><!-- global-nav-row -->
+
+    <div class="home-indicator"></div>
+
+  </div><!-- bottom-area -->
+
+</div><!-- screen-list -->
+
+
+<!-- ═══════════════════════════════════
+     SCREEN 2 — DETAIL
+═══════════════════════════════════ -->
+<div class="screen" id="screen-detail">
+
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0" width="3" height="12" rx="1"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" opacity="0.3"/></svg>
+      <svg width="16" height="12" viewBox="0 0 20 14" fill="white"><path d="M10 2.5C13.5 2.5 16.5 3.9 18.6 6.1L20 4.7C17.5 2.1 14 .5 10 .5 6 .5 2.5 2.1 0 4.7l1.4 1.4C3.5 3.9 6.5 2.5 10 2.5z"/><path d="M10 6.5c2.2 0 4.2.9 5.7 2.3l1.4-1.4C15.2 5.6 12.7 4.5 10 4.5S4.8 5.6 2.9 7.4l1.4 1.4C5.8 7.4 7.8 6.5 10 6.5z"/><circle cx="10" cy="13" r="1.5"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg>
     </div>
-
-    <!-- Scrollable Detail Content -->
-    <div class="scroll-content">
-
-      <!-- History -->
-      <div class="history-section">
-        <div class="section-title">Số thực hiện các tháng trước</div>
-        <div class="history-scroll">
-          <div class="history-month">
-            <div class="history-month-label">Tháng 01/2026</div>
-            <div class="history-month-value">121,635.06</div>
-          </div>
-          <div class="history-month">
-            <div class="history-month-label">Tháng 02/2026</div>
-            <div class="history-month-value">136,234.53</div>
-          </div>
-          <div class="history-month">
-            <div class="history-month-label">Tháng 03/2026</div>
-            <div class="history-month-value">137,580</div>
-          </div>
-          <div class="history-month current">
-            <div class="history-month-label">Tháng 05/2026</div>
-            <div class="history-month-value">139,790.65</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Comparisons -->
-      <div class="comparison-section">
-        <div class="section-title">So sánh</div>
-
-        <div class="comparison-row">
-          <span class="comparison-label">So với đầu năm</span>
-          <div class="comparison-value">
-            <div class="trend-down">
-              ↓ -177,342.04 <span style="opacity:0.7;font-weight:400">(−55.92%)</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="comparison-row">
-          <span class="comparison-label">So với tháng trước</span>
-          <div class="comparison-value">
-            <div class="trend-up">
-              ↑ 1,515.03 <span style="opacity:0.7;font-weight:400">(+1.10%)</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Plans -->
-      <div class="plan-section">
-        <div class="section-title">Kế hoạch & thực hiện</div>
-
-        <!-- Plan Month -->
-        <div class="plan-block">
-          <div class="plan-header">
-            <span class="plan-label">Kế hoạch tháng</span>
-            <span class="plan-value">0.00</span>
-          </div>
-          <div class="plan-bar-wrapper">
-            <div class="bar-segment bar-red" style="width:33.3%">&lt;80%</div>
-            <div class="bar-segment bar-orange" style="width:33.4%">≥80%&lt;100%</div>
-            <div class="bar-segment bar-green" style="width:33.3%">≥100%</div>
-          </div>
-          <div class="plan-result">
-            <span class="plan-badge badge-neutral">0.00%</span>
-          </div>
-        </div>
-
-        <!-- Plan Quarter -->
-        <div class="plan-block">
-          <div class="plan-header">
-            <span class="plan-label">Kế hoạch quý</span>
-            <span class="plan-value">198,586.79</span>
-          </div>
-          <div class="plan-bar-wrapper">
-            <div class="bar-segment bar-red" style="width:30%">&lt;66.74%</div>
-            <div class="bar-segment bar-orange" style="width:30%">≥66.74%&lt;83.43%</div>
-            <div class="bar-segment bar-green" style="width:40%">≥83.43%</div>
-          </div>
-          <div class="plan-result">
-            <span class="plan-badge badge-orange">70.39%</span>
-          </div>
-        </div>
-
-        <!-- Plan Year -->
-        <div class="plan-block">
-          <div class="plan-header">
-            <span class="plan-label">Kế hoạch năm</span>
-            <span class="plan-value">331,311.86</span>
-          </div>
-          <div class="plan-bar-wrapper">
-            <div class="bar-segment bar-red" style="width:30%">&lt;33.10%</div>
-            <div class="bar-segment bar-orange" style="width:30%">≥33.10%&lt;41.37%</div>
-            <div class="bar-segment bar-green" style="width:40%">≥41.37%</div>
-          </div>
-          <div class="plan-result">
-            <span class="plan-badge badge-green">42.19%</span>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- Bottom Nav -->
-    <div class="bottom-nav">
-      <div class="nav-item active">
-        <div class="nav-icon nav-icon-bg">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        </div>
-        <span class="nav-label">TH thực hiện</span>
-      </div>
-      <div class="nav-item">
-        <div class="nav-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        </div>
-        <span class="nav-label">Bản đồ nhiệt</span>
-      </div>
-      <div class="nav-item">
-        <div class="nav-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        </div>
-        <span class="nav-label">NIM</span>
-      </div>
-      <div class="nav-item">
-        <div class="nav-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
-        </div>
-        <span class="nav-label">Hiệu quả</span>
-      </div>
-      <div class="nav-item">
-        <div class="nav-icon">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <span class="nav-label">LINHDCN</span>
-      </div>
-    </div>
-
   </div>
 
-</div>
+  <div class="detail-header">
+    <div class="detail-header-top">
+      <button class="back-btn" onclick="closeDetail()">
+        <svg width="18" height="18" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="detail-chip" id="detail-chip">Chỉ tiêu: 150000</span>
+      <button class="detail-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="detail-title" id="detail-title">DƯ NỢ TÍN DỤNG BÌNH QUÂN LIÊN KỲ</div>
+    <div class="detail-value-card" id="detail-value-card">
+      <div>
+        <div class="detail-value-label">Thực hiện 18/05/2026</div>
+        <div><span class="detail-value-main" id="detail-value">—</span><span class="detail-value-unit">Tỷ đồng</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-content">
+    <div class="history-section">
+      <div class="section-title">Số thực hiện các tháng trước</div>
+      <div class="history-scroll" id="detail-history"></div>
+    </div>
+    <div class="comparison-section">
+      <div class="section-title">So sánh</div>
+      <div class="comparison-row" id="cmp-row-0"></div>
+      <div class="comparison-row" id="cmp-row-1"></div>
+    </div>
+    <div class="plan-section">
+      <div class="section-title">Kế hoạch & thực hiện</div>
+      <div class="plan-block">
+        <div class="plan-header"><span class="plan-label">Kế hoạch tháng</span><span class="plan-value" id="pv-0">—</span></div>
+        <div class="plan-bar-wrapper"><div class="bar-segment bar-red" style="width:33.3%">&lt;80%</div><div class="bar-segment bar-orange" style="width:33.4%">≥80%&lt;100%</div><div class="bar-segment bar-green" style="width:33.3%">≥100%</div></div>
+        <div class="plan-result"><span class="plan-badge" id="pb-0">—</span></div>
+      </div>
+      <div class="plan-block">
+        <div class="plan-header"><span class="plan-label">Kế hoạch quý</span><span class="plan-value" id="pv-1">—</span></div>
+        <div class="plan-bar-wrapper"><div class="bar-segment bar-red" style="width:30%">&lt;66.74%</div><div class="bar-segment bar-orange" style="width:30%">≥66.74%&lt;83.43%</div><div class="bar-segment bar-green" style="width:40%">≥83.43%</div></div>
+        <div class="plan-result"><span class="plan-badge" id="pb-1">—</span></div>
+      </div>
+      <div class="plan-block">
+        <div class="plan-header"><span class="plan-label">Kế hoạch năm</span><span class="plan-value" id="pv-2">—</span></div>
+        <div class="plan-bar-wrapper"><div class="bar-segment bar-red" style="width:30%">&lt;33.10%</div><div class="bar-segment bar-orange" style="width:30%">≥33.10%&lt;41.37%</div><div class="bar-segment bar-green" style="width:40%">≥41.37%</div></div>
+        <div class="plan-result"><span class="plan-badge" id="pb-2">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom area detail screen — chỉ global nav -->
+  <div class="bottom-area">
+    <div class="global-nav-row">
+      <div class="global-pill">
+        <button class="gpill-btn home-btn" title="Trang chủ">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        </button>
+        <div class="gpill-divider"></div>
+        <button class="gpill-btn" title="Thông báo" style="position:relative">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="gpill-badge">99</span>
+        </button>
+        <div class="gpill-divider"></div>
+        <button class="gpill-btn" title="Tìm kiếm">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+      </div>
+      <button class="ai-btn" title="Trợ lý AI">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L13.6 8.8L20.5 10L13.6 11.2L12 18L10.4 11.2L3.5 10L10.4 8.8L12 2Z" fill="white"/>
+          <path d="M19.5 16L20.2 18.3L22.5 19L20.2 19.7L19.5 22L18.8 19.7L16.5 19L18.8 18.3L19.5 16Z" fill="white" opacity="0.75"/>
+        </svg>
+      </button>
+    </div>
+    <div class="home-indicator"></div>
+  </div>
+
+</div><!-- screen-detail -->
+</div><!-- phone-wrapper -->
 
 <script>
+/* ── CARD DATA ── */
 const cardData = {
-  card1: {
-    chip: 'Chỉ tiêu: 150000 · Tỷ đồng',
-    title: 'TỔNG DƯ NỢ TÍN DỤNG BÌNH QUÂN LIÊN KỲ',
-    value: '2,004,573.62',
-    trend: '+91,248.23',
-    trendPct: '+1.10%',
-    trendUp: true,
-    history: [
-      { label: 'Tháng 01/2026', value: '1,850,000.00' },
-      { label: 'Tháng 02/2026', value: '1,920,340.11' },
-      { label: 'Tháng 03/2026', value: '1,960,120.50' },
-      { label: 'Tháng 05/2026', value: '2,004,573.62', current: true }
-    ],
-    svDauNam: { val: '-177,342.04', pct: '-8.13%', up: false },
-    svThangTruoc: { val: '+44,453.12', pct: '+1.10%', up: true },
-    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planQuarter: { val: '2,065,000.00', result: '97.08%', badge: 'green' },
-    planYear: { val: '2,200,000.00', result: '91.12%', badge: 'green' },
-  },
-  card2: {
-    chip: 'Chỉ tiêu: 150410 · Tỷ đồng',
-    title: 'DƯ NỢ TÍN DỤNG KHDN LỚN BÌNH QUÂN LIÊN KỲ',
-    value: '618,980.66',
-    trend: '+5,230.80',
-    trendPct: '+0.85%',
-    trendUp: true,
-    history: [
-      { label: 'Tháng 01/2026', value: '598,200.00' },
-      { label: 'Tháng 02/2026', value: '605,400.10' },
-      { label: 'Tháng 03/2026', value: '613,749.86' },
-      { label: 'Tháng 05/2026', value: '618,980.66', current: true }
-    ],
-    svDauNam: { val: '+20,780.66', pct: '+3.47%', up: true },
-    svThangTruoc: { val: '+5,230.80', pct: '+0.85%', up: true },
-    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planQuarter: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planYear: { val: '0.00', result: '0.00%', badge: 'neutral' },
-  },
-  card3: {
-    chip: 'Chỉ tiêu: 150420 · Tỷ đồng',
-    title: 'DƯ NỢ TÍN DỤNG KHDN VVN BQ LK (GỒM SVM)',
-    value: '450,061.95',
-    trend: '+3,112.45',
-    trendPct: '+0.70%',
-    trendUp: true,
-    history: [
-      { label: 'Tháng 01/2026', value: '430,200.00' },
-      { label: 'Tháng 02/2026', value: '438,500.00' },
-      { label: 'Tháng 03/2026', value: '446,949.50' },
-      { label: 'Tháng 05/2026', value: '450,061.95', current: true }
-    ],
-    svDauNam: { val: '+19,861.95', pct: '+4.62%', up: true },
-    svThangTruoc: { val: '+3,112.45', pct: '+0.70%', up: true },
-    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planQuarter: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planYear: { val: '0.00', result: '0.00%', badge: 'neutral' },
-  },
-  card4: {
-    chip: 'Chỉ tiêu: 150430 · Tỷ đồng',
-    title: 'DƯ NỢ TÍN DỤNG KHDN FDI BÌNH QUÂN LIÊN KỲ',
-    value: '119,455.06',
-    trend: '+1,200.20',
-    trendPct: '+1.02%',
-    trendUp: true,
-    history: [
-      { label: 'Tháng 01/2026', value: '112,000.00' },
-      { label: 'Tháng 02/2026', value: '115,200.00' },
-      { label: 'Tháng 03/2026', value: '118,254.86' },
-      { label: 'Tháng 05/2026', value: '119,455.06', current: true }
-    ],
-    svDauNam: { val: '+7,455.06', pct: '+6.66%', up: true },
-    svThangTruoc: { val: '+1,200.20', pct: '+1.02%', up: true },
-    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planQuarter: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planYear: { val: '0.00', result: '0.00%', badge: 'neutral' },
-  },
-  card5: {
-    chip: 'Chỉ tiêu: 150500 · Tỷ đồng',
-    title: 'DƯ NỢ TÍN DỤNG KHCN BÌNH QUÂN LIÊN KỲ',
-    value: '790,863.35',
-    trend: '-12,340.10',
-    trendPct: '-1.54%',
-    trendUp: false,
-    history: [
-      { label: 'Tháng 01/2026', value: '810,000.00' },
-      { label: 'Tháng 02/2026', value: '803,200.45' },
-      { label: 'Tháng 03/2026', value: '803,203.45' },
-      { label: 'Tháng 05/2026', value: '790,863.35', current: true }
-    ],
-    svDauNam: { val: '-19,136.65', pct: '-2.36%', up: false },
-    svThangTruoc: { val: '-12,340.10', pct: '-1.54%', up: false },
-    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planQuarter: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planYear: { val: '0.00', result: '0.00%', badge: 'neutral' },
-  },
-  card6: {
-    chip: 'Chỉ tiêu: 150450 · Tỷ đồng',
-    title: 'DƯ NỢ TÍN DỤNG KH ĐCTC BÌNH QUÂN LIÊN KỲ',
-    value: '25,096.32',
-    trend: '+230.50',
-    trendPct: '+0.93%',
-    trendUp: true,
-    history: [
-      { label: 'Tháng 01/2026', value: '23,400.00' },
-      { label: 'Tháng 02/2026', value: '24,100.20' },
-      { label: 'Tháng 03/2026', value: '24,865.82' },
-      { label: 'Tháng 05/2026', value: '25,096.32', current: true }
-    ],
-    svDauNam: { val: '+1,696.32', pct: '+7.25%', up: true },
-    svThangTruoc: { val: '+230.50', pct: '+0.93%', up: true },
-    planMonth: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planQuarter: { val: '0.00', result: '0.00%', badge: 'neutral' },
-    planYear: { val: '0.00', result: '0.00%', badge: 'neutral' },
-  }
+  card1:{chip:'150000 · Tỷ đồng',title:'DƯ NỢ TÍN DỤNG BÌNH QUÂN LIÊN KỲ',value:'2,004,573.62',trend:'+44,453.12',trendPct:'+1.10%',trendUp:true,history:[{l:'T01/2026',v:'1,850,000.00'},{l:'T02/2026',v:'1,920,340.11'},{l:'T03/2026',v:'1,960,120.50'},{l:'T05/2026',v:'2,004,573.62',c:true}],dn:{val:'-177,342.04',pct:'-8.13%',up:false},dt:{val:'+44,453.12',pct:'+1.10%',up:true},pm:{val:'0.00',r:'0.00%',b:'neutral'},pq:{val:'2,065,000.00',r:'97.08%',b:'green'},py:{val:'2,200,000.00',r:'91.12%',b:'green'}},
+  card2:{chip:'150410 · Tỷ đồng',title:'DƯ NỢ TÍN DỤNG KHDN LỚN BÌNH QUÂN LIÊN KỲ',value:'618,980.66',trend:'+5,230.80',trendPct:'+0.85%',trendUp:true,history:[{l:'T01/2026',v:'598,200.00'},{l:'T02/2026',v:'605,400.10'},{l:'T03/2026',v:'613,749.86'},{l:'T05/2026',v:'618,980.66',c:true}],dn:{val:'+20,780.66',pct:'+3.47%',up:true},dt:{val:'+5,230.80',pct:'+0.85%',up:true},pm:{val:'0.00',r:'0.00%',b:'neutral'},pq:{val:'0.00',r:'0.00%',b:'neutral'},py:{val:'0.00',r:'0.00%',b:'neutral'}},
+  card3:{chip:'150420 · Tỷ đồng',title:'DƯ NỢ TÍN DỤNG KHDN VVN BQ LK (GỒM SVM)',value:'450,061.95',trend:'+3,112.45',trendPct:'+0.70%',trendUp:true,history:[{l:'T01/2026',v:'430,200.00'},{l:'T02/2026',v:'438,500.00'},{l:'T03/2026',v:'446,949.50'},{l:'T05/2026',v:'450,061.95',c:true}],dn:{val:'+19,861.95',pct:'+4.62%',up:true},dt:{val:'+3,112.45',pct:'+0.70%',up:true},pm:{val:'0.00',r:'0.00%',b:'neutral'},pq:{val:'0.00',r:'0.00%',b:'neutral'},py:{val:'0.00',r:'0.00%',b:'neutral'}},
+  card4:{chip:'150430 · Tỷ đồng',title:'DƯ NỢ TÍN DỤNG KHDN FDI BÌNH QUÂN LIÊN KỲ',value:'119,455.06',trend:'+1,200.20',trendPct:'+1.02%',trendUp:true,history:[{l:'T01/2026',v:'112,000.00'},{l:'T02/2026',v:'115,200.00'},{l:'T03/2026',v:'118,254.86'},{l:'T05/2026',v:'119,455.06',c:true}],dn:{val:'+7,455.06',pct:'+6.66%',up:true},dt:{val:'+1,200.20',pct:'+1.02%',up:true},pm:{val:'0.00',r:'0.00%',b:'neutral'},pq:{val:'0.00',r:'0.00%',b:'neutral'},py:{val:'0.00',r:'0.00%',b:'neutral'}},
+  card5:{chip:'150500 · Tỷ đồng',title:'DƯ NỢ TÍN DỤNG KHCN BÌNH QUÂN LIÊN KỲ',value:'790,863.35',trend:'-12,340.10',trendPct:'-1.54%',trendUp:false,history:[{l:'T01/2026',v:'810,000.00'},{l:'T02/2026',v:'803,200.45'},{l:'T03/2026',v:'803,203.45'},{l:'T05/2026',v:'790,863.35',c:true}],dn:{val:'-19,136.65',pct:'-2.36%',up:false},dt:{val:'-12,340.10',pct:'-1.54%',up:false},pm:{val:'0.00',r:'0.00%',b:'neutral'},pq:{val:'0.00',r:'0.00%',b:'neutral'},py:{val:'0.00',r:'0.00%',b:'neutral'}},
+  card6:{chip:'150450 · Tỷ đồng',title:'DƯ NỢ TÍN DỤNG KH ĐCTC BÌNH QUÂN LIÊN KỲ',value:'25,096.32',trend:'+230.50',trendPct:'+0.93%',trendUp:true,history:[{l:'T01/2026',v:'23,400.00'},{l:'T02/2026',v:'24,100.20'},{l:'T03/2026',v:'24,865.82'},{l:'T05/2026',v:'25,096.32',c:true}],dn:{val:'+1,696.32',pct:'+7.25%',up:true},dt:{val:'+230.50',pct:'+0.93%',up:true},pm:{val:'0.00',r:'0.00%',b:'neutral'},pq:{val:'0.00',r:'0.00%',b:'neutral'},py:{val:'0.00',r:'0.00%',b:'neutral'}},
 };
 
-function openDetail(cardId) {
-  const d = cardData[cardId];
-  if (!d) return;
-
-  document.getElementById('detail-chip').textContent = d.chip;
-  document.getElementById('detail-title').textContent = d.title;
-  document.getElementById('detail-value').textContent = d.value;
-
-  // Rebuild dynamic detail content
-  rebuildDetailContent(d);
-
-  const listScreen = document.getElementById('screen-list');
-  const detailScreen = document.getElementById('screen-detail');
-
-  listScreen.classList.add('slide-out');
-  setTimeout(() => {
-    listScreen.classList.remove('active', 'slide-out');
-    detailScreen.classList.add('active');
-  }, 50);
-}
-
-function closeDetail() {
-  const listScreen = document.getElementById('screen-list');
-  const detailScreen = document.getElementById('screen-detail');
-
-  detailScreen.classList.remove('active');
-  setTimeout(() => {
-    listScreen.classList.add('active');
-  }, 50);
-}
-
-function rebuildDetailContent(d) {
-  // Update value card
-  const valueCard = document.querySelector('#screen-detail .detail-value-card');
-  const trendColor = d.trendUp ? '#4AE888' : '#FF6B6B';
-  const trendArrow = d.trendUp ? '↑' : '↓';
-  valueCard.innerHTML = `
-    <div>
-      <div class="detail-value-label">Thực hiện 18/05/2026</div>
-      <div>
-        <span class="detail-value-main">${d.value}</span>
-        <span class="detail-value-unit">Tỷ đồng</span>
-      </div>
-    </div>
-    <div style="text-align:right">
-      <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-bottom:4px">So với tháng trước</div>
-      <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end">
-        <span style="font-size:20px;color:${trendColor}">${trendArrow}</span>
-        <div>
-          <div style="font-size:14px;font-weight:800;color:${trendColor}">${d.trend}</div>
-          <div style="font-size:10px;color:rgba(255,255,255,0.7)">${d.trendPct}</div>
-        </div>
-      </div>
-    </div>
-  `;
-
-  // Update history
-  const historyScroll = document.querySelector('#screen-detail .history-scroll');
-  historyScroll.innerHTML = d.history.map(h => `
-    <div class="history-month ${h.current ? 'current' : ''}">
-      <div class="history-month-label">${h.label}</div>
-      <div class="history-month-value">${h.value}</div>
-    </div>
-  `).join('');
-
-  // Update comparison
-  const compRows = document.querySelectorAll('#screen-detail .comparison-row');
-  if (compRows.length >= 2) {
-    compRows[0].innerHTML = `
-      <span class="comparison-label">So với đầu năm</span>
-      <div class="${d.svDauNam.up ? 'trend-up' : 'trend-down'}">${d.svDauNam.up ? '↑' : '↓'} ${d.svDauNam.val} <span style="opacity:0.7;font-weight:400">(${d.svDauNam.pct})</span></div>
-    `;
-    compRows[1].innerHTML = `
-      <span class="comparison-label">So với tháng trước</span>
-      <div class="${d.svThangTruoc.up ? 'trend-up' : 'trend-down'}">${d.svThangTruoc.up ? '↑' : '↓'} ${d.svThangTruoc.val} <span style="opacity:0.7;font-weight:400">(${d.svThangTruoc.pct})</span></div>
-    `;
-  }
-
-  // Update plan badges
-  const badges = document.querySelectorAll('#screen-detail .plan-badge');
-  const planValues = document.querySelectorAll('#screen-detail .plan-value');
-  const plans = [d.planMonth, d.planQuarter, d.planYear];
-  plans.forEach((p, i) => {
-    if (badges[i]) {
-      badges[i].textContent = p.result;
-      badges[i].className = `plan-badge badge-${p.badge}`;
-    }
-    if (planValues[i]) planValues[i].textContent = p.val;
-  });
-}
-
-// Tab switching
+/* ── TOP CONTENT TABS ── */
 document.querySelectorAll('.tab-item').forEach(tab => {
   tab.addEventListener('click', function() {
     this.closest('.tabs').querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
     this.classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel-' + this.dataset.tab)?.classList.add('active');
   });
 });
-</script>
 
+/* ── INTERNAL TAB BAR ── */
+function switchItab(key, el) {
+  // Switch tab active state
+  document.querySelectorAll('#screen-list .itab').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+
+  // Switch filter panel
+  document.querySelectorAll('.filter-panel').forEach(p => p.classList.remove('active'));
+  const fp = document.getElementById('filter-' + key);
+  if (fp) fp.classList.add('active');
+}
+
+/* ── OPEN DETAIL ── */
+function openDetail(cardId) {
+  const d = cardData[cardId];
+  if (!d) return;
+
+  document.getElementById('detail-chip').textContent = 'Chỉ tiêu: ' + d.chip;
+  document.getElementById('detail-title').textContent = d.title;
+  document.getElementById('detail-value').textContent = d.value;
+
+  const tc = d.trendUp ? '#4AE888' : '#FF6B6B';
+  const ta = d.trendUp ? '↑' : '↓';
+  document.getElementById('detail-value-card').innerHTML = `
+    <div>
+      <div class="detail-value-label">Thực hiện 18/05/2026</div>
+      <div><span class="detail-value-main">${d.value}</span><span class="detail-value-unit">Tỷ đồng</span></div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-bottom:4px">So với tháng trước</div>
+      <div style="display:flex;align-items:center;gap:4px;justify-content:flex-end">
+        <span style="font-size:20px;color:${tc}">${ta}</span>
+        <div>
+          <div style="font-size:14px;font-weight:800;color:${tc}">${d.trend}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.7)">${d.trendPct}</div>
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('detail-history').innerHTML =
+    d.history.map(h=>`<div class="history-month${h.c?' current':''}"><div class="history-month-label">${h.l}</div><div class="history-month-value">${h.v}</div></div>`).join('');
+
+  const mkRow = (cmp, label) => `<span class="comparison-label">${label}</span><div class="${cmp.up?'trend-up':'trend-down'}">${cmp.up?'↑':'↓'} ${cmp.val} <span style="opacity:0.7;font-weight:400">(${cmp.pct})</span></div>`;
+  document.getElementById('cmp-row-0').innerHTML = mkRow(d.dn,'So với đầu năm');
+  document.getElementById('cmp-row-1').innerHTML = mkRow(d.dt,'So với tháng trước');
+
+  [[d.pm,0],[d.pq,1],[d.py,2]].forEach(([p,i])=>{
+    document.getElementById('pv-'+i).textContent = p.val;
+    const pb = document.getElementById('pb-'+i);
+    pb.textContent = p.r; pb.className = 'plan-badge badge-'+p.b;
+  });
+
+  const list = document.getElementById('screen-list');
+  const detail = document.getElementById('screen-detail');
+  list.classList.add('slide-out');
+  setTimeout(()=>{ list.classList.remove('active','slide-out'); detail.classList.add('active'); }, 50);
+}
+
+/* ── CLOSE DETAIL ── */
+function closeDetail() {
+  const list = document.getElementById('screen-list');
+  const detail = document.getElementById('screen-detail');
+  detail.classList.remove('active');
+  setTimeout(()=>{ list.classList.add('active'); }, 50);
+}
+</script>
 </body>
 </html>
