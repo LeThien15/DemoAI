@@ -3,666 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Bản đồ nhiệt</title>
+<title>Danh sách Widget</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --primary: #0066B3;
-    --primary-light: #E8F2FB;
-    --red: #E53935;
-    --orange: #F5A623;
-    --green-dark: #27AE60;
-    --text: #1A2332;
-    --text-secondary: #5A6B82;
-    --text-muted: #94A3B8;
-    --border: #E2EAF4;
-    --bg: #F0F5FB;
-    --card-bg: #FFFFFF;
-    --shadow: 0 2px 12px rgba(0,102,179,0.08);
-    --shadow-hover: 0 6px 24px rgba(0,102,179,0.15);
-  }
+:root{
+  --primary:#0066B3; --primary-light:#E8F2FB;
+  --red:#C0392B; --red-light:#FDECEA;
+  --green:#27AE60; --green-light:#E8F8EF;
+  --yellow:#F4A800; --yellow-light:#FFF8E1;
+  --gray-badge:#94A3B8;
+  --text:#1A2332; --text-sec:#5A6B82; --text-muted:#94A3B8;
+  --border:#E2EAF4; --bg:#F0F5FB; --card:#FFFFFF;
+  --shadow:0 2px 12px rgba(0,102,179,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Be Vietnam Pro',sans-serif;background:#D8E4F0;display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:24px 0 40px;}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+/* ── PHONE ── */
+.phone{width:390px;min-height:844px;background:var(--bg);border-radius:44px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.28),0 0 0 1px rgba(0,0,0,0.08);position:relative;}
 
-  body {
-    font-family: 'Be Vietnam Pro', sans-serif;
-    background: #D8E4F0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding: 24px 0 40px;
-  }
+/* ── SCREENS ── */
+.screen{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transform:translateX(100%);transition:all 0.35s cubic-bezier(0.4,0,0.2,1);border-radius:44px;overflow:hidden;}
+.screen.active{opacity:1;pointer-events:all;transform:translateX(0);}
+.screen.slide-out{transform:translateX(-28px);opacity:0;}
 
-  .phone-wrapper {
-    width: 390px;
-    min-height: 844px;
-    background: var(--bg);
-    border-radius: 44px;
-    overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.28), 0 0 0 1px rgba(0,0,0,0.08);
-    position: relative;
-  }
+/* ── STATUS BAR ── */
+.status-bar{background:var(--primary);height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0;}
+.status-time{color:white;font-size:15px;font-weight:600;}
+.status-icons{display:flex;gap:6px;align-items:center;}
 
-  /* ── SCREEN SYSTEM ── */
-  .screen {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(100%);
-    transition: all 0.38s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 44px;
-    overflow: hidden;
-  }
-  .screen.active { opacity: 1; pointer-events: all; transform: translateX(0); }
-  .screen.slide-out { transform: translateX(-30px); opacity: 0; }
+/* ── HEADER ── */
+.header{background:var(--primary);padding:0 20px 16px;flex-shrink:0;}
+.header-top{display:flex;align-items:center;justify-content:space-between;padding:8px 0 0;}
+.back-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;transition:background 0.2s;}
+.back-btn:hover{background:rgba(255,255,255,0.25);}
+.header-title{color:white;font-size:17px;font-weight:700;}
+.header-action{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;}
+.header-sub{color:rgba(255,255,255,0.7);font-size:12px;margin-top:6px;text-align:center;}
 
-  /* ── STATUS BAR ── */
-  .status-bar {
-    background: var(--primary);
-    height: 44px;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 24px;
-    flex-shrink: 0;
-  }
-  .status-time { color: white; font-size: 15px; font-weight: 600; }
-  .status-icons { display: flex; gap: 6px; align-items: center; }
+/* ── SCROLL ── */
+.scroll{flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 16px 110px;}
+.scroll::-webkit-scrollbar{display:none;}
 
-  /* ── HEADER ── */
-  .header { background: var(--primary); padding: 0 20px 0; flex-shrink: 0; }
-  .header-top { display: flex; align-items: center; justify-content: space-between; padding: 0 0 14px; }
-  .back-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,0.15); border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; transition: background 0.2s;
-  }
-  .back-btn:hover { background: rgba(255,255,255,0.25); }
-  .header-title { color: white; font-size: 17px; font-weight: 700; }
-  .header-action {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,0.15); border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; color: white;
-  }
+/* ── WIDGET LIST CARD ── */
+.widget-card{background:var(--card);border-radius:18px;padding:16px;margin-bottom:12px;box-shadow:var(--shadow);cursor:pointer;border:1.5px solid var(--border);transition:all 0.2s;display:flex;align-items:center;gap:14px;}
+.widget-card:hover{box-shadow:0 6px 24px rgba(0,102,179,0.13);transform:translateY(-1px);}
+.widget-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.widget-icon.blue{background:var(--primary-light);}
+.widget-icon.green{background:var(--green-light);}
+.widget-icon.red{background:var(--red-light);}
+.widget-icon.yellow{background:var(--yellow-light);}
+.widget-card-info{flex:1;min-width:0;}
+.widget-card-num{font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:0.5px;margin-bottom:3px;text-transform:uppercase;}
+.widget-card-title{font-size:14px;font-weight:700;color:var(--text);line-height:1.35;}
+.widget-card-desc{font-size:11px;color:var(--text-sec);margin-top:3px;}
+.widget-chevron{color:var(--text-muted);flex-shrink:0;}
 
-  /* ── FILTER CARD ── */
-  .filter-card {
-    background: rgba(255,255,255,0.12); border-radius: 14px;
-    padding: 11px 13px; border: 1px solid rgba(255,255,255,0.2);
-    margin-bottom: 12px;
-  }
-  .filter-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-  .filter-label { color: rgba(255,255,255,0.7); font-size: 11px; font-weight: 500; }
-  .filter-value { color: white; font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 20px; cursor: pointer; }
-  .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
-  .fchip {
-    display: flex; align-items: center; gap: 4px;
-    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 20px; padding: 3px 9px;
-    font-size: 10.5px; font-weight: 600; color: white;
-    cursor: pointer; transition: background 0.2s; white-space: nowrap;
-  }
-  .fchip.active-chip { background: white; color: var(--primary); }
-  .fchip-label { color: rgba(255,255,255,0.6); font-size: 10px; font-weight: 400; margin-right: 2px; }
-  .fchip.active-chip .fchip-label { color: var(--primary); opacity: 0.7; }
+/* ── SECTION LABEL ── */
+.section-label{font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;padding:8px 2px 6px;}
 
-  /* ── INTERNAL TAB BAR (gắn dưới header) ── */
-  .internal-tab-bar {
-    background: var(--primary);
-    padding: 0 20px;
-    display: flex;
-    gap: 0;
-    flex-shrink: 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  .itab {
-    flex: 1;
-    display: flex; flex-direction: column; align-items: center; gap: 3px;
-    padding: 10px 4px 9px;
-    border: none; background: transparent; cursor: pointer;
-    transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
-    position: relative;
-  }
-  .itab::after {
-    content: ''; position: absolute; bottom: 0; left: 20%; right: 20%;
-    height: 3px; border-radius: 3px 3px 0 0; background: white;
-    opacity: 0; transform: scaleX(0.5); transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
-  }
-  .itab.active::after { opacity: 1; transform: scaleX(1); }
-  .itab-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.5); transition: color 0.2s; }
-  .itab.active .itab-icon { color: white; }
-  .itab-label { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 0.2px; white-space: nowrap; transition: color 0.2s; }
-  .itab.active .itab-label { color: white; }
+/* ══════════════════════
+   DETAIL COMMON
+══════════════════════ */
+.detail-scroll{flex:1;overflow-y:auto;scrollbar-width:none;padding:16px 16px 110px;}
+.detail-scroll::-webkit-scrollbar{display:none;}
 
-  /* ── BAN DO NHIET: Sub-tab pills (Hiệu quả / Dư nợ) ── */
-  .bdnhiet-subtabs {
-    display: flex; gap: 8px; padding: 14px 16px 10px;
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  .subtab-pill {
-    flex: 1; padding: 9px 8px; text-align: center;
-    font-size: 11.5px; font-weight: 700;
-    border-radius: 10px; cursor: pointer; border: 2px solid var(--border);
-    background: var(--bg); color: var(--text-secondary);
-    transition: all 0.22s; line-height: 1.3;
-  }
-  .subtab-pill.active {
-    background: var(--primary); color: white;
-    border-color: var(--primary);
-    box-shadow: 0 4px 14px rgba(0,102,179,0.25);
-  }
+/* Two-column grid */
+.col2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
+.col2-left{display:flex;flex-direction:column;gap:10px;}
+.col2-right{display:flex;flex-direction:column;gap:10px;}
 
-  /* ── SCOPE FILTER BAR (155 chi nhánh, Khu vực 1…) ── */
-  .scope-bar {
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border);
-    padding: 0 16px 12px;
-    flex-shrink: 0;
-  }
-  .scope-scroll {
-    display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none;
-  }
-  .scope-scroll::-webkit-scrollbar { display: none; }
-  .scope-chip {
-    flex-shrink: 0;
-    padding: 6px 13px; border-radius: 20px;
-    font-size: 11px; font-weight: 600; cursor: pointer;
-    border: 1.5px solid var(--border);
-    background: var(--bg); color: var(--text-secondary);
-    transition: all 0.2s; white-space: nowrap;
-  }
-  .scope-chip.active {
-    background: var(--primary); color: white; border-color: var(--primary);
-    box-shadow: 0 3px 10px rgba(0,102,179,0.22);
-  }
+/* Label chip — like "Mã chỉ tiêu" */
+.meta-chip{font-size:10px;color:var(--text-muted);font-weight:500;margin-bottom:4px;}
 
-  /* ── SCROLL CONTENT ── */
-  .scroll-content {
-    flex: 1; overflow-y: auto;
-    padding: 12px 16px 100px;
-    -webkit-overflow-scrolling: touch; scrollbar-width: none;
-  }
-  .scroll-content::-webkit-scrollbar { display: none; }
+/* Section block */
+.blk{background:var(--card);border-radius:14px;padding:14px;box-shadow:var(--shadow);}
+.blk-title{font-size:11px;font-weight:700;color:white;text-align:center;padding:8px 10px;border-radius:8px;margin-bottom:8px;}
+.blk-title.red{background:var(--red);}
+.blk-title.blue{background:var(--primary);}
+.blk-title.dark{background:#1A2C4E;}
+.blk-value{font-size:20px;font-weight:800;color:var(--text);text-align:center;padding:8px 0 4px;}
+.blk-unit{font-size:11px;color:var(--text-muted);text-align:center;}
 
-  /* ── HEAT ROW (danh sách chỉ tiêu) ── */
-  .heat-group { margin-bottom: 6px; }
-  .heat-group-header {
-    font-size: 10px; font-weight: 700; color: var(--text-muted);
-    text-transform: uppercase; letter-spacing: 0.8px;
-    padding: 8px 4px 4px;
-  }
+/* Delta row */
+.delta-row{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--bg);border-radius:10px;margin-bottom:6px;}
+.delta-label{font-size:12px;font-weight:600;color:var(--text-sec);}
+.delta-val{display:flex;align-items:center;gap:5px;}
+.delta-num{font-size:13px;font-weight:800;}
+.arrow-up{color:var(--green);}
+.arrow-dn{color:var(--red);}
 
-  .heat-row {
-    background: var(--card-bg); border-radius: 12px;
-    padding: 13px 14px; margin-bottom: 6px;
-    box-shadow: var(--shadow);
-    display: flex; align-items: center; justify-content: space-between;
-    cursor: pointer; transition: all 0.22s; border: 1.5px solid transparent;
-    animation: slideInUp 0.3s cubic-bezier(0.4,0,0.2,1) backwards;
-  }
-  .heat-row:hover { border-color: var(--primary-light); transform: translateX(2px); box-shadow: var(--shadow-hover); }
-  .heat-row.indented { margin-left: 14px; border-radius: 10px; }
+/* Donut chart */
+.donut-wrap{display:flex;align-items:center;justify-content:center;padding:8px 0;}
+svg.donut{overflow:visible;}
 
-  .heat-row-left { flex: 1; min-width: 0; }
-  .heat-row-meta { font-size: 10px; color: var(--text-muted); font-weight: 500; margin-bottom: 3px; }
-  .heat-row-name { font-size: 12.5px; font-weight: 700; color: var(--primary); line-height: 1.35; text-transform: uppercase; letter-spacing: 0.2px; }
-  .heat-row-name.no-kpi { color: var(--text-secondary); font-weight: 600; }
+/* KPI badge row */
+.kpi-label-row{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.kpi-num{width:20px;height:20px;border-radius:50%;background:var(--primary);color:white;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.kpi-row-title{font-size:12px;font-weight:600;color:var(--text);flex:1;}
 
-  /* Badge màu sắc */
-  .heat-badge {
-    flex-shrink: 0; margin-left: 10px;
-    padding: 6px 12px; border-radius: 8px;
-    font-size: 13px; font-weight: 800; letter-spacing: -0.3px;
-    min-width: 64px; text-align: center;
-  }
-  .badge-green-fill { background: #27AE60; color: white; }
-  .badge-yellow-fill { background: #F5A623; color: white; }
-  .badge-red-fill { background: #E53935; color: white; }
-  .badge-empty { background: var(--bg); color: var(--text-muted); font-size: 11px; font-weight: 600; }
-  .badge-more { background: transparent; color: var(--text-muted); }
+/* Progress bar */
+.prog-wrap{background:#E2EAF4;border-radius:6px;height:10px;overflow:hidden;margin-bottom:3px;}
+.prog-bar{height:100%;border-radius:6px;transition:width 0.4s;}
+.prog-bar.green{background:var(--green);}
+.prog-bar.red{background:var(--red);}
+.prog-bar.yellow{background:var(--yellow);}
+.prog-bar.blue{background:var(--primary);}
+.prog-sub{font-size:10px;color:var(--text-muted);margin-bottom:10px;}
 
-  /* Three-dot menu icon */
-  .heat-more {
-    width: 24px; height: 24px; border-radius: 50%; background: var(--bg); border: none;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    color: var(--text-muted); font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
-    flex-shrink: 0; margin-left: 6px; transition: background 0.2s;
-  }
-  .heat-more:hover { background: var(--primary-light); color: var(--primary); }
+/* Gauge */
+.gauge-wrap{position:relative;display:flex;align-items:center;justify-content:center;padding:6px 0;}
+.gauge-label-row{display:flex;justify-content:space-between;margin-top:-4px;padding:0 8px;}
+.gauge-lbl{font-size:10px;font-weight:700;}
 
-  /* ── DETAIL SLIDE-IN OVERLAY ── */
-  .detail-overlay {
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--bg);
-    display: flex; flex-direction: column;
-    transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 10;
-  }
-  .detail-overlay.open { transform: translateX(0); }
+/* Rate table */
+.rate-table{display:grid;grid-template-columns:1fr 1fr 1fr;border-radius:10px;overflow:hidden;margin-top:8px;}
+.rate-cell{padding:7px;text-align:center;font-size:11px;font-weight:700;color:white;}
+.rate-cell.green{background:var(--green);}
+.rate-cell.yellow{background:var(--yellow);}
+.rate-cell.red{background:var(--red);}
+.rate-cell-sub{font-size:10px;color:var(--text-sec);text-align:center;margin-top:2px;}
 
-  .detail-header-bar {
-    background: var(--primary);
-    padding: 0 16px 16px;
-    flex-shrink: 0;
-  }
-  .detail-topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 0 12px; }
-  .detail-chip-badge { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.15); padding: 3px 10px; border-radius: 20px; }
-  .detail-close-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.15); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; transition: background 0.2s; }
-  .detail-close-btn:hover { background: rgba(255,255,255,0.25); }
-  .detail-kpi-title { font-size: 16px; font-weight: 800; color: white; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 14px; }
+/* LN widget percent badge */
+.pct-badge{display:inline-block;padding:6px 14px;border-radius:8px;font-size:13px;font-weight:800;color:white;}
+.pct-badge.red{background:var(--red);}
+.pct-badge.green{background:var(--green);}
+.pct-badge.yellow{background:var(--yellow);}
+.pct-badge.blue{background:var(--primary);}
 
-  /* Region rows inside detail */
-  .detail-scroll { flex: 1; overflow-y: auto; padding: 14px 16px 100px; scrollbar-width: none; }
-  .detail-scroll::-webkit-scrollbar { display: none; }
-
-  .region-row {
-    background: var(--card-bg); border-radius: 12px; padding: 13px 14px;
-    margin-bottom: 7px; display: flex; align-items: center; justify-content: space-between;
-    box-shadow: var(--shadow); animation: slideInUp 0.3s cubic-bezier(0.4,0,0.2,1) backwards;
-  }
-  .region-name { font-size: 13px; font-weight: 600; color: var(--text); }
-  .region-badge {
-    padding: 7px 14px; border-radius: 8px;
-    font-size: 14px; font-weight: 800;
-    min-width: 72px; text-align: center;
-  }
-
-  /* ── BOTTOM AREA ── */
-  .bottom-area {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    display: flex; flex-direction: column; align-items: center; gap: 0;
-    z-index: 20; padding-bottom: 20px;
-    background: linear-gradient(to top, rgba(240,245,251,1) 55%, rgba(240,245,251,0));
-    padding-top: 20px;
-  }
-  .global-nav-row { display: flex; align-items: center; gap: 10px; width: calc(100% - 32px); }
-  .global-pill {
-    flex: 1; background: #1A2C4E; border-radius: 100px; padding: 5px 8px;
-    display: flex; align-items: center; justify-content: space-around;
-    box-shadow: 0 6px 20px rgba(26,44,78,0.28);
-  }
-  .gpill-btn { width: 38px; height: 38px; border-radius: 50%; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.75); transition: all 0.2s; position: relative; }
-  .gpill-btn.home-btn { background: rgba(255,255,255,0.15); color: white; }
-  .gpill-btn:hover:not(.home-btn) { background: rgba(255,255,255,0.1); color: white; }
-  .gpill-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.15); border-radius: 2px; }
-  .gpill-badge { position: absolute; top: 4px; right: 3px; background: linear-gradient(135deg, #FF3B30, #C0002E); color: white; font-size: 8px; font-weight: 900; min-width: 15px; height: 15px; border-radius: 20px; padding: 0 3px; display: flex; align-items: center; justify-content: center; border: 1.5px solid #1A2C4E; line-height: 1; }
-  .ai-btn { width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: conic-gradient(from 180deg at 50% 50%, #a78bfa 0deg, #60a5fa 90deg, #34d399 180deg, #f472b6 270deg, #a78bfa 360deg); box-shadow: 0 6px 22px rgba(120,100,250,0.42); transition: all 0.25s; flex-shrink: 0; }
-  .ai-btn::before { content:''; position:absolute; inset:3px; border-radius:50%; background:#12103A; }
-  .ai-btn:hover { transform:scale(1.08); }
-  .ai-btn svg { position:relative; z-index:1; }
-  .home-indicator { width: 120px; height: 4px; background: #1A2332; border-radius: 100px; margin-top: 8px; opacity: 0.15; }
-
-  @keyframes slideInUp {
-    from { opacity:0; transform:translateY(12px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
+/* ── BOTTOM GLOBAL NAV ── */
+.bottom-area{position:absolute;bottom:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;z-index:20;padding-bottom:20px;background:linear-gradient(to top,rgba(240,245,251,1) 55%,rgba(240,245,251,0));padding-top:20px;}
+.global-nav-row{display:flex;align-items:center;gap:10px;width:calc(100% - 32px);}
+.global-pill{flex:1;background:#1A2C4E;border-radius:100px;padding:5px 8px;display:flex;align-items:center;justify-content:space-around;box-shadow:0 6px 20px rgba(26,44,78,0.28);}
+.gpill-btn{width:38px;height:38px;border-radius:50%;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.75);position:relative;transition:all 0.2s;}
+.gpill-btn.home-btn{background:rgba(255,255,255,0.15);color:white;}
+.gpill-divider{width:1px;height:20px;background:rgba(255,255,255,0.15);border-radius:2px;}
+.gpill-badge{position:absolute;top:4px;right:3px;background:linear-gradient(135deg,#FF3B30,#C0002E);color:white;font-size:8px;font-weight:900;min-width:15px;height:15px;border-radius:20px;padding:0 3px;display:flex;align-items:center;justify-content:center;border:1.5px solid #1A2C4E;}
+.ai-btn{width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0;background:conic-gradient(from 180deg at 50% 50%,#a78bfa 0deg,#60a5fa 90deg,#34d399 180deg,#f472b6 270deg,#a78bfa 360deg);box-shadow:0 6px 22px rgba(120,100,250,0.42);transition:all 0.25s;}
+.ai-btn::before{content:'';position:absolute;inset:3px;border-radius:50%;background:#12103A;}
+.ai-btn:hover{transform:scale(1.08);}
+.ai-btn svg{position:relative;z-index:1;}
+.home-indicator{width:120px;height:4px;background:#1A2332;border-radius:100px;margin-top:8px;opacity:0.15;}
 </style>
 </head>
 <body>
-<div class="phone-wrapper">
+<div class="phone">
 
-<!-- ═══════════════════════════════════
-     SCREEN MAIN — BẢN ĐỒ NHIỆT
-═══════════════════════════════════ -->
-<div class="screen active" id="screen-main">
-
-  <!-- Status bar -->
+<!-- ══════════════════════════════════
+     SCREEN 0 — LIST WIDGET
+══════════════════════════════════ -->
+<div class="screen active" id="s-list">
   <div class="status-bar">
     <span class="status-time">9:41</span>
     <div class="status-icons">
       <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0" width="3" height="12" rx="1"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" opacity="0.3"/></svg>
-      <svg width="16" height="12" viewBox="0 0 20 14" fill="white"><path d="M10 2.5C13.5 2.5 16.5 3.9 18.6 6.1L20 4.7C17.5 2.1 14 .5 10 .5 6 .5 2.5 2.1 0 4.7l1.4 1.4C3.5 3.9 6.5 2.5 10 2.5z"/><path d="M10 6.5c2.2 0 4.2.9 5.7 2.3l1.4-1.4C15.2 5.6 12.7 4.5 10 4.5S4.8 5.6 2.9 7.4l1.4 1.4C5.8 7.4 7.8 6.5 10 6.5z"/><circle cx="10" cy="13" r="1.5"/></svg>
       <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg>
     </div>
   </div>
-
-  <!-- Header -->
   <div class="header">
     <div class="header-top">
-      <button class="back-btn">
-        <svg width="18" height="18" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <span class="header-title">Bản đồ nhiệt</span>
-      <button class="header-action">
-        <svg width="18" height="18" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </button>
+      <div style="width:36px"></div>
+      <span class="header-title">Danh sách Widget</span>
+      <button class="header-action"><svg width="18" height="18" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+    </div>
+    <div class="header-sub">Chi nhánh / Khu vực · 18/05/2026</div>
+  </div>
+
+  <div class="scroll">
+    <div class="section-label">Nhóm widget CN/KV</div>
+
+    <!-- 4.2 Dư nợ -->
+    <div class="widget-card" onclick="go('s-duno')">
+      <div class="widget-icon blue">
+        <svg width="26" height="26" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      </div>
+      <div class="widget-card-info">
+        <div class="widget-card-num">4.2 · Mã CT 120310 / 150000</div>
+        <div class="widget-card-title">Bộ widget Dư nợ CN/KV</div>
+        <div class="widget-card-desc">Dư nợ CK LK · BQ LK · Delta tăng trưởng</div>
+      </div>
+      <div class="widget-chevron"><svg width="8" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 8 13"><path d="M1 1l6 5.5L1 12"/></svg></div>
     </div>
 
-    <!-- Filter card -->
-    <div class="filter-card">
-      <div class="filter-row">
-        <span class="filter-label">Loại dữ liệu:</span>
-        <span class="filter-value">QUÝ ▾</span>
-        <span class="filter-label" style="margin-left:6px">Thời điểm:</span>
-        <span class="filter-value" style="font-style:italic">THÁNG 04/2026 ▾</span>
+    <!-- 4.3 Nguồn vốn -->
+    <div class="widget-card" onclick="go('s-nguonvon')">
+      <div class="widget-icon green">
+        <svg width="26" height="26" fill="none" stroke="var(--green)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
       </div>
-      <div class="filter-row" style="margin-bottom:0">
-        <span class="filter-label">Phân khúc:</span>
-        <span class="filter-value">TẤT CẢ ▾</span>
+      <div class="widget-card-info">
+        <div class="widget-card-num">4.3 · Mã CT 110010 / 140010</div>
+        <div class="widget-card-title">Bộ widget Nguồn vốn CN/KV</div>
+        <div class="widget-card-desc">Nguồn vốn CK LK · BQ LK · Delta tăng trưởng</div>
       </div>
+      <div class="widget-chevron"><svg width="8" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 8 13"><path d="M1 1l6 5.5L1 12"/></svg></div>
     </div>
 
-  </div>
-
-  <!-- Internal tab bar -->
-  <div class="internal-tab-bar">
-    <button class="itab active" onclick="switchItab('th',this)">
-      <div class="itab-icon">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <!-- 4.4 Tỷ lệ nợ xấu -->
+    <div class="widget-card" onclick="go('s-noxau')">
+      <div class="widget-icon red">
+        <svg width="26" height="26" fill="none" stroke="var(--red)" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </div>
-      <span class="itab-label">TH thực hiện</span>
-    </button>
-    <button class="itab active-main" id="itab-bdnhiet" onclick="return false" style="border-bottom:3px solid white;">
-      <div class="itab-icon" style="color:white;">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      <div class="widget-card-info">
+        <div class="widget-card-num">4.4 · Mã CT 120350 / 240046</div>
+        <div class="widget-card-title">Bộ widget Tỷ lệ nợ xấu CN/KV</div>
+        <div class="widget-card-desc">Dư nợ N2-N5 · Tỷ lệ nợ xấu · Gauge</div>
       </div>
-      <span class="itab-label" style="color:white;">Bản đồ nhiệt</span>
-    </button>
-    <button class="itab" onclick="switchItab('kpi',this)">
-      <div class="itab-icon">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
-      </div>
-      <span class="itab-label">KPI</span>
-    </button>
-    <button class="itab" onclick="switchItab('linh',this)">
-      <div class="itab-icon">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      </div>
-      <span class="itab-label">LINHDCN</span>
-    </button>
-  </div>
-
-  <!-- Sub-tabs: Hiệu quả / Dư nợ nguồn vốn CASA -->
-  <div class="bdnhiet-subtabs">
-    <button class="subtab-pill active" id="subtab-hieuqua" onclick="switchSubtab('hieuqua')">Hiệu quả</button>
-    <button class="subtab-pill" id="subtab-duno" onclick="switchSubtab('duno')">Dư nợ, nguồn vốn, CASA</button>
-  </div>
-
-  <!-- Scope filter bar -->
-  <div class="scope-bar">
-    <div class="scope-scroll" id="scope-scroll">
-      <button class="scope-chip active" onclick="setScope(this, 'all')">155 chi nhánh</button>
-      <button class="scope-chip" onclick="setScope(this, 'kv1')">Khu vực 1</button>
-      <button class="scope-chip" onclick="setScope(this, 'kv2')">Khu vực 2</button>
-      <button class="scope-chip" onclick="setScope(this, 'kv3')">Khu vực 3</button>
-      <button class="scope-chip" onclick="setScope(this, 'kv4')">Khu vực 4</button>
-      <button class="scope-chip" onclick="setScope(this, 'kv5')">Khu vực 5</button>
-      <button class="scope-chip" onclick="setScope(this, 'kv6')">Khu vực 6</button>
-      <button class="scope-chip" onclick="setScope(this, 'dnb')">KV Đông Nam Bộ</button>
-      <button class="scope-chip" onclick="setScope(this, 'hcm')">KV Tp. Hồ Chí Minh</button>
+      <div class="widget-chevron"><svg width="8" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 8 13"><path d="M1 1l6 5.5L1 12"/></svg></div>
     </div>
-  </div>
 
-  <!-- Scroll content -->
-  <div class="scroll-content">
-
-    <!-- TAB PANEL: HIỆU QUẢ -->
-    <div id="panel-hieuqua" class="tab-panel-bd active-panel">
-
-      <div class="heat-group">
-        <div class="heat-row" style="animation-delay:.04s" onclick="openDetail('nii_td_hd')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">NII TÍN DỤNG + HUY ĐỘNG</div>
-          </div>
-          <span class="heat-badge badge-empty">K/giao</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.08s" onclick="openDetail('nii_td')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">NII TÍN DỤNG</div>
-          </div>
-          <span class="heat-badge badge-empty">K/giao</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.12s" onclick="openDetail('nii_hd')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">NII HUY ĐỘNG</div>
-          </div>
-          <span class="heat-badge badge-empty">K/giao</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.16s" onclick="openDetail('thu_thuan')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">THU THUẦN DỊCH VỤ</div>
-          </div>
-          <span class="heat-badge badge-empty">K/giao</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.20s" onclick="openDetail('loi_nhuan_kh')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">LỢI NHUẬN KHDNT</div>
-          </div>
-          <span class="heat-badge badge-empty">K/giao</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.24s" onclick="openDetail('cphd_giam_sat')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">CPHĐ GIAO GIÁM SÁT, ĐÁNH GIÁ*</div>
-          </div>
-          <span class="heat-badge badge-yellow-fill">62.1%</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.28s" onclick="openDetail('ln_hdkd')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">LN HĐKD</div>
-          </div>
-          <span class="heat-badge badge-yellow-fill">61.0%</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.32s" onclick="openDetail('thu_xlrr')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">THU XLRR</div>
-          </div>
-          <span class="heat-badge badge-yellow-fill">54.7%</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.36s" onclick="openDetail('tong_ln')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">TỔNG LN</div>
-          </div>
-          <span class="heat-badge badge-yellow-fill">55.4%</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
+    <!-- 4.5 KPI CN -->
+    <div class="widget-card" onclick="go('s-kpicn')">
+      <div class="widget-icon yellow">
+        <svg width="26" height="26" fill="none" stroke="var(--yellow)" stroke-width="2" viewBox="0 0 24 24"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
       </div>
-
-    </div><!-- /panel-hieuqua -->
-
-    <!-- TAB PANEL: DƯ NỢ NGUỒN VỐN CASA -->
-    <div id="panel-duno" class="tab-panel-bd" style="display:none">
-
-      <div class="heat-group">
-
-        <div class="heat-row" style="animation-delay:.04s" onclick="openDetail('du_no_td_bq')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">DƯ NỢ TÍN DỤNG BQ</div>
-          </div>
-          <span class="heat-badge badge-green-fill">97.1%</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <!-- Sub-group: Tăng trưởng dư nợ -->
-        <div style="background:var(--bg); border-radius:10px; padding:8px 10px 2px; margin-bottom:6px; border:1px solid var(--border);">
-          <div class="heat-group-header" style="padding-top:0">Δ TĂNG TRƯỞNG DƯ NỢ TÍN DỤNG BQ</div>
-
-          <div class="heat-row indented" style="animation-delay:.08s" onclick="openDetail('tang_truong_tong')">
-            <div class="heat-row-left">
-              <div class="heat-row-meta">155 chi nhánh</div>
-              <div class="heat-row-name">TỔNG</div>
-            </div>
-            <span class="heat-badge badge-yellow-fill">69.6%</span>
-            <button class="heat-more" onclick="event.stopPropagation()">···</button>
-          </div>
-
-          <div class="heat-row indented" style="animation-delay:.12s" onclick="openDetail('tang_truong_khdn')">
-            <div class="heat-row-left">
-              <div class="heat-row-meta">155 chi nhánh</div>
-              <div class="heat-row-name no-kpi">KHDN</div>
-            </div>
-            <span class="heat-badge badge-empty">K/giao</span>
-            <button class="heat-more" onclick="event.stopPropagation()">···</button>
-          </div>
-
-          <div class="heat-row indented" style="animation-delay:.16s" onclick="openDetail('tang_truong_khcn')">
-            <div class="heat-row-left">
-              <div class="heat-row-meta">155 chi nhánh</div>
-              <div class="heat-row-name no-kpi">KHCN</div>
-            </div>
-            <span class="heat-badge badge-empty">K/giao</span>
-            <button class="heat-more" onclick="event.stopPropagation()">···</button>
-          </div>
-
-          <div class="heat-row indented" style="animation-delay:.20s" onclick="openDetail('tang_truong_dctc')">
-            <div class="heat-row-left">
-              <div class="heat-row-meta">155 chi nhánh</div>
-              <div class="heat-row-name no-kpi">ĐCTC</div>
-            </div>
-            <span class="heat-badge badge-empty">K/giao</span>
-            <button class="heat-more" onclick="event.stopPropagation()">···</button>
-          </div>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.24s" onclick="openDetail('nguon_von_bq')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">NGUỒN VỐN BQ</div>
-          </div>
-          <span class="heat-badge badge-green-fill">98.4%</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <!-- Sub-group: Tăng trưởng nguồn vốn -->
-        <div style="background:var(--bg); border-radius:10px; padding:8px 10px 2px; margin-bottom:6px; border:1px solid var(--border);">
-          <div class="heat-group-header" style="padding-top:0">Δ TĂNG TRƯỞNG NGUỒN VỐN BQ</div>
-
-          <div class="heat-row indented" style="animation-delay:.28s" onclick="openDetail('nvbq_tong')">
-            <div class="heat-row-left">
-              <div class="heat-row-meta">155 chi nhánh</div>
-              <div class="heat-row-name">TỔNG</div>
-            </div>
-            <span class="heat-badge badge-green-fill">82.1%</span>
-            <button class="heat-more" onclick="event.stopPropagation()">···</button>
-          </div>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.32s" onclick="openDetail('casa_bq')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">CASA BQ</div>
-          </div>
-          <span class="heat-badge badge-green-fill">95.2%</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
-        <div class="heat-row" style="animation-delay:.36s" onclick="openDetail('tyle_casa')">
-          <div class="heat-row-left">
-            <div class="heat-row-meta">155 chi nhánh</div>
-            <div class="heat-row-name">TỶ LỆ CASA</div>
-          </div>
-          <span class="heat-badge badge-yellow-fill">78.3%</span>
-          <button class="heat-more" onclick="event.stopPropagation()">···</button>
-        </div>
-
+      <div class="widget-card-info">
+        <div class="widget-card-num">4.5 · KPI Điểm số</div>
+        <div class="widget-card-title">Bộ widget KPI Chi nhánh</div>
+        <div class="widget-card-desc">Gauge hiệu suất · 8 chỉ tiêu KPI</div>
       </div>
-    </div><!-- /panel-duno -->
+      <div class="widget-chevron"><svg width="8" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 8 13"><path d="M1 1l6 5.5L1 12"/></svg></div>
+    </div>
 
-  </div><!-- scroll-content -->
-
-  <!-- Bottom nav -->
-  <div class="bottom-area">
-    <div class="global-nav-row">
-      <div class="global-pill">
-        <button class="gpill-btn home-btn" title="Trang chủ">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        </button>
-        <div class="gpill-divider"></div>
-        <button class="gpill-btn" title="Thông báo" style="position:relative">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          <span class="gpill-badge">99</span>
-        </button>
-        <div class="gpill-divider"></div>
-        <button class="gpill-btn" title="Tìm kiếm">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        </button>
+    <!-- 4.6 Lợi nhuận -->
+    <div class="widget-card" onclick="go('s-loinhuan')">
+      <div class="widget-icon blue">
+        <svg width="26" height="26" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       </div>
-      <button class="ai-btn" title="Trợ lý AI">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L13.6 8.8L20.5 10L13.6 11.2L12 18L10.4 11.2L3.5 10L10.4 8.8L12 2Z" fill="white"/>
-          <path d="M19.5 16L20.2 18.3L22.5 19L20.2 19.7L19.5 22L18.8 19.7L16.5 19L18.8 18.3L19.5 16Z" fill="white" opacity="0.75"/>
-        </svg>
-      </button>
+      <div class="widget-card-info">
+        <div class="widget-card-num">4.6 · KPI Lợi nhuận</div>
+        <div class="widget-card-title">Bộ widget Lợi nhuận CN/KV</div>
+        <div class="widget-card-desc">Tổng LN quản trị · LN HĐKD · Donut KPI</div>
+      </div>
+      <div class="widget-chevron"><svg width="8" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 8 13"><path d="M1 1l6 5.5L1 12"/></svg></div>
     </div>
-    <div class="home-indicator"></div>
-  </div>
-
-</div><!-- screen-main -->
-
-
-<!-- ═══════════════════════════════════
-     SCREEN 2 — DETAIL OVERLAY
-═══════════════════════════════════ -->
-<div class="screen" id="screen-detail">
-
-  <div class="status-bar">
-    <span class="status-time">9:41</span>
-    <div class="status-icons">
-      <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><rect x="0" y="3" width="3" height="9" rx="1"/><rect x="4.5" y="2" width="3" height="10" rx="1"/><rect x="9" y="0" width="3" height="12" rx="1"/><rect x="13.5" y="1" width="2.5" height="11" rx="1" opacity="0.3"/></svg>
-      <svg width="16" height="12" viewBox="0 0 20 14" fill="white"><path d="M10 2.5C13.5 2.5 16.5 3.9 18.6 6.1L20 4.7C17.5 2.1 14 .5 10 .5 6 .5 2.5 2.1 0 4.7l1.4 1.4C3.5 3.9 6.5 2.5 10 2.5z"/><path d="M10 6.5c2.2 0 4.2.9 5.7 2.3l1.4-1.4C15.2 5.6 12.7 4.5 10 4.5S4.8 5.6 2.9 7.4l1.4 1.4C5.8 7.4 7.8 6.5 10 6.5z"/><circle cx="10" cy="13" r="1.5"/></svg>
-      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg>
-    </div>
-  </div>
-
-  <div class="detail-header-bar">
-    <div class="detail-topbar">
-      <button class="back-btn" onclick="closeDetail()">
-        <svg width="18" height="18" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <span class="detail-chip-badge" id="detail-chip">Chỉ tiêu: 160021</span>
-      <button class="detail-close-btn" onclick="closeDetail()">✕</button>
-    </div>
-    <div class="detail-kpi-title" id="detail-kpi-title">LN HĐKD</div>
-  </div>
-
-  <!-- Sub-tabs inside detail — same scope chips, but detail-level filter -->
-  <div class="scope-bar" style="padding-top:12px; background:var(--card-bg); border-bottom:1px solid var(--border);">
-    <div class="scope-scroll" id="detail-scope-scroll">
-      <button class="scope-chip active" onclick="setDetailScope(this, 'all')">155 chi nhánh</button>
-      <button class="scope-chip" onclick="setDetailScope(this, 'kv1')">Khu vực 1</button>
-      <button class="scope-chip" onclick="setDetailScope(this, 'kv2')">Khu vực 2</button>
-      <button class="scope-chip" onclick="setDetailScope(this, 'kv3')">Khu vực 3</button>
-      <button class="scope-chip" onclick="setDetailScope(this, 'kv4')">Khu vực 4</button>
-      <button class="scope-chip" onclick="setDetailScope(this, 'kv5')">Khu vực 5</button>
-      <button class="scope-chip" onclick="setDetailScope(this, 'kv6')">Khu vực 6</button>
-      <button class="scope-chip" onclick="setDetailScope(this, 'dnb')">KV Đông Nam Bộ</button>
-      <button class="scope-chip" onclick="setDetailScope(this, 'hcm')">KV Tp. Hồ Chí Minh</button>
-    </div>
-  </div>
-
-  <div class="detail-scroll" id="detail-region-list">
-    <!-- Populated by JS -->
   </div>
 
   <div class="bottom-area">
@@ -678,121 +251,452 @@
     </div>
     <div class="home-indicator"></div>
   </div>
+</div>
 
-</div><!-- screen-detail -->
 
-</div><!-- phone-wrapper -->
+<!-- ══════════════════════════════════
+     SCREEN 4.2 — DƯ NỢ CN/KV
+══════════════════════════════════ -->
+<div class="screen" id="s-duno">
+  <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg></div></div>
+  <div class="header">
+    <div class="header-top">
+      <button class="back-btn" onclick="back()"><svg width="10" height="16" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 10 16"><path d="M8 1L2 8l6 7"/></svg></button>
+      <span class="header-title">4.2 Dư nợ CN/KV</span>
+      <div style="width:36px"></div>
+    </div>
+  </div>
+  <div class="detail-scroll">
+    <div class="col2">
+      <!-- Left: CK -->
+      <div>
+        <div class="meta-chip">Mã CT 120310 trên FPM</div>
+        <div class="blk">
+          <div class="blk-title red">Dư nợ CK LK</div>
+          <div class="blk-value">2,004,573</div>
+          <div class="blk-unit">tỷ đồng</div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="blk">
+          <div class="blk-title red">Delta tăng trưởng DNCK</div>
+          <div style="margin-top:8px">
+            <div class="delta-row"><span class="delta-label">So với ngày hôm trước</span><span class="delta-val"><span class="arrow-up">▲</span><span class="delta-num" style="color:var(--green)">+44.5 tỷ</span></span></div>
+            <div class="delta-row"><span class="delta-label">So với cuối tháng trước</span><span class="delta-val"><span class="arrow-dn">▼</span><span class="delta-num" style="color:var(--red)">-177.3 tỷ</span></span></div>
+            <div class="delta-row"><span class="delta-label">So với đầu năm</span><span class="delta-val"><span class="arrow-dn">▼</span><span class="delta-num" style="color:var(--red)">-98.1 tỷ</span></span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Right: BQ -->
+      <div>
+        <div class="meta-chip">Mã CT 150000 trên FPM</div>
+        <div class="blk">
+          <div class="blk-title red">Dư nợ BQ LK</div>
+          <div class="blk-value">1,960,120</div>
+          <div class="blk-unit">tỷ đồng</div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="blk">
+          <div class="blk-title red">Delta tăng trưởng DNBQ</div>
+          <div style="height:8px"></div>
+          <div class="donut-wrap">
+            <svg class="donut" width="120" height="120" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="46" fill="none" stroke="#E2EAF4" stroke-width="18"/>
+              <circle cx="60" cy="60" r="46" fill="none" stroke="var(--green)" stroke-width="18" stroke-dasharray="178 112" stroke-dashoffset="72" stroke-linecap="round"/>
+              <text x="60" y="64" text-anchor="middle" font-size="14" font-weight="800" fill="var(--text)" font-family="Be Vietnam Pro">97.1%</text>
+            </svg>
+          </div>
+          <div style="text-align:center;font-size:11px;color:var(--text-muted)">%HTKH năm · Delta tăng trưởng</div>
+          <div style="text-align:center;margin-top:6px"><span class="meta-chip">Mã CT 150800 trên FPM</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:10.5px;color:var(--text-muted);padding:4px 2px;line-height:1.7">
+      ↑↓ Có thể hiện mũi tên xanh/đỏ tăng giảm<br>
+      So với các kỳ: lấy số của ngày dữ liệu trừ cho số của ngày các mốc
+    </div>
+  </div>
+  <div class="bottom-area"><div class="global-nav-row"><div class="global-pill"><button class="gpill-btn home-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button><div class="gpill-divider"></div><button class="gpill-btn" style="position:relative"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="gpill-badge">99</span></button><div class="gpill-divider"></div><button class="gpill-btn"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button></div><button class="ai-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.6 8.8L20.5 10L13.6 11.2L12 18L10.4 11.2L3.5 10L10.4 8.8L12 2Z" fill="white"/></svg></button></div><div class="home-indicator"></div></div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     SCREEN 4.3 — NGUỒN VỐN CN/KV
+══════════════════════════════════ -->
+<div class="screen" id="s-nguonvon">
+  <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg></div></div>
+  <div class="header">
+    <div class="header-top">
+      <button class="back-btn" onclick="back()"><svg width="10" height="16" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 10 16"><path d="M8 1L2 8l6 7"/></svg></button>
+      <span class="header-title">4.3 Nguồn vốn CN/KV</span>
+      <div style="width:36px"></div>
+    </div>
+  </div>
+  <div class="detail-scroll">
+    <div class="col2">
+      <!-- Left: CK -->
+      <div>
+        <div class="meta-chip">Mã CT 110010 trên FPM</div>
+        <div class="blk">
+          <div class="blk-title red">Nguồn vốn CK LK</div>
+          <div class="blk-value">1,548,210</div>
+          <div class="blk-unit">tỷ đồng</div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="blk">
+          <div class="blk-title red">Delta tăng trưởng NVCK</div>
+          <div style="margin-top:8px">
+            <div class="delta-row"><span class="delta-label">So với ngày hôm trước</span><span class="delta-val"><span class="arrow-up">▲</span><span class="delta-num" style="color:var(--green)">+12.3 tỷ</span></span></div>
+            <div class="delta-row"><span class="delta-label">So với cuối tháng trước</span><span class="delta-val"><span class="arrow-dn">▼</span><span class="delta-num" style="color:var(--red)">-55.4 tỷ</span></span></div>
+            <div class="delta-row"><span class="delta-label">So với đầu năm</span><span class="delta-val"><span class="arrow-dn">▼</span><span class="delta-num" style="color:var(--red)">-120.0 tỷ</span></span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Right: BQ -->
+      <div>
+        <div class="meta-chip">Mã CT 140010 trên FPM</div>
+        <div class="blk">
+          <div class="blk-title red">Nguồn vốn BQ LK</div>
+          <div class="blk-value">1,520,450</div>
+          <div class="blk-unit">tỷ đồng</div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="blk">
+          <div class="blk-title red">Delta tăng trưởng NVBQ</div>
+          <div class="meta-chip" style="margin-top:6px">Mã CT 140600 trên FPM</div>
+          <div class="donut-wrap">
+            <svg class="donut" width="120" height="120" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="46" fill="none" stroke="#E2EAF4" stroke-width="18"/>
+              <circle cx="60" cy="60" r="46" fill="none" stroke="var(--green)" stroke-width="18" stroke-dasharray="184 106" stroke-dashoffset="72" stroke-linecap="round"/>
+              <text x="60" y="64" text-anchor="middle" font-size="14" font-weight="800" fill="var(--text)" font-family="Be Vietnam Pro">98.4%</text>
+            </svg>
+          </div>
+          <div style="text-align:center;font-size:10.5px;color:var(--text-muted)">%HTKH năm · Delta tăng trưởng</div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:10.5px;color:var(--text-muted);padding:4px 2px;line-height:1.7">
+      ↑↓ Có thể hiện mũi tên xanh/đỏ tăng giảm<br>
+      %HTKH năm delta tăng trưởng → có thể đổi màu theo rule KH năm
+    </div>
+  </div>
+  <div class="bottom-area"><div class="global-nav-row"><div class="global-pill"><button class="gpill-btn home-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button><div class="gpill-divider"></div><button class="gpill-btn" style="position:relative"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="gpill-badge">99</span></button><div class="gpill-divider"></div><button class="gpill-btn"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button></div><button class="ai-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.6 8.8L20.5 10L13.6 11.2L12 18L10.4 11.2L3.5 10L10.4 8.8L12 2Z" fill="white"/></svg></button></div><div class="home-indicator"></div></div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     SCREEN 4.4 — TỶ LỆ NỢ XẤU
+══════════════════════════════════ -->
+<div class="screen" id="s-noxau">
+  <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg></div></div>
+  <div class="header">
+    <div class="header-top">
+      <button class="back-btn" onclick="back()"><svg width="10" height="16" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 10 16"><path d="M8 1L2 8l6 7"/></svg></button>
+      <span class="header-title">4.4 Tỷ lệ nợ xấu CN/KV</span>
+      <div style="width:36px"></div>
+    </div>
+  </div>
+  <div class="detail-scroll">
+    <div class="col2">
+      <!-- Left: Dư nợ N2-N5 -->
+      <div>
+        <div class="meta-chip">CT 120350 + 120360</div>
+        <div class="blk">
+          <div class="blk-title red">Dư nợ N2-N5 CK LK</div>
+          <div class="blk-value">18,430</div>
+          <div class="blk-unit">tỷ đồng</div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="blk">
+          <div class="blk-title red">Delta tăng trưởng DN N2-N5 CK</div>
+          <div style="margin-top:8px">
+            <div class="delta-row"><span class="delta-label">So với ngày hôm trước</span><span class="delta-val"><span class="arrow-up">▲</span><span class="delta-num" style="color:var(--green)">+0.8 tỷ</span></span></div>
+            <div class="delta-row"><span class="delta-label">So với cuối tháng trước</span><span class="delta-val"><span class="arrow-dn">▼</span><span class="delta-num" style="color:var(--red)">-2.4 tỷ</span></span></div>
+            <div class="delta-row"><span class="delta-label">So với đầu năm</span><span class="delta-val"><span class="arrow-dn">▼</span><span class="delta-num" style="color:var(--red)">-5.1 tỷ</span></span></div>
+          </div>
+        </div>
+      </div>
+      <!-- Right: Tỷ lệ nợ xấu gauge -->
+      <div>
+        <div class="meta-chip">Chỉ tiêu 240046</div>
+        <div class="blk">
+          <div class="blk-title red">Tỷ lệ nợ xấu</div>
+          <!-- Gauge SVG -->
+          <div class="gauge-wrap">
+            <svg width="150" height="85" viewBox="0 0 160 90">
+              <!-- Track -->
+              <path d="M20 80 A60 60 0 0 1 140 80" fill="none" stroke="#E2EAF4" stroke-width="16" stroke-linecap="round"/>
+              <!-- Red zone -->
+              <path d="M20 80 A60 60 0 0 1 53 32" fill="none" stroke="var(--red)" stroke-width="16" stroke-linecap="round"/>
+              <!-- Yellow zone -->
+              <path d="M53 32 A60 60 0 0 1 100 22" fill="none" stroke="var(--yellow)" stroke-width="16" stroke-linecap="round"/>
+              <!-- Green zone -->
+              <path d="M100 22 A60 60 0 0 1 140 80" fill="none" stroke="var(--green)" stroke-width="16" stroke-linecap="round"/>
+              <!-- Needle -->
+              <line x1="80" y1="80" x2="46" y2="38" stroke="#1A2332" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="80" cy="80" r="6" fill="#1A2332"/>
+              <!-- Labels -->
+              <text x="12" y="90" font-size="9" fill="var(--text-sec)" font-family="Be Vietnam Pro">Thấp</text>
+              <text x="68" y="16" font-size="9" fill="var(--text-sec)" font-family="Be Vietnam Pro">TB</text>
+              <text x="136" y="90" font-size="9" fill="var(--text-sec)" font-family="Be Vietnam Pro">Cao</text>
+            </svg>
+          </div>
+          <div style="text-align:center;margin-top:4px">
+            <span class="pct-badge red" style="font-size:18px;padding:8px 20px">1.73%</span>
+          </div>
+          <!-- Thang đánh giá -->
+          <div class="rate-table" style="margin-top:12px">
+            <div class="rate-cell green">Thấp</div>
+            <div class="rate-cell yellow">Bình</div>
+            <div class="rate-cell red">Cao</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;margin-top:2px">
+            <div class="rate-cell-sub">Tốt<br>≤ 0.5%</div>
+            <div class="rate-cell-sub">Trung bình<br>0.5–1.5%</div>
+            <div class="rate-cell-sub">Xấu<br>≥ 1.5%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="font-size:10.5px;color:var(--text-muted);padding:4px 2px;line-height:1.7">
+      ↑↓ Có thể hiện mũi tên xanh/đỏ tăng giảm<br>
+      So với các kỳ: lấy số của ngày dữ liệu trừ cho số của ngày các mốc
+    </div>
+  </div>
+  <div class="bottom-area"><div class="global-nav-row"><div class="global-pill"><button class="gpill-btn home-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button><div class="gpill-divider"></div><button class="gpill-btn" style="position:relative"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="gpill-badge">99</span></button><div class="gpill-divider"></div><button class="gpill-btn"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button></div><button class="ai-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.6 8.8L20.5 10L13.6 11.2L12 18L10.4 11.2L3.5 10L10.4 8.8L12 2Z" fill="white"/></svg></button></div><div class="home-indicator"></div></div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     SCREEN 4.5 — KPI CHI NHÁNH
+══════════════════════════════════ -->
+<div class="screen" id="s-kpicn">
+  <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg></div></div>
+  <div class="header">
+    <div class="header-top">
+      <button class="back-btn" onclick="back()"><svg width="10" height="16" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 10 16"><path d="M8 1L2 8l6 7"/></svg></button>
+      <span class="header-title">4.5 KPI Chi nhánh</span>
+      <div style="width:36px"></div>
+    </div>
+  </div>
+  <div class="detail-scroll">
+    <!-- Gauge + header KPI score -->
+    <div class="blk" style="margin-bottom:12px">
+      <div class="blk-title red" style="margin-bottom:10px">Điểm KPI Chi nhánh XXX</div>
+      <div class="gauge-wrap">
+        <svg width="220" height="120" viewBox="0 0 220 120">
+          <path d="M20 105 A90 90 0 0 1 200 105" fill="none" stroke="#E2EAF4" stroke-width="22" stroke-linecap="round"/>
+          <path d="M20 105 A90 90 0 0 1 57 38" fill="none" stroke="var(--red)" stroke-width="22" stroke-linecap="round"/>
+          <path d="M57 38 A90 90 0 0 1 110 18" fill="none" stroke="var(--yellow)" stroke-width="22" stroke-linecap="round"/>
+          <path d="M110 18 A90 90 0 0 1 200 105" fill="none" stroke="var(--green)" stroke-width="22" stroke-linecap="round"/>
+          <!-- Needle pointing ~55% -->
+          <line x1="110" y1="105" x2="62" y2="48" stroke="#1A2332" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="110" cy="105" r="8" fill="#1A2332"/>
+          <!-- Zone labels -->
+          <text x="8" y="115" font-size="10" font-weight="700" fill="var(--red)" font-family="Be Vietnam Pro">THẤP</text>
+          <text x="90" y="12" font-size="10" font-weight="700" fill="var(--yellow)" font-family="Be Vietnam Pro">TRUNG BÌNH</text>
+          <text x="172" y="115" font-size="10" font-weight="700" fill="var(--green)" font-family="Be Vietnam Pro">CAO</text>
+          <!-- Score -->
+          <text x="110" y="88" text-anchor="middle" font-size="13" font-weight="800" fill="var(--text)" font-family="Be Vietnam Pro">54.8 điểm</text>
+        </svg>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:0 8px;margin-top:-4px">
+        <span style="font-size:10px;color:var(--text-muted)">0–33% Hiệu suất thấp</span>
+        <span style="font-size:10px;color:var(--text-muted)">67–100% Hiệu suất cao</span>
+      </div>
+    </div>
+
+    <!-- 8 KPI items -->
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <!-- 1 -->
+      <div class="blk">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span class="kpi-num">1</span>
+          <span class="kpi-row-title">Tổng LN trước thu XLRR</span>
+        </div>
+        <div style="font-size:11px;font-weight:600;background:var(--primary);color:white;padding:4px 8px;border-radius:6px;margin-bottom:6px">xxx điểm (điểm thực tế của CN)</div>
+        <div class="prog-wrap"><div class="prog-bar blue" style="width:72%"></div></div>
+        <div class="prog-sub">72 / 100 điểm tối đa</div>
+      </div>
+      <!-- 2 -->
+      <div class="blk">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span class="kpi-num">2</span>
+          <span class="kpi-row-title">Thu nợ XLRR (KPI)</span>
+        </div>
+        <div style="font-size:11px;font-weight:600;background:var(--primary);color:white;padding:4px 8px;border-radius:6px;margin-bottom:6px">xxx điểm (điểm thực tế của CN)</div>
+        <div class="prog-wrap"><div class="prog-bar green" style="width:85%"></div></div>
+        <div class="prog-sub">85 / 100 điểm tối đa</div>
+      </div>
+      <!-- 3 -->
+      <div class="blk">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span class="kpi-num">3</span>
+          <span class="kpi-row-title">Thu thuần ngoài lãi</span>
+        </div>
+        <div style="font-size:11px;font-weight:600;background:var(--yellow);color:white;padding:4px 8px;border-radius:6px;margin-bottom:6px">xxx điểm (điểm thực tế của CN)</div>
+        <div class="prog-wrap"><div class="prog-bar yellow" style="width:55%"></div></div>
+        <div class="prog-sub">55 / 100 điểm tối đa</div>
+      </div>
+      <!-- 4 -->
+      <div class="blk">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span class="kpi-num">4</span>
+          <span class="kpi-row-title">Doanh số bảo hiểm VBI</span>
+        </div>
+        <div style="font-size:11px;font-weight:600;background:var(--red);color:white;padding:4px 8px;border-radius:6px;margin-bottom:6px">xxx điểm (điểm thực tế của CN)</div>
+        <div class="prog-wrap"><div class="prog-bar red" style="width:30%"></div></div>
+        <div class="prog-sub">30 / 100 điểm tối đa</div>
+      </div>
+      <!-- 5 -->
+      <div class="blk">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span class="kpi-num">5</span>
+          <span class="kpi-row-title">Doanh số bảo hiểm Manulife</span>
+        </div>
+        <div style="font-size:11px;font-weight:600;background:var(--primary);color:white;padding:4px 8px;border-radius:6px;margin-bottom:6px">xxx điểm (điểm thực tế của CN)</div>
+        <div class="prog-wrap"><div class="prog-bar blue" style="width:78%"></div></div>
+        <div class="prog-sub">78 / 100 điểm tối đa</div>
+      </div>
+      <!-- 6 -->
+      <div class="blk">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span class="kpi-num">6</span>
+          <span class="kpi-row-title">Tổng DNBQ tăng trưởng trong năm</span>
+        </div>
+        <div style="font-size:11px;font-weight:600;background:var(--yellow);color:white;padding:4px 8px;border-radius:6px;margin-bottom:6px">xxx điểm (điểm thực tế của CN)</div>
+        <div class="prog-wrap"><div class="prog-bar yellow" style="width:62%"></div></div>
+        <div class="prog-sub">62 / 100 điểm tối đa</div>
+      </div>
+      <!-- 7 -->
+      <div class="blk">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span class="kpi-num">7</span>
+          <span class="kpi-row-title">Tổng NV huy động tăng trưởng trong năm</span>
+        </div>
+        <div style="font-size:11px;font-weight:600;background:var(--red);color:white;padding:4px 8px;border-radius:6px;margin-bottom:6px">xxx điểm (điểm thực tế của CN)</div>
+        <div class="prog-wrap"><div class="prog-bar red" style="width:28%"></div></div>
+        <div class="prog-sub">28 / 100 điểm tối đa</div>
+      </div>
+      <!-- 8 -->
+      <div class="blk">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span class="kpi-num">8</span>
+          <span class="kpi-row-title">Tỷ lệ nợ xấu trước XLRR</span>
+        </div>
+        <div style="font-size:11px;font-weight:600;background:var(--green);color:white;padding:4px 8px;border-radius:6px;margin-bottom:6px">xxx điểm (điểm thực tế của CN)</div>
+        <div class="prog-wrap"><div class="prog-bar green" style="width:90%"></div></div>
+        <div class="prog-sub">90 / 100 điểm tối đa</div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-area"><div class="global-nav-row"><div class="global-pill"><button class="gpill-btn home-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button><div class="gpill-divider"></div><button class="gpill-btn" style="position:relative"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="gpill-badge">99</span></button><div class="gpill-divider"></div><button class="gpill-btn"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button></div><button class="ai-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.6 8.8L20.5 10L13.6 11.2L12 18L10.4 11.2L3.5 10L10.4 8.8L12 2Z" fill="white"/></svg></button></div><div class="home-indicator"></div></div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     SCREEN 4.6 — LỢI NHUẬN CN/KV
+══════════════════════════════════ -->
+<div class="screen" id="s-loinhuan">
+  <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="22" height="10" rx="3" stroke="white" stroke-width="1.5" fill="none"/><rect x="1.5" y="2.5" width="16" height="7" rx="1.5" fill="white"/><rect x="23" y="4" width="2" height="4" rx="1" fill="white" opacity="0.5"/></svg></div></div>
+  <div class="header">
+    <div class="header-top">
+      <button class="back-btn" onclick="back()"><svg width="10" height="16" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 10 16"><path d="M8 1L2 8l6 7"/></svg></button>
+      <span class="header-title">4.6 Lợi nhuận CN/KV</span>
+      <div style="width:36px"></div>
+    </div>
+  </div>
+  <div class="detail-scroll">
+    <!-- Tổng lợi nhuận quản trị -->
+    <div class="blk" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <div style="flex:1">
+          <div class="blk-title blue" style="margin-bottom:0;text-align:left;padding:10px 12px">Tổng lợi nhuận quản trị (KPI)</div>
+        </div>
+        <div style="flex-shrink:0;text-align:right">
+          <div class="blk-title blue" style="margin-bottom:0;padding:10px 14px">... tỷ đồng</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LN HĐKD gồm hoàn -->
+    <div class="blk" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+        <div style="flex:1">
+          <div class="blk-title red" style="margin-bottom:0;text-align:left;padding:10px 12px">Lợi nhuận HĐKD gồm hoàn</div>
+        </div>
+        <div style="flex-shrink:0">
+          <div class="blk-title red" style="margin-bottom:0;padding:10px 14px">... tỷ đồng</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 donut — Quý / Năm -->
+    <div class="col2">
+      <div class="blk">
+        <div class="blk-title red">%HTKH Quý X / xxxx</div>
+        <div class="donut-wrap">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="44" fill="none" stroke="#E2EAF4" stroke-width="18"/>
+            <circle cx="60" cy="60" r="44" fill="none" stroke="var(--red)" stroke-width="18" stroke-dasharray="116 160" stroke-dashoffset="69" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="44" fill="none" stroke="var(--green)" stroke-width="18" stroke-dasharray="44 232" stroke-dashoffset="-47" stroke-linecap="round" opacity="0.4"/>
+            <text x="60" y="57" text-anchor="middle" font-size="13" font-weight="800" fill="var(--text)" font-family="Be Vietnam Pro">61.0%</text>
+            <text x="60" y="72" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Be Vietnam Pro">HTKH Quý</text>
+          </svg>
+        </div>
+      </div>
+      <div class="blk">
+        <div class="blk-title red">%HTKH Năm X</div>
+        <div class="donut-wrap">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="44" fill="none" stroke="#E2EAF4" stroke-width="18"/>
+            <circle cx="60" cy="60" r="44" fill="none" stroke="var(--red)" stroke-width="18" stroke-dasharray="120 156" stroke-dashoffset="69" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="44" fill="none" stroke="var(--green)" stroke-width="18" stroke-dasharray="36 240" stroke-dashoffset="-51" stroke-linecap="round" opacity="0.4"/>
+            <text x="60" y="57" text-anchor="middle" font-size="13" font-weight="800" fill="var(--text)" font-family="Be Vietnam Pro">55.4%</text>
+            <text x="60" y="72" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Be Vietnam Pro">HTKH Năm</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="blk" style="margin-top:12px">
+      <div style="display:flex;gap:16px;align-items:center;justify-content:center">
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:3px;background:var(--red)"></div><span style="font-size:11px;color:var(--text-sec)">Thực hiện</span></div>
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:3px;background:var(--green);opacity:0.5"></div><span style="font-size:11px;color:var(--text-sec)">Còn lại</span></div>
+        <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:3px;background:#E2EAF4"></div><span style="font-size:11px;color:var(--text-sec)">Chưa giao</span></div>
+      </div>
+      <div style="margin-top:10px;font-size:10.5px;color:var(--text-muted);line-height:1.7;text-align:center">
+        Màu đỏ = thực hiện · Màu xanh nhạt = phần còn lại đến KH<br>Màu xám = chưa có kế hoạch giao
+      </div>
+    </div>
+  </div>
+  <div class="bottom-area"><div class="global-nav-row"><div class="global-pill"><button class="gpill-btn home-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></button><div class="gpill-divider"></div><button class="gpill-btn" style="position:relative"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="gpill-badge">99</span></button><div class="gpill-divider"></div><button class="gpill-btn"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button></div><button class="ai-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L13.6 8.8L20.5 10L13.6 11.2L12 18L10.4 11.2L3.5 10L10.4 8.8L12 2Z" fill="white"/></svg></button></div><div class="home-indicator"></div></div>
+</div>
+
+</div><!-- /phone -->
 
 <script>
-/* ── DATA ── */
-const detailData = {
-  ln_hdkd: {
-    chip: '160021', title: 'LN HĐKD',
-    regions: [
-      { name: '155 chi nhánh', val: '61.0%', cls: 'badge-yellow-fill' },
-      { name: 'Khu vực 1',     val: '64.6%', cls: 'badge-yellow-fill' },
-      { name: 'Khu vực 2',     val: '62.0%', cls: 'badge-yellow-fill' },
-      { name: 'Khu vực 3',     val: '64.8%', cls: 'badge-yellow-fill' },
-      { name: 'Khu vực 4',     val: '62.2%', cls: 'badge-yellow-fill' },
-      { name: 'Khu vực 5',     val: '62.4%', cls: 'badge-yellow-fill' },
-      { name: 'Khu vực 6',     val: '58.6%', cls: 'badge-yellow-fill' },
-      { name: 'KV Đông Nam Bộ',val: '51.4%', cls: 'badge-red-fill' },
-      { name: 'KV Tp. Hồ Chí Minh', val: '55.8%', cls: 'badge-yellow-fill' },
-    ]
-  },
-  du_no_td_bq: {
-    chip: '150000', title: 'TỔNG DƯ NỢ TÍN DỤNG BQ',
-    regions: [
-      { name: '155 chi nhánh', val: '97.1%',  cls: 'badge-green-fill' },
-      { name: 'Khu vực 1',     val: '101.9%', cls: 'badge-green-fill' },
-      { name: 'Khu vực 2',     val: '93.7%',  cls: 'badge-green-fill' },
-      { name: 'Khu vực 3',     val: '97.0%',  cls: 'badge-green-fill' },
-      { name: 'Khu vực 4',     val: '99.8%',  cls: 'badge-green-fill' },
-      { name: 'Khu vực 5',     val: '100.1%', cls: 'badge-green-fill' },
-      { name: 'Khu vực 6',     val: '96.1%',  cls: 'badge-green-fill' },
-      { name: 'KV Đông Nam Bộ',val: '101.0%', cls: 'badge-green-fill' },
-      { name: 'KV Tp. Hồ Chí Minh', val: '90.2%', cls: 'badge-green-fill' },
-    ]
-  },
-};
+let history = [];
 
-// Default fallback for items without specific data
-function getDefaultRegions(pct, cls) {
-  return [
-    { name: '155 chi nhánh', val: pct, cls },
-    { name: 'Khu vực 1',     val: pct, cls },
-    { name: 'Khu vực 2',     val: pct, cls },
-    { name: 'Khu vực 3',     val: pct, cls },
-    { name: 'Khu vực 4',     val: pct, cls },
-    { name: 'Khu vực 5',     val: pct, cls },
-    { name: 'Khu vực 6',     val: pct, cls },
-    { name: 'KV Đông Nam Bộ',val: pct, cls },
-    { name: 'KV Tp. Hồ Chí Minh', val: pct, cls },
-  ];
-}
-
-/* ── SUB-TAB SWITCH ── */
-function switchSubtab(key) {
-  document.querySelectorAll('.subtab-pill').forEach(p => p.classList.remove('active'));
-  document.getElementById('subtab-' + key).classList.add('active');
-  document.querySelectorAll('.tab-panel-bd').forEach(p => p.style.display = 'none');
-  document.getElementById('panel-' + key).style.display = 'block';
-}
-
-/* ── SCOPE FILTER ── */
-function setScope(el, key) {
-  document.querySelectorAll('#scope-scroll .scope-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-}
-
-function setDetailScope(el, key) {
-  document.querySelectorAll('#detail-scope-scroll .scope-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-}
-
-/* ── OPEN DETAIL ── */
-function openDetail(id) {
-  const d = detailData[id];
-  const chip = d ? d.chip : '—';
-  const title = d ? d.title : id.toUpperCase().replace(/_/g,' ');
-  const regions = d ? d.regions : getDefaultRegions('—', 'badge-empty');
-
-  document.getElementById('detail-chip').textContent = 'Chỉ tiêu: ' + chip;
-  document.getElementById('detail-kpi-title').textContent = title;
-
-  const list = document.getElementById('detail-region-list');
-  list.innerHTML = regions.map((r, i) => `
-    <div class="region-row" style="animation-delay:${0.04 + i*0.04}s">
-      <span class="region-name">${r.name}</span>
-      <span class="region-badge ${r.cls}">${r.val}</span>
-    </div>
-  `).join('');
-
-  // Reset detail scope chips
-  document.querySelectorAll('#detail-scope-scroll .scope-chip').forEach((c,i) => {
-    c.classList.toggle('active', i === 0);
-  });
-
-  const main = document.getElementById('screen-main');
-  const detail = document.getElementById('screen-detail');
-  main.classList.add('slide-out');
+function go(id) {
+  const current = document.querySelector('.screen.active');
+  if (!current) return;
+  history.push(current.id);
+  current.classList.add('slide-out');
   setTimeout(() => {
-    main.classList.remove('active', 'slide-out');
-    detail.classList.add('active');
+    current.classList.remove('active', 'slide-out');
+    document.getElementById(id).classList.add('active');
   }, 50);
 }
 
-/* ── CLOSE DETAIL ── */
-function closeDetail() {
-  const main = document.getElementById('screen-main');
-  const detail = document.getElementById('screen-detail');
-  detail.classList.remove('active');
-  setTimeout(() => { main.classList.add('active'); }, 50);
-}
-
-/* ── ITAB dummy (just visual) ── */
-function switchItab(key, el) {
-  // visual only in this demo
+function back() {
+  if (!history.length) return;
+  const prevId = history.pop();
+  const current = document.querySelector('.screen.active');
+  current.classList.remove('active');
+  setTimeout(() => {
+    document.getElementById(prevId).classList.add('active');
+  }, 50);
 }
 </script>
 </body>
