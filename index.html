@@ -366,141 +366,6 @@
     opacity: 0.15;
   }
 
-  /* ══════════════════════════════════════
-     PROFILE / CÁ NHÂN PANEL
-  ══════════════════════════════════════ */
-  #panel-canhan { display: none; }
-  #panel-canhan.active { display: block; }
-
-  /* Avatar block */
-  .profile-avatar-wrap {
-    display: flex; flex-direction: column; align-items: center;
-    padding: 24px 20px 20px;
-  }
-  .profile-avatar {
-    width: 84px; height: 84px; border-radius: 50%;
-    background: linear-gradient(135deg, #0066B3, #0099FF);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 32px; font-weight: 800; color: white;
-    box-shadow: 0 6px 24px rgba(0,102,179,0.28);
-    position: relative; margin-bottom: 12px;
-  }
-  .profile-avatar-edit {
-    position: absolute; bottom: 0; right: 0;
-    width: 26px; height: 26px; border-radius: 50%;
-    background: white; border: 2px solid var(--primary);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-  }
-  .profile-name {
-    font-size: 18px; font-weight: 800; color: var(--text);
-    margin-bottom: 4px; letter-spacing: -0.3px;
-  }
-  .profile-role {
-    font-size: 12px; color: var(--text-muted); font-weight: 500;
-  }
-
-  /* Info card */
-  .info-card {
-    background: var(--card-bg); border-radius: 16px;
-    margin: 0 16px 12px; overflow: hidden;
-    box-shadow: var(--shadow); border: 1px solid var(--border);
-  }
-  .info-row {
-    display: flex; align-items: center;
-    padding: 12px 16px; border-bottom: 1px solid var(--border);
-    gap: 12px;
-  }
-  .info-row:last-child { border-bottom: none; }
-  .info-row-icon {
-    width: 34px; height: 34px; border-radius: 10px;
-    background: var(--primary-light);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .info-row-body { flex: 1; min-width: 0; }
-  .info-row-label {
-    font-size: 10.5px; color: var(--text-muted);
-    font-weight: 600; margin-bottom: 2px; letter-spacing: 0.2px;
-  }
-  .info-row-value {
-    font-size: 13.5px; font-weight: 700; color: var(--text);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-
-  /* Section title */
-  .pf-section-title {
-    font-size: 11px; font-weight: 800; color: var(--text-muted);
-    letter-spacing: 1px; text-transform: uppercase;
-    padding: 16px 20px 8px;
-  }
-
-  /* Logout button */
-  .logout-btn {
-    display: flex; align-items: center; gap: 10px;
-    width: calc(100% - 32px); margin: 0 16px 16px;
-    padding: 13px 16px; border-radius: 12px;
-    border: 1.5px solid #FFCDD2; background: #FFF5F5;
-    color: #C0392B; font-size: 14px; font-weight: 700;
-    cursor: pointer; transition: all 0.2s;
-    font-family: 'Be Vietnam Pro', sans-serif;
-  }
-  .logout-btn:hover { background: #FFE5E5; border-color: #EF9A9A; }
-  .logout-btn:active { transform: scale(0.98); }
-
-  /* Widget settings card */
-  .widget-settings-card {
-    background: var(--card-bg); border-radius: 16px;
-    margin: 0 16px 12px; overflow: hidden;
-    box-shadow: var(--shadow); border: 1px solid var(--border);
-  }
-  .ws-header {
-    padding: 12px 16px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .ws-header-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: var(--primary); display: flex; align-items: center;
-    justify-content: center; flex-shrink: 0;
-  }
-  .ws-header-title { font-size: 14px; font-weight: 800; color: var(--text); }
-  .ws-header-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-
-  /* Selector row */
-  .ws-row {
-    padding: 13px 16px; border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-    cursor: pointer; transition: background 0.15s;
-  }
-  .ws-row:last-child { border-bottom: none; }
-  .ws-row:hover { background: var(--bg); }
-  .ws-row-left { display: flex; align-items: center; gap: 10px; }
-  .ws-row-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--primary); flex-shrink: 0;
-  }
-  .ws-row-label { font-size: 13px; font-weight: 600; color: var(--text); }
-  .ws-row-value {
-    font-size: 12px; font-weight: 700; color: var(--primary);
-    background: var(--primary-light); padding: 4px 10px;
-    border-radius: 20px; display: flex; align-items: center; gap: 4px;
-  }
-
-  /* Run button */
-  .run-btn {
-    display: flex; align-items: center; justify-content: center; gap-8px;
-    width: calc(100% - 32px); margin: 4px 16px 16px;
-    padding: 15px; border-radius: 14px;
-    border: none; cursor: pointer;
-    background: linear-gradient(135deg, #0066B3, #0088EE);
-    color: white; font-size: 15px; font-weight: 800;
-    box-shadow: 0 6px 20px rgba(0,102,179,0.35);
-    transition: all 0.2s; font-family: 'Be Vietnam Pro', sans-serif;
-    letter-spacing: 0.2px;
-  }
-  .run-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,102,179,0.4); }
-  .run-btn:active { transform: scale(0.98); }
-
   /* AI Floating Button */
   .ai-btn {
     width: 50px; height: 50px;
@@ -571,6 +436,135 @@
   @keyframes slideInUp {
     from { opacity:0; transform:translateY(16px); }
     to   { opacity:1; transform:translateY(0); }
+  }
+
+  /* ── STANDALONE CARDS (ngoài nhóm) ── */
+  .standalone-section { margin-bottom: 6px; }
+
+  /* ── GROUP ACCORDION ── */
+  .group-block {
+    background: var(--card-bg);
+    border-radius: 18px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1.5px solid transparent;
+    transition: border-color 0.25s;
+  }
+  .group-block:has(.group-body.open) { border-color: var(--primary-light); }
+
+  /* Header của nhóm */
+  .group-header {
+    display: flex; align-items: center;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    gap: 11px;
+    transition: background 0.2s;
+    position: relative;
+  }
+  .group-header:hover { background: var(--primary-light); }
+  .group-header:active { background: #daeaf7; }
+
+  /* Icon màu nhóm */
+  .group-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .group-icon.blue  { background: #E8F2FB; color: var(--primary); }
+  .group-icon.green { background: #E8F9F0; color: #27AE60; }
+  .group-icon.teal  { background: #E4F6F8; color: #0891B2; }
+
+  .group-header-text { flex: 1; min-width: 0; }
+  .group-title {
+    font-size: 13px; font-weight: 800;
+    color: var(--text); line-height: 1.3;
+    letter-spacing: 0.2px;
+  }
+  .group-subtitle {
+    font-size: 10.5px; font-weight: 500; color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* Badge đếm số card */
+  .group-count {
+    background: var(--primary); color: white;
+    font-size: 10px; font-weight: 800;
+    min-width: 22px; height: 22px; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 6px; flex-shrink: 0;
+  }
+  .group-block:has(.group-body.open) .group-count { background: #27AE60; }
+
+  /* Mũi tên xoay */
+  .group-chevron {
+    color: var(--text-muted); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    flex-shrink: 0;
+  }
+  .group-body.open + .group-header .group-chevron,
+  .group-header.expanded .group-chevron { transform: rotate(180deg); }
+
+  /* Progress summary bar (mini, inside group header) */
+  .group-progress {
+    width: 100%;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .group-progress-fill {
+    height: 100%; border-radius: 2px;
+    background: linear-gradient(90deg, var(--primary), #27AE60);
+    transition: width 0.5s ease;
+  }
+
+  /* Body ẩn/hiện */
+  .group-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .group-body.open { max-height: 9999px; }
+
+  .group-divider {
+    height: 1px; background: var(--border);
+    margin: 0 16px;
+  }
+
+  /* Card bên trong group — bỏ bo tròn ngoài, dùng divider */
+  .group-body .metric-card {
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    animation: none; /* tắt animation riêng, để group xử lý */
+  }
+  .group-body .metric-card:last-child { border-bottom: none; }
+  .group-body .metric-card:hover { transform: translateX(3px); border-color: var(--border); box-shadow: none; }
+  .group-body .metric-card::before { width: 3px; border-radius: 0; }
+
+  /* "Xem thêm" button khi có nhiều cards */
+  .show-more-btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    width: 100%; padding: 11px 16px;
+    background: var(--bg); border: none; cursor: pointer;
+    font-size: 11.5px; font-weight: 700; color: var(--primary);
+    transition: background 0.2s;
+  }
+  .show-more-btn:hover { background: var(--primary-light); }
+
+  /* Sticky group label khi scroll (optional decoration) */
+  .section-label {
+    font-size: 10px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: 14px 4px 6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after {
+    content:''; flex:1; height:1px; background:var(--border);
   }
 </style>
 </head>
@@ -653,16 +647,20 @@
         </div>
       </div>
 
-      <!-- Filter: Cá nhân — hiển thị thông tin tĩnh, không tương tác -->
+      <!-- Filter: LINHDCN -->
       <div class="filter-panel" id="filter-linh">
-        <div style="display:flex;align-items:center;gap:12px;padding:10px 0 14px;">
-          <!-- Avatar -->
-          <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:white;flex-shrink:0;">L</div>
-          <!-- Info text -->
-          <div style="flex:1;min-width:0;">
-            <div style="color:white;font-size:15px;font-weight:800;letter-spacing:-.2px;line-height:1.2;">Nguyễn Thị Linh</div>
-            <div style="color:rgba(255,255,255,0.65);font-size:11px;font-weight:500;margin-top:3px;">linhdcn@vietinbank.vn</div>
-            <div style="color:rgba(255,255,255,0.55);font-size:10.5px;font-weight:500;margin-top:2px;letter-spacing:.1px;">099021 · CN Ba Đình · 18/05/2026</div>
+        <div class="filter-card">
+          <div class="filter-date">
+            <span class="filter-date-label">Ngày cập nhật:</span>
+            <span class="filter-date-value">18/05/2026 ▾</span>
+          </div>
+          <div class="filter-scope">
+            <svg width="12" height="12" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            <span class="filter-scope-text">TẤT CẢ NHÂN VIÊN</span>
+          </div>
+          <div class="filter-chips">
+            <span class="fchip active-chip"><span class="fchip-label">Phòng ban:</span> Tất cả ▾</span>
+            <span class="fchip"><span class="fchip-label">Xếp loại:</span> Tất cả ▾</span>
           </div>
         </div>
       </div>
@@ -700,11 +698,12 @@
     <button class="itab" id="itab-linh" onclick="switchItab('linh',this)">
       <div class="itab-icon">
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
         </svg>
       </div>
-      <span class="itab-label">Cá nhân</span>
+      <span class="itab-label">LINHDCN</span>
     </button>
   </div>
 
@@ -721,89 +720,601 @@
   <div class="scroll-content">
     <div class="tab-panel active" id="panel-quymo">
 
-      <div class="metric-card" onclick="openDetail('card1')">
-        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150000 · Tỷ đồng</span><button class="card-more">···</button></div>
-        <div class="card-name">DƯ NỢ TÍN DỤNG BQ LK</div>
-        <div class="card-value-row">
-          <div class="card-value">2,004,573<span>.62</span></div>
-          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
-        <div class="card-kpi">
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
-          <div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 97.15%</div>
-          <div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 91.28%</div>
-        </div>
+      <!-- ══════════════════════════════
+           PHẦN 1: CARDS ĐƠN LẺ (10 cards)
+           Hiển thị thẳng, không gộp nhóm
+      ══════════════════════════════ -->
+      <div class="section-label">Chỉ tiêu tổng hợp</div>
+
+      <div class="metric-card" onclick="openDetail('s1')" style="animation-delay:.04s">
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 100000 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+        <div class="card-name">TỔNG TÀI SẢN</div>
+        <div class="card-value-row"><div class="card-value">5,120,840<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 102.4%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 95.1%</div></div>
       </div>
 
-      <div class="metric-card" onclick="openDetail('card2')">
-        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150410 · Tỷ đồng</span><button class="card-more">···</button></div>
-        <div class="card-name">DƯ NỢ TÍN DỤNG KHDN LỚN BQ LK</div>
-        <div class="card-value-row">
-          <div class="card-value">618,980<span>.66</span></div>
-          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
-        <div class="card-kpi">
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div>
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div>
-        </div>
+      <div class="metric-card" onclick="openDetail('s2')" style="animation-delay:.07s">
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 110000 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+        <div class="card-name">VỐN CHỦ SỞ HỮU</div>
+        <div class="card-value-row"><div class="card-value">210,350<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 88.3%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 82.5%</div></div>
       </div>
 
-      <div class="metric-card" onclick="openDetail('card3')">
-        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150420 · Tỷ đồng</span><button class="card-more">···</button></div>
-        <div class="card-name">DƯ NỢ TÍN DỤNG KHDN VVN BQ LK (GỒM SVM)</div>
-        <div class="card-value-row">
-          <div class="card-value">450,061<span>.95</span></div>
-          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
-        <div class="card-kpi">
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div>
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div>
-        </div>
+      <div class="metric-card" onclick="openDetail('s3')" style="animation-delay:.10s">
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 120000 · %</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+        <div class="card-name">TỶ LỆ NỢ XẤU (NPL)</div>
+        <div class="card-value-row"><div class="card-value">1<span>.42%</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> Đạt</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> Đạt</div></div>
       </div>
 
-      <div class="metric-card" onclick="openDetail('card4')">
-        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150430 · Tỷ đồng</span><button class="card-more">···</button></div>
-        <div class="card-name">DƯ NỢ TÍN DỤNG KHDN FDI BQ LK</div>
-        <div class="card-value-row">
-          <div class="card-value">119,455<span>.06</span></div>
-          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
-        <div class="card-kpi">
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div>
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div>
-        </div>
+      <div class="metric-card" onclick="openDetail('s4')" style="animation-delay:.13s">
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 130000 · %</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+        <div class="card-name">HỆ SỐ AN TOÀN VỐN (CAR)</div>
+        <div class="card-value-row"><div class="card-value">12<span>.85%</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> Đạt ≥11%</div></div>
       </div>
 
-      <div class="metric-card" onclick="openDetail('card5')">
-        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150500 · Tỷ đồng</span><button class="card-more">···</button></div>
-        <div class="card-name">DƯ NỢ TÍN DỤNG KHCN BQ LK</div>
-        <div class="card-value-row">
-          <div class="card-value">790,863<span>.35</span></div>
-          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
-        <div class="card-kpi">
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div>
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div>
-        </div>
+      <div class="metric-card" onclick="openDetail('s5')" style="animation-delay:.16s">
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 140000 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+        <div class="card-name">THU NHẬP LÃI THUẦN (NII)</div>
+        <div class="card-value-row"><div class="card-value">38,420<span>.50</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 94.2%</div></div>
       </div>
 
-      <div class="metric-card" onclick="openDetail('card6')">
-        <div class="card-meta"><span class="card-code">Chỉ tiêu: 150450 · Tỷ đồng</span><button class="card-more">···</button></div>
-        <div class="card-name">DƯ NỢ TÍN DỤNG KH ĐCTC BQ LK</div>
-        <div class="card-value-row">
-          <div class="card-value">25,096<span>.32</span></div>
-          <div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div>
-        </div>
-        <div class="card-kpi">
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div>
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div>
-          <div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div>
-        </div>
+      <div class="metric-card" onclick="openDetail('s6')" style="animation-delay:.19s">
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 141000 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+        <div class="card-name">THU THUẦN DỊCH VỤ (NFI)</div>
+        <div class="card-value-row"><div class="card-value">8,305<span>.20</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 87.6%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 79.4%</div></div>
       </div>
+
+      <div class="metric-card" onclick="openDetail('s7')" style="animation-delay:.22s">
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 142000 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+        <div class="card-name">LỢI NHUẬN TRƯỚC THUẾ</div>
+        <div class="card-value-row"><div class="card-value">14,870<span>.80</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 91.0%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 85.3%</div></div>
+      </div>
+
+      <div class="metric-card" onclick="openDetail('s8')" style="animation-delay:.25s">
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 143000 · %</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+        <div class="card-name">TỶ SUẤT LN TRÊN VỐN CHỦ (ROE)</div>
+        <div class="card-value-row"><div class="card-value">18<span>.72%</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 96.5%</div></div>
+      </div>
+
+      <div class="metric-card" onclick="openDetail('s9')" style="animation-delay:.28s">
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 144000 · %</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+        <div class="card-name">TỶ LỆ CHI PHÍ / THU NHẬP (CIR)</div>
+        <div class="card-value-row"><div class="card-value">38<span>.4%</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> Đạt ≤45%</div></div>
+      </div>
+
+      <div class="metric-card" onclick="openDetail('s10')" style="animation-delay:.31s">
+        <div class="card-meta"><span class="card-code">Chỉ tiêu: 145000 · %</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+        <div class="card-name">TỶ LỆ THANH KHOẢN (LCR)</div>
+        <div class="card-value-row"><div class="card-value">142<span>.3%</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+        <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> Đạt ≥100%</div></div>
+      </div>
+
+      <!-- ══════════════════════════════
+           NHÓM 1: CHỈ TIÊU DƯ NỢ (20 cards)
+      ══════════════════════════════ -->
+      <div class="section-label">Nhóm chỉ tiêu</div>
+
+      <div class="group-block" id="group-duno">
+        <!-- Group header — click để toggle -->
+        <div class="group-header expanded" id="gh-duno" onclick="toggleGroup('duno')">
+          <div class="group-icon blue">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          </div>
+          <div class="group-header-text">
+            <div class="group-title">Chỉ tiêu Dư nợ</div>
+            <div class="group-subtitle">Dư nợ tín dụng theo phân khúc khách hàng</div>
+            <div class="group-progress"><div class="group-progress-fill" style="width:72%"></div></div>
+          </div>
+          <span class="group-count">20</span>
+          <svg class="group-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+
+        <!-- Group body -->
+        <div class="group-body open" id="gb-duno">
+
+          <div class="metric-card" onclick="openDetail('card1')">
+            <div class="card-meta"><span class="card-code">150000 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DƯ NỢ TÍN DỤNG BQ LK</div>
+            <div class="card-value-row"><div class="card-value">2,004,573<span>.62</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 97.15%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 91.28%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('card2')">
+            <div class="card-meta"><span class="card-code">150410 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DƯ NỢ TÍN DỤNG KHDN LỚN BQ LK</div>
+            <div class="card-value-row"><div class="card-value">618,980<span>.66</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('card3')">
+            <div class="card-meta"><span class="card-code">150420 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DƯ NỢ TÍN DỤNG KHDN VVN BQ LK (GỒM SVM)</div>
+            <div class="card-value-row"><div class="card-value">450,061<span>.95</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('card4')">
+            <div class="card-meta"><span class="card-code">150430 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DƯ NỢ TÍN DỤNG KHDN FDI BQ LK</div>
+            <div class="card-value-row"><div class="card-value">119,455<span>.06</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('card5')">
+            <div class="card-meta"><span class="card-code">150500 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DƯ NỢ TÍN DỤNG KHCN BQ LK</div>
+            <div class="card-value-row"><div class="card-value">790,863<span>.35</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('card6')">
+            <div class="card-meta"><span class="card-code">150450 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DƯ NỢ TÍN DỤNG KH ĐCTC BQ LK</div>
+            <div class="card-value-row"><div class="card-value">25,096<span>.32</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('dn7')">
+            <div class="card-meta"><span class="card-code">150460 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DƯ NỢ TÍN DỤNG KHDN LỚN THỜi ĐIỂM</div>
+            <div class="card-value-row"><div class="card-value">632,140<span>.80</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 98.2%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('dn8')">
+            <div class="card-meta"><span class="card-code">150510 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DƯ NỢ BẤT ĐỘNG SẢN KHCN</div>
+            <div class="card-value-row"><div class="card-value">312,580<span>.40</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 88.4%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('dn9')">
+            <div class="card-meta"><span class="card-code">150520 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DƯ NỢ VÀO VAY MUA Ô TÔ KHCN</div>
+            <div class="card-value-row"><div class="card-value">85,240<span>.10</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('dn10')">
+            <div class="card-meta"><span class="card-code">150530 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DƯ NỢ VAY TIÊU DÙNG KHCN</div>
+            <div class="card-value-row"><div class="card-value">198,340<span>.25</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 82.1%</div></div>
+          </div>
+
+          <!-- "Xem thêm" để ẩn 10 cards còn lại ban đầu -->
+          <div id="duno-extra" style="display:none">
+
+            <div class="metric-card" onclick="openDetail('dn11')">
+              <div class="card-meta"><span class="card-code">150540 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DƯ NỢ KHCN - THẺ TÍN DỤNG</div>
+              <div class="card-value-row"><div class="card-value">45,120<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 105.2%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 98.7%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('dn12')">
+              <div class="card-meta"><span class="card-code">150550 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DƯ NỢ KHDN VVN - SẢN XUẤT</div>
+              <div class="card-value-row"><div class="card-value">220,440<span>.60</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('dn13')">
+              <div class="card-meta"><span class="card-code">150560 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DƯ NỢ KHDN VVN - THƯƠNG MẠI</div>
+              <div class="card-value-row"><div class="card-value">115,280<span>.30</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('dn14')">
+              <div class="card-meta"><span class="card-code">150570 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DƯ NỢ KHDN LỚN - NĂNG LƯỢNG</div>
+              <div class="card-value-row"><div class="card-value">180,640<span>.50</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 93.4%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('dn15')">
+              <div class="card-meta"><span class="card-code">150580 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DƯ NỢ KHDN LỚN - HẠ TẦNG</div>
+              <div class="card-value-row"><div class="card-value">95,380<span>.20</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('dn16')">
+              <div class="card-meta"><span class="card-code">150590 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DƯ NỢ TRUNG DÀI HẠN BQ LK</div>
+              <div class="card-value-row"><div class="card-value">1,105,240<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 89.6%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('dn17')">
+              <div class="card-meta"><span class="card-code">150600 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DƯ NỢ NGẮN HẠN BQ LK</div>
+              <div class="card-value-row"><div class="card-value">899,333<span>.62</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 92.1%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('dn18')">
+              <div class="card-meta"><span class="card-code">150610 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DƯ NỢ VND BQ LK</div>
+              <div class="card-value-row"><div class="card-value">1,850,440<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 96.8%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 90.5%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('dn19')">
+              <div class="card-meta"><span class="card-code">150620 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DƯ NỢ NGOẠI TỆ QUY ĐỔI BQ LK</div>
+              <div class="card-value-row"><div class="card-value">154,133<span>.62</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('dn20')">
+              <div class="card-meta"><span class="card-code">150630 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DƯ NỢ CÓ TÀI SẢN ĐẢM BẢO BQ LK</div>
+              <div class="card-value-row"><div class="card-value">1,620,800<span>.40</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 99.2%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 94.1%</div></div>
+            </div>
+
+          </div><!-- /duno-extra -->
+
+          <button class="show-more-btn" id="btn-duno" onclick="toggleExtra('duno')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            <span id="btn-duno-txt">Xem thêm 10 chỉ tiêu</span>
+          </button>
+
+        </div><!-- /gb-duno -->
+      </div><!-- /group-block duno -->
+
+
+      <!-- ══════════════════════════════
+           NHÓM 2: CHỈ TIÊU NGUỒN VỐN (20 cards)
+      ══════════════════════════════ -->
+      <div class="group-block" id="group-nguonvon">
+        <div class="group-header" id="gh-nguonvon" onclick="toggleGroup('nguonvon')">
+          <div class="group-icon green">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+          </div>
+          <div class="group-header-text">
+            <div class="group-title">Chỉ tiêu Nguồn vốn</div>
+            <div class="group-subtitle">Huy động vốn theo kỳ hạn & phân khúc</div>
+            <div class="group-progress"><div class="group-progress-fill" style="width:85%"></div></div>
+          </div>
+          <span class="group-count">20</span>
+          <svg class="group-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+
+        <div class="group-body" id="gb-nguonvon">
+
+          <div class="metric-card" onclick="openDetail('nv1')">
+            <div class="card-meta"><span class="card-code">160000 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">NGUỒN VỐN HUY ĐỘNG BQ LK</div>
+            <div class="card-value-row"><div class="card-value">2,580,420<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 98.4%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 92.7%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('nv2')">
+            <div class="card-meta"><span class="card-code">160100 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">HUY ĐỘNG VỐN DÂN CƯ BQ LK</div>
+            <div class="card-value-row"><div class="card-value">1,420,580<span>.30</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 101.2%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 95.6%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('nv3')">
+            <div class="card-meta"><span class="card-code">160110 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">HUY ĐỘNG VỐN KHDN BQ LK</div>
+            <div class="card-value-row"><div class="card-value">680,340<span>.70</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 94.8%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('nv4')">
+            <div class="card-meta"><span class="card-code">160120 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">HUY ĐỘNG VỐN NGẮN HẠN BQ LK</div>
+            <div class="card-value-row"><div class="card-value">810,200<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 97.3%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 91.0%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('nv5')">
+            <div class="card-meta"><span class="card-code">160130 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">HUY ĐỘNG VỐN TRUNG DÀI HẠN BQ LK</div>
+            <div class="card-value-row"><div class="card-value">1,090,220<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 99.6%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 93.8%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('nv6')">
+            <div class="card-meta"><span class="card-code">160140 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">HUY ĐỘNG VỐN VND BQ LK</div>
+            <div class="card-value-row"><div class="card-value">2,310,680<span>.50</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 100.1%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 94.3%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('nv7')">
+            <div class="card-meta"><span class="card-code">160150 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">HUY ĐỘNG VỐN NGOẠI TỆ QUY ĐỔI BQ LK</div>
+            <div class="card-value-row"><div class="card-value">269,740<span>.50</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('nv8')">
+            <div class="card-meta"><span class="card-code">160160 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">TIỀN GỬI TIẾT KIỆM BQ LK</div>
+            <div class="card-value-row"><div class="card-value">1,180,400<span>.20</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 103.4%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 96.2%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('nv9')">
+            <div class="card-meta"><span class="card-code">160170 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">PHÁT HÀNH GIẤY TỜ CÓ GIÁ BQ LK</div>
+            <div class="card-value-row"><div class="card-value">320,180<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 87.5%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('nv10')">
+            <div class="card-meta"><span class="card-code">160180 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">VỐN VAY LIÊN NGÂN HÀNG BQ LK</div>
+            <div class="card-value-row"><div class="card-value">58,500<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+          </div>
+
+          <div id="nguonvon-extra" style="display:none">
+
+            <div class="metric-card" onclick="openDetail('nv11')">
+              <div class="card-meta"><span class="card-code">160190 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">HUY ĐỘNG ĐẦU TƯ TRÁI PHIẾU CHÍNH PHỦ</div>
+              <div class="card-value-row"><div class="card-value">142,300<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 95.1%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('nv12')">
+              <div class="card-meta"><span class="card-code">160200 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">HUY ĐỘNG VỐN ĐỊNH CHẾ TÀI CHÍNH</div>
+              <div class="card-value-row"><div class="card-value">98,640<span>.80</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('nv13')">
+              <div class="card-meta"><span class="card-code">160210 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">HUY ĐỘNG VỐN DÂN CƯ KỲ HẠN 12 THÁNG</div>
+              <div class="card-value-row"><div class="card-value">685,420<span>.10</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 98.6%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 93.2%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('nv14')">
+              <div class="card-meta"><span class="card-code">160220 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">HUY ĐỘNG VỐN DÂN CƯ DƯỚI 12 THÁNG</div>
+              <div class="card-value-row"><div class="card-value">398,280<span>.60</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('nv15')">
+              <div class="card-meta"><span class="card-code">160230 · %</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">TỶ LỆ HUY ĐỘNG VỐN DÀI HẠN / TỔNG HĐV</div>
+              <div class="card-value-row"><div class="card-value">42<span>.3%</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> Đạt ≥40%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('nv16')">
+              <div class="card-meta"><span class="card-code">160240 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">SỐ DƯ TĂNG RÒNG HUY ĐỘNG VỐN</div>
+              <div class="card-value-row"><div class="card-value">185,640<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 104.2%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('nv17')">
+              <div class="card-meta"><span class="card-code">160250 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">HUY ĐỘNG VỐN KHDN LỚN THỜI ĐIỂM</div>
+              <div class="card-value-row"><div class="card-value">694,200<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('nv18')">
+              <div class="card-meta"><span class="card-code">160260 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">HUY ĐỘNG VỐN KHDN VVN THỜI ĐIỂM</div>
+              <div class="card-value-row"><div class="card-value">382,500<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('nv19')">
+              <div class="card-meta"><span class="card-code">160270 · %</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">TỶ LỆ SỬ DỤNG VỐN (LDR)</div>
+              <div class="card-value-row"><div class="card-value">77<span>.7%</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> Đạt ≤80%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('nv20')">
+              <div class="card-meta"><span class="card-code">160280 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">NGUỒN VỐN ĐIỀU CHUYỂN NỘI BỘ</div>
+              <div class="card-value-row"><div class="card-value">210,840<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+            </div>
+
+          </div><!-- /nguonvon-extra -->
+
+          <button class="show-more-btn" id="btn-nguonvon" onclick="toggleExtra('nguonvon')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            <span id="btn-nguonvon-txt">Xem thêm 10 chỉ tiêu</span>
+          </button>
+
+        </div><!-- /gb-nguonvon -->
+      </div><!-- /group-block nguonvon -->
+
+
+      <!-- ══════════════════════════════
+           NHÓM 3: CHỈ TIÊU CASA (20 cards)
+      ══════════════════════════════ -->
+      <div class="group-block" id="group-casa">
+        <div class="group-header" id="gh-casa" onclick="toggleGroup('casa')">
+          <div class="group-icon teal">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div class="group-header-text">
+            <div class="group-title">Chỉ tiêu CASA</div>
+            <div class="group-subtitle">Tiền gửi không kỳ hạn & thanh toán</div>
+            <div class="group-progress"><div class="group-progress-fill" style="width:60%"></div></div>
+          </div>
+          <span class="group-count">20</span>
+          <svg class="group-chevron" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+
+        <div class="group-body" id="gb-casa">
+
+          <div class="metric-card" onclick="openDetail('cs1')">
+            <div class="card-meta"><span class="card-code">170000 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">SỐ DƯ CASA BQ LK</div>
+            <div class="card-value-row"><div class="card-value">582,340<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Tháng</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 95.2%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 88.4%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('cs2')">
+            <div class="card-meta"><span class="card-code">170010 · %</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">TỶ LỆ CASA / TỔNG HUY ĐỘNG VỐN</div>
+            <div class="card-value-row"><div class="card-value">22<span>.57%</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> Đạt ≥20%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('cs3')">
+            <div class="card-meta"><span class="card-code">170020 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">CASA DÂN CƯ BQ LK</div>
+            <div class="card-value-row"><div class="card-value">318,460<span>.20</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 97.8%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 91.2%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('cs4')">
+            <div class="card-meta"><span class="card-code">170030 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">CASA KHDN BQ LK</div>
+            <div class="card-value-row"><div class="card-value">263,880<span>.80</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 85.6%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('cs5')">
+            <div class="card-meta"><span class="card-code">170040 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">TIỀN GỬI THANH TOÁN BQ LK</div>
+            <div class="card-value-row"><div class="card-value">420,580<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 103.5%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 96.4%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('cs6')">
+            <div class="card-meta"><span class="card-code">170050 · Nghìn TK</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">SỐ TÀI KHOẢN THANH TOÁN MỞ MỚI</div>
+            <div class="card-value-row"><div class="card-value">48<span>.2K</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 106.2%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 98.7%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('cs7')">
+            <div class="card-meta"><span class="card-code">170060 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DOANH SỐ THANH TOÁN QUA NH</div>
+            <div class="card-value-row"><div class="card-value">1,840,200<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 108.4%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('cs8')">
+            <div class="card-meta"><span class="card-code">170070 · Nghìn TK</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">SỐ LƯỢNG KHÁCH HÀNG SỬ DỤNG IB</div>
+            <div class="card-value-row"><div class="card-value">2,840<span>K</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 112.6%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 104.3%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('cs9')">
+            <div class="card-meta"><span class="card-code">170080 · Nghìn thẻ</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">SỐ THẺ PHÁT HÀNH MỚI</div>
+            <div class="card-value-row"><div class="card-value">182<span>K thẻ</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 94.8%</div></div>
+          </div>
+
+          <div class="metric-card" onclick="openDetail('cs10')">
+            <div class="card-meta"><span class="card-code">170090 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+            <div class="card-name">DOANH SỐ CHI TRẢ LƯƠNG QUA NH</div>
+            <div class="card-value-row"><div class="card-value">248,600<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+            <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 98.2%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 92.5%</div></div>
+          </div>
+
+          <div id="casa-extra" style="display:none">
+
+            <div class="metric-card" onclick="openDetail('cs11')">
+              <div class="card-meta"><span class="card-code">170100 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">TIỀN GỬI KHÔNG KỲ HẠN KHDN LỚN</div>
+              <div class="card-value-row"><div class="card-value">168,240<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('cs12')">
+              <div class="card-meta"><span class="card-code">170110 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">TIỀN GỬI KHÔNG KỲ HẠN KHDN VVN</div>
+              <div class="card-value-row"><div class="card-value">82,640<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Quý</span> 0.00%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('cs13')">
+              <div class="card-meta"><span class="card-code">170120 · %</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">TỶ LỆ CASA DÂN CƯ / TỔNG CASA</div>
+              <div class="card-value-row"><div class="card-value">54<span>.6%</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> Đạt ≥50%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('cs14')">
+              <div class="card-meta"><span class="card-code">170130 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">SỐ DƯ TĂNG RÒNG CASA SO ĐẦU NĂM</div>
+              <div class="card-value-row"><div class="card-value">42,180<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 107.8%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('cs15')">
+              <div class="card-meta"><span class="card-code">170140 · Nghìn KH</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">SỐ KHÁCH HÀNG ACTIVE DIGITAL</div>
+              <div class="card-value-row"><div class="card-value">1,580<span>K</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 115.2%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 108.6%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('cs16')">
+              <div class="card-meta"><span class="card-code">170150 · Tỷ đ/tháng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">DOANH SỐ GIAO DỊCH TRỰC TUYẾN/THÁNG</div>
+              <div class="card-value-row"><div class="card-value">620<span>K GD</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 118.4%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('cs17')">
+              <div class="card-meta"><span class="card-code">170160 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">THU PHÍ DỊCH VỤ THANH TOÁN</div>
+              <div class="card-value-row"><div class="card-value">1,240<span>.80</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Quý</span> 102.4%</div><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 94.8%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('cs18')">
+              <div class="card-meta"><span class="card-code">170170 · Nghìn thẻ</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">SỐ THẺ GHI NỢ HOẠT ĐỘNG</div>
+              <div class="card-value-row"><div class="card-value">4,280<span>K thẻ</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> 99.1%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('cs19')">
+              <div class="card-meta"><span class="card-code">170180 · %</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">TỶ LỆ KH CÓ SỬ DỤNG DỊCH VỤ DIGITAL</div>
+              <div class="card-value-row"><div class="card-value">68<span>.4%</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge good"><div class="kpi-dot"></div><span class="kpi-label">KH Năm</span> Đạt ≥65%</div></div>
+            </div>
+
+            <div class="metric-card" onclick="openDetail('cs20')">
+              <div class="card-meta"><span class="card-code">170190 · Tỷ đồng</span><button class="card-more" onclick="event.stopPropagation()">···</button></div>
+              <div class="card-name">CASA ĐỊNH CHẾ TÀI CHÍNH BQ LK</div>
+              <div class="card-value-row"><div class="card-value">13,820<span>.00</span></div><div class="card-arrow"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></div></div>
+              <div class="card-kpi"><div class="kpi-badge neutral"><span class="kpi-label">KH Năm</span> 0.00%</div></div>
+            </div>
+
+          </div><!-- /casa-extra -->
+
+          <button class="show-more-btn" id="btn-casa" onclick="toggleExtra('casa')">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            <span id="btn-casa-txt">Xem thêm 10 chỉ tiêu</span>
+          </button>
+
+        </div><!-- /gb-casa -->
+      </div><!-- /group-block casa -->
 
     </div><!-- #panel-quymo -->
 
@@ -822,128 +1333,6 @@
         <div class="placeholder-sub">Dữ liệu kế hoạch sẽ hiển thị tại đây</div>
       </div>
     </div>
-
-    <!-- ══ PANEL: CÁ NHÂN ══ -->
-    <div class="tab-panel" id="panel-canhan">
-
-      <!-- Avatar card -->
-      <div style="background:var(--card-bg);border-radius:20px;margin:14px 14px 0;padding:18px 16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:14px;border:1.5px solid var(--border);">
-        <div style="width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#0066B3,#0099FF);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:white;flex-shrink:0;box-shadow:0 6px 18px rgba(0,102,179,0.25);position:relative;">
-          L
-          <div style="position:absolute;bottom:0;right:0;width:20px;height:20px;border-radius:50%;background:white;border:2px solid var(--primary);display:flex;align-items:center;justify-content:center;cursor:pointer;">
-            <svg width="9" height="9" fill="none" stroke="var(--primary)" stroke-width="2.2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-          </div>
-        </div>
-        <div style="flex:1;min-width:0;">
-          <div style="font-size:16px;font-weight:800;color:var(--text);letter-spacing:-.3px;margin-bottom:2px;">Nguyễn Thị Linh</div>
-          <div style="font-size:11px;color:var(--text-muted);font-weight:500;margin-bottom:7px;">Chi nhánh Ba Đình · Khu vực 1</div>
-          <div style="display:inline-flex;align-items:center;gap:5px;background:var(--primary-light);border-radius:20px;padding:3px 10px;">
-            <div style="width:6px;height:6px;border-radius:50%;background:var(--primary);flex-shrink:0;"></div>
-            <span style="font-size:10px;font-weight:700;color:var(--primary);">Đang hoạt động</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="pf-section-title">Thông tin người dùng</div>
-      <div class="info-card">
-        <div class="info-row">
-          <div class="info-row-icon"><svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-          <div class="info-row-body">
-            <div class="info-row-label">Tài khoản</div>
-            <div class="info-row-value">linhdcn@vietinbank.vn</div>
-          </div>
-        </div>
-        <div class="info-row">
-          <div class="info-row-icon"><svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-          <div class="info-row-body">
-            <div class="info-row-label">Họ và tên</div>
-            <div class="info-row-value">Nguyễn Thị Linh</div>
-          </div>
-        </div>
-        <div class="info-row">
-          <div class="info-row-icon"><svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-          <div class="info-row-body">
-            <div class="info-row-label">Mã chi nhánh</div>
-            <div class="info-row-value">099021</div>
-          </div>
-        </div>
-        <div class="info-row">
-          <div class="info-row-icon"><svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-          <div class="info-row-body">
-            <div class="info-row-label">Phân khúc</div>
-            <div class="info-row-value">Tất cả phân khúc</div>
-          </div>
-        </div>
-        <div class="info-row">
-          <div class="info-row-icon"><svg width="16" height="16" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-          <div class="info-row-body">
-            <div class="info-row-label">Ngày hệ thống</div>
-            <div class="info-row-value">18/05/2026</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Đăng xuất -->
-      <button class="logout-btn">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Đăng xuất
-      </button>
-
-      <!-- Cài đặt widget -->
-      <div class="pf-section-title">Cài đặt widget</div>
-      <div class="widget-settings-card">
-        <div class="ws-header">
-          <div class="ws-header-icon">
-            <svg width="18" height="18" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          </div>
-          <div>
-            <div class="ws-header-title">Phạm vi dữ liệu</div>
-            <div class="ws-header-sub">Áp dụng cho tất cả widget</div>
-          </div>
-        </div>
-
-        <div class="ws-row">
-          <div class="ws-row-left">
-            <div class="ws-row-dot" style="background:#0066B3"></div>
-            <span class="ws-row-label">Ngày dữ liệu</span>
-          </div>
-          <div class="ws-row-value">
-            Mới nhất
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-          </div>
-        </div>
-
-        <div class="ws-row">
-          <div class="ws-row-left">
-            <div class="ws-row-dot" style="background:#27AE60"></div>
-            <span class="ws-row-label">Khu vực</span>
-          </div>
-          <div class="ws-row-value" style="color:#27AE60;background:#EBF8F1">
-            Toàn hệ thống
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-          </div>
-        </div>
-
-        <div class="ws-row">
-          <div class="ws-row-left">
-            <div class="ws-row-dot" style="background:#F4A800"></div>
-            <span class="ws-row-label">Chi nhánh</span>
-          </div>
-          <div class="ws-row-value" style="color:#D97B00;background:#FFF8E6">
-            099021 – CN Ba Đình
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-          </div>
-        </div>
-      </div>
-
-      <button class="run-btn">
-        <svg width="18" height="18" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24" style="margin-right:8px"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Áp dụng cài đặt
-      </button>
-
-      <div style="height:8px"></div>
-    </div><!-- /panel-canhan -->
-
   </div><!-- scroll-content -->
 
   <!-- ══ BOTTOM AREA — chỉ còn Global nav ══ -->
@@ -1103,6 +1492,34 @@ const cardData = {
   card6:{chip:'150450 · Tỷ đồng',title:'DƯ NỢ TÍN DỤNG KH ĐCTC BÌNH QUÂN LIÊN KỲ',value:'25,096.32',trend:'+230.50',trendPct:'+0.93%',trendUp:true,history:[{l:'T01/2026',v:'23,400.00'},{l:'T02/2026',v:'24,100.20'},{l:'T03/2026',v:'24,865.82'},{l:'T05/2026',v:'25,096.32',c:true}],dn:{val:'+1,696.32',pct:'+7.25%',up:true},dt:{val:'+230.50',pct:'+0.93%',up:true},pm:{val:'0.00',r:'0.00%',b:'neutral'},pq:{val:'0.00',r:'0.00%',b:'neutral'},py:{val:'0.00',r:'0.00%',b:'neutral'}},
 };
 
+/* ── ACCORDION GROUP TOGGLE ── */
+function toggleGroup(key) {
+  const body = document.getElementById('gb-' + key);
+  const header = document.getElementById('gh-' + key);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  header.classList.toggle('expanded', !isOpen);
+}
+
+/* ── SHOW MORE / COLLAPSE ── */
+function toggleExtra(key) {
+  const extra = document.getElementById(key + '-extra');
+  const btn = document.getElementById('btn-' + key);
+  const txt = document.getElementById('btn-' + key + '-txt');
+  const svg = btn.querySelector('svg');
+  const isHidden = extra.style.display === 'none';
+
+  if (isHidden) {
+    extra.style.display = 'block';
+    txt.textContent = 'Thu gọn';
+    svg.style.transform = 'rotate(180deg)';
+  } else {
+    extra.style.display = 'none';
+    txt.textContent = 'Xem thêm 10 chỉ tiêu';
+    svg.style.transform = 'rotate(0deg)';
+  }
+}
+
 /* ── TOP CONTENT TABS ── */
 document.querySelectorAll('.tab-item').forEach(tab => {
   tab.addEventListener('click', function() {
@@ -1115,32 +1532,14 @@ document.querySelectorAll('.tab-item').forEach(tab => {
 
 /* ── INTERNAL TAB BAR ── */
 function switchItab(key, el) {
+  // Switch tab active state
   document.querySelectorAll('#screen-list .itab').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
 
-  // Switch filter panel (profile card or data filter)
+  // Switch filter panel
   document.querySelectorAll('.filter-panel').forEach(p => p.classList.remove('active'));
   const fp = document.getElementById('filter-' + key);
   if (fp) fp.classList.add('active');
-
-  const tabsWrapper  = document.querySelector('.tabs-wrapper');
-  const allPanels    = document.querySelectorAll('.tab-panel');
-  const profilePanel = document.getElementById('panel-canhan');
-
-  if (key === 'linh') {
-    // Hide content sub-tabs, show profile
-    tabsWrapper.style.display = 'none';
-    allPanels.forEach(p => p.classList.remove('active'));
-    profilePanel.classList.add('active');
-  } else {
-    // Restore content sub-tabs
-    tabsWrapper.style.display = '';
-    profilePanel.classList.remove('active');
-    const activeTab = document.querySelector('.tabs-wrapper .tab-item.active');
-    const panelKey  = activeTab ? activeTab.dataset.tab : 'quymo';
-    allPanels.forEach(p => p.classList.remove('active'));
-    document.getElementById('panel-' + panelKey)?.classList.add('active');
-  }
 }
 
 /* ── OPEN DETAIL ── */
